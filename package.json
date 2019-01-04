@@ -1,0 +1,25 @@
+{
+  "name": "dir-parser",
+  "version": "1.0.0",
+  "description": "Parse a directory and generate it's structure tree.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CN-Tower/dir-parser.git"
+  },
+  "keywords": [
+    "dir-parser",
+    "directory-parser",
+    "dir-tree",
+    "directory-tree"
+  ],
+  "author": "CN-Tower",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CN-Tower/dir-parser/issues"
+  },
+  "homepage": "https://github.com/CN-Tower/dir-parser#readme"
+}
