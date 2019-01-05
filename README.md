@@ -17,9 +17,10 @@ Options:
   -v, --version
   -d, --directory [directory]  The target directory, default: "./"
   -o, --output [output]        Parse result output path, default: "./"
-  -e, --excludes [excludes]    Exclude some directories or files
+  -e, --excludes [excludes]    Exclude some directories or files by name
+  -x, --exdPaths [exdPaths]    Exclude some directories or files by path
   -c, --config [config]        Parser config file
-  -s, --silent                 Not print the parse-result in terminal
+  -s, --silent                 Don't print the parse-result in terminal
   -n, --noNum                  Don't show file and directory number
   -h, --help                   output usage information
 ```
