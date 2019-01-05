@@ -74,4 +74,4 @@ $ parse -c ./parser.json
 ```
 ### Demo
 
-![Dir Parser Demo]('./dir-parse.png')
+![Dir Parser Demo](dir-parse.png)
