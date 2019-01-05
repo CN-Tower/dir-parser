@@ -53,9 +53,14 @@ dir
 ### Recommend usage
 ```
 # Usage 01
-$ parse -e ['.git','node_modules'] #Hint: There should no white space in the excludes Array!
+#Hint: There should no white space in the excludes series!
+$ parse -e .git,node_modules -x somedir/somefile
 
-# Usage 02
+# Usage 01
+#Hint: There should no white space in the excludes Array!
+$ parse -e ['.git','node_modules']  -x ['somedir/somefile'] 
+
+# Usage 03
 # Parse by a config file >> parser.json
 {
   "directory": "your/demo/dir",
