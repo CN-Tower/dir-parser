@@ -1,0 +1,31 @@
+dir-parser
+ ├─ node_modules
+ │ ├─ commander
+ │ │ ├─ typings
+ │ │ │ └─ index.d.ts
+ │ │ ├─ Readme.md
+ │ │ ├─ package.json
+ │ │ ├─ LICENSE
+ │ │ ├─ index.js
+ │ │ └─ CHANGELOG.md
+ │ ├─ funclib
+ │ │ ├─ README.md
+ │ │ ├─ package.json
+ │ │ ├─ index.js
+ │ │ ├─ index.d.ts
+ │ │ ├─ funclib.min.js
+ │ │ ├─ funclib.js
+ │ │ └─ funclib.core.js
+ │ └─ progress
+ │   ├─ lib
+ │   │ └─ node-progress.js
+ │   ├─ Readme.md
+ │   ├─ package.json
+ │   ├─ Makefile
+ │   ├─ LICENSE
+ │   ├─ index.js
+ │   └─ CHANGELOG.md
+ ├─ README.md
+ ├─ package.json
+ ├─ package-lock.json
+ └─ index.js

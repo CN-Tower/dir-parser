@@ -7,6 +7,7 @@ const program = require('commander');
 const package = require('./package.json');
 
 let config = {};
+let count = {dirs: 0, files: 0}
 let parseResult = '';
 const outputFile = 'dir-info.txt';
 
@@ -17,14 +18,16 @@ program
   .option('-o, --output [output]', 'Parse result output path, default: "./"')
   .option('-e, --excludes [excludes]', 'Exclude some directories or files')
   .option('-c, --config [config]', 'Parser config file')
-  .option('-s, --silent', 'Not print the parse-result in terminal')
+  .option('-s, --silent', 'Don\'t print the parse-result in terminal')
+  .option('-n, --noNum', 'Don\'t show file and directory number')
   .parse(process.argv);
 
-if (program.config) config = require(program.config);
+if (program.config) config = require(path.resolve(program.config));
 
 let target = program.directory || fn.get(config, 'directory', 'str') || path.resolve('./');
 let output = program.output || fn.get(config, 'output', 'str') || path.resolve('./');
 let excludes = program.excludes || fn.get(config, 'excludes', 'arr', 'str') || [];
+const noNum = program.noNum || fn.get(config, 'noNum', 'bol') || false;
 const silent = program.silent;
 
 const rmQuote = str => str.replace(/^['"`]|['"`]$/mg, '');
@@ -57,8 +60,14 @@ if (outputStat.isDirectory) {
   output = path.join(output, outputFile)
 }
 
-parseResult = path.basename(target + '\n');
 parseTarget(target);
+const dirName = path.basename(target)
+if (noNum) {
+  parseResult = `${dirName}\n${parseResult}`;
+} else {
+  parseResult = `${dirName} ( Directorys: ${count.dirs}, Files: ${count.files} )\n${parseResult}`;
+}
+
 if (!silent) {
   console.log(parseResult);
 }
@@ -81,6 +90,9 @@ function parseTarget(target, deep = 1, prev = '') {
       }
     }
   }
+
+  count.dirs += dirs.length;
+  count.files += files.length;
 
   for (let i = 0; i < dirs.length; i++) {
     if (i === dirs.length - 1 && files.length === 0) {
