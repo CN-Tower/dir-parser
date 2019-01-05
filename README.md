@@ -72,3 +72,6 @@ $ parse -e ['.git','node_modules']  -x ['somedir/somefile']
 }
 $ parse -c ./parser.json
 ```
+### Demo
+
+![Dir Parser Demo]('./dir-parse.png')
