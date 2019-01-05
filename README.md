@@ -4,6 +4,8 @@ Parse a directory and generate it's structure tree.
 
 ## Quick Start
 
+### Demo
+![Dir Parser Demo](dir-parse.png)
 ### Install dir-parser
 ```
 $ npm install dir-parser -g
@@ -24,9 +26,6 @@ Options:
   -n, --noNum                  Don't show file and directory number
   -h, --help                   output usage information
 ```
-### Demo
-![Dir Parser Demo](dir-parse.png)
-
 ### Parse your dir
 ```
 $ cd your/demo/dir
