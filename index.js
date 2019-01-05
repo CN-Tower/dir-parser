@@ -98,10 +98,10 @@ function parseTarget(target, deep = 1, prev = '') {
 
   for (let i = 0; i < dirs.length; i++) {
     if (i === dirs.length - 1 && files.length === 0) {
-      parseResult += `${prev} └─ ${dirs[i]}\n`;
+      parseResult += `${prev} └─ ${dirs[i]}\r\n`;
       split = '  ';
     } else {
-      parseResult += `${prev} ├─ ${dirs[i]}\n`;
+      parseResult += `${prev} ├─ ${dirs[i]}\r\n`;
       split = ' │';
     }
     const nextPath = path.join(target, dirs[i]);
@@ -111,9 +111,9 @@ function parseTarget(target, deep = 1, prev = '') {
 
   for (let i = files.length - 1; i >= 0; i--) {
     if (i === 0) {
-      parseResult += `${prev} └─ ${files[i]}\n`;
+      parseResult += `${prev} └─ ${files[i]}\r\n`;
     } else {
-      parseResult += `${prev} ├─ ${files[i]}\n`;
+      parseResult += `${prev} ├─ ${files[i]}\r\n`;
     }
   }
 }
@@ -122,9 +122,9 @@ parseTarget(target);
 
 const dirName = path.basename(target)
 if (noNum) {
-  parseResult = `${dirName}\n${parseResult}`;
+  parseResult = `${dirName}\r\n${parseResult}`;
 } else {
-  parseResult = `${dirName} ( Directorys: ${count.dirs}, Files: ${count.files} )\n${parseResult}`;
+  parseResult = `${dirName} ( Directorys: ${count.dirs}, Files: ${count.files} )\r\n${parseResult}`;
 }
 
 if (!silent) {

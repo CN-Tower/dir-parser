@@ -1,5 +1,70 @@
-dir-parser ( Directorys: 1, Files: 4 )
- ├─ a
+dir-parser ( Directorys: 22, Files: 48 )
+ ├─ .git
+ │ ├─ hooks
+ │ │ ├─ update.sample
+ │ │ ├─ prepare-commit-msg.sample
+ │ │ ├─ pre-receive.sample
+ │ │ ├─ pre-rebase.sample
+ │ │ ├─ pre-push.sample
+ │ │ ├─ pre-commit.sample
+ │ │ ├─ pre-applypatch.sample
+ │ │ ├─ post-update.sample
+ │ │ ├─ fsmonitor-watchman.sample
+ │ │ ├─ commit-msg.sample
+ │ │ └─ applypatch-msg.sample
+ │ ├─ info
+ │ │ └─ exclude
+ │ ├─ logs
+ │ │ ├─ refs
+ │ │ │ ├─ heads
+ │ │ │ │ └─ master
+ │ │ │ └─ remotes
+ │ │ │   └─ origin
+ │ │ │     └─ HEAD
+ │ │ └─ HEAD
+ │ ├─ objects
+ │ │ ├─ info
+ │ │ └─ pack
+ │ │   ├─ pack-0be23fd0535b137314db8abde1e6ce11518ecc20.pack
+ │ │   └─ pack-0be23fd0535b137314db8abde1e6ce11518ecc20.idx
+ │ ├─ refs
+ │ │ ├─ heads
+ │ │ │ └─ master
+ │ │ ├─ remotes
+ │ │ │ └─ origin
+ │ │ │   └─ HEAD
+ │ │ └─ tags
+ │ ├─ packed-refs
+ │ ├─ index
+ │ ├─ HEAD
+ │ ├─ description
+ │ └─ config
+ ├─ node_modules
+ │ ├─ commander
+ │ │ ├─ typings
+ │ │ │ └─ index.d.ts
+ │ │ ├─ Readme.md
+ │ │ ├─ package.json
+ │ │ ├─ LICENSE
+ │ │ ├─ index.js
+ │ │ └─ CHANGELOG.md
+ │ ├─ funclib
+ │ │ ├─ README.md
+ │ │ ├─ package.json
+ │ │ ├─ index.js
+ │ │ ├─ index.d.ts
+ │ │ ├─ funclib.min.js
+ │ │ ├─ funclib.js
+ │ │ └─ funclib.core.js
+ │ └─ progress
+ │   ├─ lib
+ │   │ └─ node-progress.js
+ │   ├─ Readme.md
+ │   ├─ package.json
+ │   ├─ Makefile
+ │   ├─ LICENSE
+ │   ├─ index.js
+ │   └─ CHANGELOG.md
  ├─ README.md
  ├─ package.json
  ├─ index.js
