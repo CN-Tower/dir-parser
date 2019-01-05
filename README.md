@@ -51,10 +51,11 @@ dir
 ```
 ### Recommend usage
 ```
-$ parse -e ['.git', 'node_modules']
+# Usage 01
+$ parse -e ['.git','node_modules'] #Hint: There should no white space in the excludes Array!
 
-#or width a config file
-# >> parser.json
+# Usage 02
+# Parse by a config file >> parser.json
 {
   "directory": "your/demo/dir",
   "output": "your/output/dir",
@@ -63,6 +64,5 @@ $ parse -e ['.git', 'node_modules']
     "node_modules"
   ]
 }
-
 $ parse -c ./parser.json
 ```

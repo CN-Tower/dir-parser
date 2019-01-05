@@ -47,6 +47,7 @@ if (fn.typeOf(excludes, 'str')) {
 
 excludes = fn.toArr(excludes);
 excludes.push(outputFile);
+excludes = excludes.map(ex => path.resolve(ex));
 
 const targetStat = fs.statSync(target);
 if (!targetStat.isDirectory) {
