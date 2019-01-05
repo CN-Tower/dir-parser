@@ -24,6 +24,9 @@ Options:
   -n, --noNum                  Don't show file and directory number
   -h, --help                   output usage information
 ```
+### Demo
+![Dir Parser Demo](dir-parse.png)
+
 ### Parse your dir
 ```
 $ cd your/demo/dir
@@ -72,6 +75,3 @@ $ parse -e ['.git','node_modules']  -x ['somedir/somefile']
 }
 $ parse -c ./parser.json
 ```
-### Demo
-
-![Dir Parser Demo](dir-parse.png)
