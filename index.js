@@ -1,48 +1,105 @@
-const fs=require('fs');
-const path=require('path');
+#!/usr/bin/env node
 
-const exclude = [];
+const fs = require('fs');
+const path = require('path');
+const fn = require('funclib');
+const program = require('commander');
+const package = require('./package.json');
 
-loadTree(__dirname);
+let config = {};
+let parseResult = '';
+const outputFile = 'dir-info.txt';
 
-function loadTree(target, deep = 1, prev = ''){
+program
+  .version(package.version)
+  .option('-v, --version')
+  .option('-d, --directory [directory]', 'The target directory, default: "./"')
+  .option('-o, --output [output]', 'Parse result output path, default: "./"')
+  .option('-e, --excludes [excludes]', 'Exclude some directories or files')
+  .option('-c, --config [config]', 'Parser config file')
+  .option('-s, --silent', 'Not print the parse-result in terminal')
+  .parse(process.argv);
+
+if (program.config) config = require(program.config);
+
+let target = program.directory || fn.get(config, 'directory', 'str') || path.resolve('./');
+let output = program.output || fn.get(config, 'output', 'str') || path.resolve('./');
+let excludes = program.excludes || fn.get(config, 'excludes', 'arr', 'str') || [];
+const silent = program.silent;
+
+const rmQuote = str => str.replace(/^['"`]|['"`]$/mg, '');
+
+target = rmQuote(target);
+output = rmQuote(output);
+if (fn.typeOf(excludes, 'str')) {
+  excludes = rmQuote(excludes);
+  if (excludes.startsWith('[')) {
+    try {
+      eval('excludes =' + excludes);
+    } catch (e) {
+      excludes = fn.get(program, 'config/excludes', 'arr', 'str') || [];
+    }
+  }
+}
+
+excludes = fn.toArr(excludes);
+excludes.push(outputFile);
+
+const targetStat = fs.statSync(target);
+if (!targetStat.isDirectory) {
+  throw new Error('Target must be a directory!')
+}
+const outputStat = fs.statSync(output);
+if (!outputStat.isDirectory || !outputStat.isFile) {
+  throw new Error('Output must be a file or a directory!')
+}
+if (outputStat.isDirectory) {
+  output = path.join(output, outputFile)
+}
+
+parseResult = path.basename(target + '\n');
+parseTarget(target);
+if (!silent) {
+  console.log(parseResult);
+}
+fn.wt(output, parseResult);
+
+function parseTarget(target, deep = 1, prev = '') {
   let split = '';
-  let dirinfo = fs.readdirSync(target);
-  let dirs=[];
-  let files=[];
+  const dirinfo = fs.readdirSync(target);
+  const dirs = [];
+  const files = [];
 
-  // 遍历目录，并将文件夹和文件分开存储
   for (let i = 0; i < dirinfo.length; i++) {
-    if (!exclude.includes(dirinfo[i])) {
-      let state= fs.statSync(path.join(target, dirinfo[i]));
-      if (state.isDirectory()) {
+    const itPath = path.join(target, dirinfo[i]);
+    if (excludes.every(ex => !itPath.includes(ex))) {
+      const stat = fs.statSync(itPath);
+      if (stat.isDirectory()) {
         dirs.push(dirinfo[i]);
-      } else if (state.isFile) {
+      } else if (stat.isFile) {
         files.push(dirinfo[i]);
       }
     }
   }
- 
-  // 文件夹
+
   for (let i = 0; i < dirs.length; i++) {
-    if (i === dirs.length -1 && files.length === 0) {
-      console.log(`${prev} └─ ${dirs[i]}`);
+    if (i === dirs.length - 1 && files.length === 0) {
+      parseResult += `${prev} └─ ${dirs[i]}\n`;
       split = '  ';
     } else {
-      console.log(`${prev} ├─ ${dirs[i]}`);
+      parseResult += `${prev} ├─ ${dirs[i]}\n`;
       split = ' │';
     }
-    let nextPath=path.join(target,dirs[i]);
-    let nextdeep=deep+1;
-    loadTree(nextPath, nextdeep, prev + split);  
+    const nextPath = path.join(target, dirs[i]);
+    const nextdeep = deep + 1;
+    parseTarget(nextPath, nextdeep, prev + split);
   }
 
-  // 文件
-  for (let i = files.length - 1 ; i >= 0; i--) {
-     if (i===0) {
-       console.log(`${prev} └─  ${files[i]}`);
-     } else{
-       console.log(`${prev} ├─  ${files[i]}`);
-     }
+  for (let i = files.length - 1; i >= 0; i--) {
+    if (i === 0) {
+      parseResult += `${prev} └─ ${files[i]}\n`;
+    } else {
+      parseResult += `${prev} ├─ ${files[i]}\n`;
+    }
   }
 }
