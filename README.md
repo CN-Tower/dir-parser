@@ -10,11 +10,11 @@
 
 ### Install dir-parser
 
-#### $ npm install dir-parser
+> $ npm install dir-parser
 
 ### Get help
 
-#### $ parse -h
+> $ parse -h
 ```
 Usage: index [options]
 Options:
@@ -32,8 +32,8 @@ Options:
 
 ### Parse your dir
 
-#### $ cd your/demo/app
-#### $ parse
+> $ cd your/demo/app
+> $ parse
 ```
 app ( Directorys: 7, Files: 9 )
  ├─ bin
@@ -55,8 +55,8 @@ app ( Directorys: 7, Files: 9 )
 ```
 ### Parse your dir with params
 
-#### $ parse -e bin,public -n -s
-#### $ cat dir-info.txt
+> $ parse -e bin,public -n -s
+> $ cat dir-info.txt
 ```
 app
  ├─ routes
@@ -74,15 +74,15 @@ app
 
 Usage 01
 *There should no white space in the excludes series!*
-#### $ parse -e .git,node_modules -x bin/www
+> $ parse -e .git,node_modules -x bin/www
 
 Usage 02
 *There should no white space in the excludes Array!*
-#### $ parse -e ['.git','node_modules']  -x ['bin/www']
+> $ parse -e ['.git','node_modules']  -x ['bin/www']
 
 Usage 03
 *Parse by a config file*
-#### $ vi parser.conf.json
+> $ vi parser.conf.json
 ```
 {
   "directory": "your/demo/app",
@@ -93,12 +93,12 @@ Usage 03
   ]
 }
 ```
-#### $ parse -c ./parser.conf.json
+> $ parse -c ./parser.conf.json
 
 ### In javaScript code
 
-#### $ npm install dir-parse funclib
-#### $ vi test.js
+> $ npm install dir-parse funclib
+> $ vi test.js
 ```
   const fn = require('funclib');
   const parse = require('./index');
@@ -120,7 +120,7 @@ Usage 03
   // fn.log(parsed.files, '# Parsed Dir Files');
   // fn.log(parsed.members, '# Parsed Dir Members');
 ```
-#### $ node test.js
+> $ node test.js
 ```
 ==================================================================
                     [22:10:07] # Parsed Info
