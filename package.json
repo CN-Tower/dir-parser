@@ -1,13 +1,13 @@
 {
   "name": "dir-parser",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Parse a directory and generate it's structure tree.",
   "main": "index.js",
   "bin": {
-    "parse": "./index.js"
+    "parse": "./bin/parser.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test.js"
   },
   "repository": {
     "type": "git",

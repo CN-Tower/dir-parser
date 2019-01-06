@@ -5,7 +5,7 @@ Parse a directory and generate it's structure tree.
 ## Quick Start
 
 ### Demo
-![Dir Parser Demo](dir-parse.png)
+![Dir Parser Demo](dir-parser.png)
 ### Install dir-parser
 ```
 $ npm install dir-parser -g
