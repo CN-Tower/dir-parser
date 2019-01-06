@@ -111,9 +111,9 @@ Usage 03
 
   const parsed = parse(target, {
     excludes: excludes,
-    // dirTree: false,
-    // files: true,
-    // members: true
+    // dirTree: false,    // Default is true, returns will conatins a string of directory structure truee;
+    // files: true,       // Default is false, If true, parsed will conatins an array of all subfiles's info;
+    // members: true      // Default is false, If true, parsed will conatins an object of all members's info;
   });
 
   const BaseInfo = fn.pick(parsed, prop => !['members', 'files', 'dirTree'].includes(prop));
