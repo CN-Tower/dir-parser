@@ -5,7 +5,7 @@ const fn = require('funclib');
 const path = require('path');
 const program = require('commander');
 const package = require('../package.json');
-const parse = require('../index');
+const parse = require('../src/dir-parser');
 
 const dirInfoFile = 'dir-info.txt';
 

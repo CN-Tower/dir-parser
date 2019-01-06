@@ -8,12 +8,11 @@ Parse a directory and generate it's structure tree.
 ![Dir Parser Demo](dir-parser.png)
 
 ### Install dir-parser
-```
-$ npm install dir-parser -g
-```
+- $ npm install dir-parser -g
+
 ### Get help
+- $ parse -h
 ```
-$ parse -h
 Usage: index [options]
 Options:
   -V, --version                output the version number
@@ -28,10 +27,9 @@ Options:
   -h, --help                   output usage information
 ```
 ### Parse your dir
+- $ cd your/demo/app
+- $ parse
 ```
-$ cd your/demo/app
-$ parse  # Terminal log:
-
 app ( Directorys: 7, Files: 9 )
  ├─ bin
  │ └─ www
@@ -51,10 +49,9 @@ app ( Directorys: 7, Files: 9 )
  └─ package.json
 ```
 ### Parse your dir with params
+- $ parse -e bin,public -n -s
+- $ cat dir-info.txt
 ```
-$ parse -e bin,public -n -s
-$ cat dir-info.txt
-
 app
  ├─ routes
  │ ├─ index.js
@@ -67,18 +64,19 @@ app
  └─ package.json
 ```
 ### Recommend usages
+
+Usage 01
+There should no white space in the excludes series!
+- $ parse -e .git,node_modules -x bin/www
+
+Usage 02
+There should no white space in the excludes Array!
+- $ parse -e ['.git','node_modules']  -x ['bin/www'] 
+
+Usage 03
+Parse by a config file
+- $ vi parser.conf.json
 ```
-# Usage 01
-#Hint: There should no white space in the excludes series!
-$ parse -e .git,node_modules -x bin/www
-
-# Usage 01
-#Hint: There should no white space in the excludes Array!
-$ parse -e ['.git','node_modules']  -x ['bin/www'] 
-
-# Usage 03
-# Parse by a config file, In parser.json:
-
 {
   "directory": "your/demo/app",
   "output": "your/output/dir",
@@ -87,42 +85,55 @@ $ parse -e ['.git','node_modules']  -x ['bin/www']
     "node_modules"
   ]
 }
-
-$ parse -c ./parser.json
 ```
+- $ parse -c ./parser.conf.json
+
 ### In javaScript code
+- $ npm install dir-parse funclib
+- $ vi test.js
 ```
-$ npm install dir-parse funclib
-
-$ vi test.js
-  const parse = require('dir-parse');
   const fn = require('funclib');
+  const parse = require('./index');
 
   const target = './';
-  const excludes = [ '.git', 'node_modules' ];
+  const excludes = ['.git'];
 
-  const parsed = parse(target, { 'excludes': excludes });
-  const parsedInfo = fn.pick(parsed, [ 'dirName', 'dirNum', 'fileNum' ]);
+  const parsed = parse(target, {
+    excludes: excludes,
+    // dirTree: false,
+    // files: true,
+    // members: true
+  });
 
-  fn.log(parsedInfo, '# Parsed Info', { isShowTime: false });
-  fn.log(parsed.dirTree, '# Parsed Dir Tree', { isShowTime: false });
+  const BaseInfo = fn.pick(parsed, prop => !['members', 'files', 'dirTree'].includes(prop));
 
-$ node test.js
-
+  fn.log(BaseInfo, '# Parsed Info');
+  fn.log(parsed.dirTree, '# Parsed Dir Tree');
+  // fn.log(parsed.files, '# Parsed Dir Files');
+  // fn.log(parsed.members, '# Parsed Dir Members');
+```
+- $ node test.js
+```
 ==================================================================
-                         # Parsed Info
+                    [22:10:07] # Parsed Info
 ------------------------------------------------------------------
 {
-  "dirName": "dir-parser",
-  "dirNum": 7,
-  "fileNum": 29
+  "name": "dir-parser",
+  "type": "directory",
+  "path": "./",
+  "absPath": "E:\\Code\\dir-parser",
+  "dir": ".",
+  "absDir": "E:\\Code",
+  "dirNum": 8,
+  "fileNum": 31
 }
 ==================================================================
 
+
 ==================================================================
-                       # Parsed Dir Tree
+                  [22:10:07] # Parsed Dir Tree
 ------------------------------------------------------------------
-dir-parser ( Directorys: 7, Files: 29 )
+dir-parser ( Directorys: 8, Files: 31 )
  ├─ bin
  │ └─ parser.js
  ├─ node_modules
@@ -151,6 +162,9 @@ dir-parser ( Directorys: 7, Files: 29 )
  │   ├─ Makefile
  │   ├─ package.json
  │   └─ Readme.md
+ ├─ src
+ │ ├─ base.js
+ │ └─ dir-parser.js
  ├─ .gitignore
  ├─ dir-info.txt
  ├─ dir-parser.png
