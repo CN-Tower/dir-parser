@@ -25,8 +25,8 @@ module.exports = function (target, options = {}) {
   /**
    * Parser The target directory
    * @param dirPath  string
-   * @param deep    deep = 1
-   * @param prev    prev = ''
+   * @param deep     deep = 1
+   * @param prev     prev = ''
    */
   function parseDir(dirPath, deep = 1, prev = '') {
     const subDirs = [];
