@@ -1,6 +1,6 @@
 # Dir Parser
 
-> Parse a directory and generate it's structure tree.
+Parse a directory and generate it's structure tree.
 
 ## Quick Start
 
@@ -33,6 +33,7 @@ Options:
 ### Parse your dir
 
 > $ cd your/demo/app
+
 > $ parse
 ```
 app ( Directorys: 7, Files: 9 )
@@ -56,6 +57,7 @@ app ( Directorys: 7, Files: 9 )
 ### Parse your dir with params
 
 > $ parse -e bin,public -n -s
+
 > $ cat dir-info.txt
 ```
 app
@@ -98,6 +100,7 @@ Usage 03
 ### In javaScript code
 
 > $ npm install dir-parse funclib
+
 > $ vi test.js
 ```
   const fn = require('funclib');
