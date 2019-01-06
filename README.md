@@ -32,8 +32,7 @@ Options:
 
 ### Parse your dir
 
-> $ cd your/demo/app
-
+> $ cd your/demo/app<br>
 > $ parse
 ```
 app ( Directorys: 7, Files: 9 )
@@ -56,8 +55,7 @@ app ( Directorys: 7, Files: 9 )
 ```
 ### Parse your dir with params
 
-> $ parse -e bin,public -n -s
-
+> $ parse -e bin,public -n -s<br>
 > $ cat dir-info.txt
 ```
 app
@@ -89,22 +87,18 @@ Usage 03
 {
   "directory": "your/demo/app",
   "output": "your/output/dir",
-  "excludes": [
-    ".git",
-    "node_modules"
-  ]
+  "excludes": [ ".git", "node_modules" ]
 }
 ```
 > $ parse -c ./parser.conf.json
 
 ### In javaScript code
 
-> $ npm install dir-parse funclib
-
+> $ npm install dir-parse funclib<br>
 > $ vi test.js
 ```
   const fn = require('funclib');
-  const parse = require('./index');
+  const parse = require('dir-parser');
 
   const target = './';
   const excludes = ['.git'];
