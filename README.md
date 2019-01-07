@@ -10,7 +10,7 @@ Parse a directory and generate it's structure tree.
 
 ### Install dir-parser
 
-> $ npm install dir-parser
+> $ npm install dir-parser -g
 
 ### Get help
 
@@ -105,17 +105,15 @@ Usage 03
 
   let parsed = parse(target, {
     excludes: excludes,
-    // dirTree: false,    // Default is true, returns will conatins a string of directory structure truee;
-    // files: true,       // Default is false, If true, parsed will conatins an array of all subfiles's info;
+    // dirTree: false,    // Default is true, parsed conatins a string of directory structure truee;
     // members: true      // Default is false, If true, parsed will conatins an object of all members's info;
+    // files: true,       // Default is false, If true, parsed will conatins an array of all subfiles's info;
   });
 
-  const BaseInfo = fn.pick(parsed, prop => prop !== 'dirTree');
-
-  fn.log(BaseInfo, '# Parsed Basic Info');
-  fn.log(parsed.dirTree, '# Parsed Dir Tree');
-  // fn.log(parsed.files, '# Parsed Dir Files');
-  // fn.log(parsed.members, '# Parsed Dir Members');
+  fn.log(parsed.dirTree, '# parsed.dirTree');
+  fn.log(fn.pick(parsed, prop => prop !== 'dirTree'), '# parsed result info');
+  // fn.log(parsed.members, '# parsed.members');
+  // fn.log(parsed.files, '# parsed.files');
 
   excludes = ['.git', 'node_modules', 'dir-info.txt', 'package-lock.json'];
   parsed = parse(target, {
@@ -125,28 +123,13 @@ Usage 03
     members: true
   });
 
-  fn.log(parsed, '# Parsed Info');
+  fn.log(parsed.members, '# parsed.members');
+  fn.log(parsed.files, '# parsed.files');
 ```
 > $ node test.js
 ```
 ==================================================================
-                 [23:39:52] # Parsed Basic Info
-------------------------------------------------------------------
-{
-  "name": "dir-parser",
-  "type": "directory",
-  "path": "./",
-  "absPath": "D:\\Code\\dir-parser",
-  "dir": ".",
-  "absDir": "D:\\Code",
-  "dirNum": 8,
-  "fileNum": 29
-}
-==================================================================
-
-
-==================================================================
-                  [23:39:52] # Parsed Dir Tree
+                  [08:48:52] # parsed.dirTree
 ------------------------------------------------------------------
 dir-parser ( Directorys: 8, Files: 29 )
  ├─ bin
@@ -190,267 +173,277 @@ dir-parser ( Directorys: 8, Files: 29 )
 
 
 ==================================================================
-                    [23:39:52] # Parsed Info
+                [08:48:52] # parsed result info
 ------------------------------------------------------------------
 {
   "name": "dir-parser",
   "type": "directory",
-  "size": 174696,
-  "size_kb": "170.6kb",
   "path": "./",
-  "absPath": "D:\\Code\\dir-parser",
+  "absPath": "E:\\Code\\dir-parser",
   "dir": ".",
-  "absDir": "D:\\Code",
-  "dirNum": 2,
-  "fileNum": 6,
-  "members": [
-    {
-      "name": "bin",
-      "type": "directory",
-      "size": 2761,
-      "size_kb": "2.7kb",
-      "path": "bin",
-      "absPath": "D:\\Code\\dir-parser\\bin",
-      "dir": ".",
-      "absDir": "D:\\Code\\dir-parser",
-      "dirNum": 0,
-      "fileNum": 1,
-      "members": [
-        {
-          "name": "parser.js",
-          "base": "parser",
-          "ext": ".js",
-          "type": "file",
-          "size": 2761,
-          "size_kb": "2.7kb",
-          "path": "bin\\parser.js",
-          "absPath": "D:\\Code\\dir-parser\\bin\\parser.js",
-          "dir": "bin",
-          "absDir": "D:\\Code\\dir-parser\\bin"
-        }
-      ]
-    },
-    {
-      "name": "src",
-      "type": "directory",
-      "size": 5465,
-      "size_kb": "5.34kb",
-      "path": "src",
-      "absPath": "D:\\Code\\dir-parser\\src",
-      "dir": ".",
-      "absDir": "D:\\Code\\dir-parser",
-      "dirNum": 0,
-      "fileNum": 2,
-      "members": [
-        {
-          "name": "base.js",
-          "base": "base",
-          "ext": ".js",
-          "type": "file",
-          "size": 1037,
-          "size_kb": "1.01kb",
-          "path": "src\\base.js",
-          "absPath": "D:\\Code\\dir-parser\\src\\base.js",
-          "dir": "src",
-          "absDir": "D:\\Code\\dir-parser\\src"
-        },
-        {
-          "name": "dir-parser.js",
-          "base": "dir-parser",
-          "ext": ".js",
-          "type": "file",
-          "size": 4428,
-          "size_kb": "4.32kb",
-          "path": "src\\dir-parser.js",
-          "absPath": "D:\\Code\\dir-parser\\src\\dir-parser.js",
-          "dir": "src",
-          "absDir": "D:\\Code\\dir-parser\\src"
-        }
-      ]
-    },
-    {
-      "name": ".gitignore",
-      "base": ".gitignore",
-      "ext": "",
-      "type": "file",
-      "size": 34,
-      "size_kb": "0.03kb",
-      "path": ".gitignore",
-      "absPath": "D:\\Code\\dir-parser\\.gitignore",
-      "dir": "",
-      "absDir": "D:\\Code\\dir-parser"
-    },
-    {
-      "name": "dir-parser.png",
-      "base": "dir-parser",
-      "ext": ".png",
-      "type": "file",
-      "size": 76470,
-      "size_kb": "74.68kb",
-      "path": "dir-parser.png",
-      "absPath": "D:\\Code\\dir-parser\\dir-parser.png",
-      "dir": "",
-      "absDir": "D:\\Code\\dir-parser"
-    },
-    {
-      "name": "index.js",
-      "base": "index",
-      "ext": ".js",
-      "type": "file",
-      "size": 45,
-      "size_kb": "0.04kb",
-      "path": "index.js",
-      "absPath": "D:\\Code\\dir-parser\\index.js",
-      "dir": "",
-      "absDir": "D:\\Code\\dir-parser"
-    },
-    {
-      "name": "package.json",
-      "base": "package",
-      "ext": ".json",
-      "type": "file",
-      "size": 732,
-      "size_kb": "0.71kb",
-      "path": "package.json",
-      "absPath": "D:\\Code\\dir-parser\\package.json",
-      "dir": "",
-      "absDir": "D:\\Code\\dir-parser"
-    },
-    {
-      "name": "README.md",
-      "base": "README",
-      "ext": ".md",
-      "type": "file",
-      "size": 4911,
-      "size_kb": "4.8kb",
-      "path": "README.md",
-      "absPath": "D:\\Code\\dir-parser\\README.md",
-      "dir": "",
-      "absDir": "D:\\Code\\dir-parser"
-    },
-    {
-      "name": "test.js",
-      "base": "test",
-      "ext": ".js",
-      "type": "file",
-      "size": 1043,
-      "size_kb": "1.02kb",
-      "path": "test.js",
-      "absPath": "D:\\Code\\dir-parser\\test.js",
-      "dir": "",
-      "absDir": "D:\\Code\\dir-parser"
-    }
-  ],
-  "files": [
-    {
-      "name": "parser.js",
-      "base": "parser",
-      "ext": ".js",
-      "type": "file",
-      "size": 2761,
-      "size_kb": "2.7kb",
-      "path": "bin\\parser.js",
-      "absPath": "D:\\Code\\dir-parser\\bin\\parser.js",
-      "dir": "bin",
-      "absDir": "D:\\Code\\dir-parser\\bin"
-    },
-    {
-      "name": "base.js",
-      "base": "base",
-      "ext": ".js",
-      "type": "file",
-      "size": 1037,
-      "size_kb": "1.01kb",
-      "path": "src\\base.js",
-      "absPath": "D:\\Code\\dir-parser\\src\\base.js",
-      "dir": "src",
-      "absDir": "D:\\Code\\dir-parser\\src"
-    },
-    {
-      "name": "dir-parser.js",
-      "base": "dir-parser",
-      "ext": ".js",
-      "type": "file",
-      "size": 4428,
-      "size_kb": "4.32kb",
-      "path": "src\\dir-parser.js",
-      "absPath": "D:\\Code\\dir-parser\\src\\dir-parser.js",
-      "dir": "src",
-      "absDir": "D:\\Code\\dir-parser\\src"
-    },
-    {
-      "name": ".gitignore",
-      "base": ".gitignore",
-      "ext": "",
-      "type": "file",
-      "size": 34,
-      "size_kb": "0.03kb",
-      "path": ".gitignore",
-      "absPath": "D:\\Code\\dir-parser\\.gitignore",
-      "dir": "",
-      "absDir": "D:\\Code\\dir-parser"
-    },
-    {
-      "name": "dir-parser.png",
-      "base": "dir-parser",
-      "ext": ".png",
-      "type": "file",
-      "size": 76470,
-      "size_kb": "74.68kb",
-      "path": "dir-parser.png",
-      "absPath": "D:\\Code\\dir-parser\\dir-parser.png",
-      "dir": "",
-      "absDir": "D:\\Code\\dir-parser"
-    },
-    {
-      "name": "index.js",
-      "base": "index",
-      "ext": ".js",
-      "type": "file",
-      "size": 45,
-      "size_kb": "0.04kb",
-      "path": "index.js",
-      "absPath": "D:\\Code\\dir-parser\\index.js",
-      "dir": "",
-      "absDir": "D:\\Code\\dir-parser"
-    },
-    {
-      "name": "package.json",
-      "base": "package",
-      "ext": ".json",
-      "type": "file",
-      "size": 732,
-      "size_kb": "0.71kb",
-      "path": "package.json",
-      "absPath": "D:\\Code\\dir-parser\\package.json",
-      "dir": "",
-      "absDir": "D:\\Code\\dir-parser"
-    },
-    {
-      "name": "README.md",
-      "base": "README",
-      "ext": ".md",
-      "type": "file",
-      "size": 4911,
-      "size_kb": "4.8kb",
-      "path": "README.md",
-      "absPath": "D:\\Code\\dir-parser\\README.md",
-      "dir": "",
-      "absDir": "D:\\Code\\dir-parser"
-    },
-    {
-      "name": "test.js",
-      "base": "test",
-      "ext": ".js",
-      "type": "file",
-      "size": 1043,
-      "size_kb": "1.02kb",
-      "path": "test.js",
-      "absPath": "D:\\Code\\dir-parser\\test.js",
-      "dir": "",
-      "absDir": "D:\\Code\\dir-parser"
-    }
-  ]
+  "absDir": "E:\\Code",
+  "dirNum": 8,
+  "fileNum": 29
 }
+==================================================================
+
+
+==================================================================
+                  [08:48:52] # parsed.members
+------------------------------------------------------------------
+[
+  {
+    "name": "bin",
+    "type": "directory",
+    "size": 2760,
+    "size_kb": "2.7kb",
+    "path": "bin",
+    "absPath": "E:\\Code\\dir-parser\\bin",
+    "dir": ".",
+    "absDir": "E:\\Code\\dir-parser",
+    "dirNum": 0,
+    "fileNum": 1,
+    "members": [
+      {
+        "name": "parser.js",
+        "base": "parser",
+        "ext": ".js",
+        "type": "file",
+        "size": 2760,
+        "size_kb": "2.7kb",
+        "path": "bin\\parser.js",
+        "absPath": "E:\\Code\\dir-parser\\bin\\parser.js",
+        "dir": "bin",
+        "absDir": "E:\\Code\\dir-parser\\bin"
+      }
+    ]
+  },
+  {
+    "name": "src",
+    "type": "directory",
+    "size": 5465,
+    "size_kb": "5.34kb",
+    "path": "src",
+    "absPath": "E:\\Code\\dir-parser\\src",
+    "dir": ".",
+    "absDir": "E:\\Code\\dir-parser",
+    "dirNum": 0,
+    "fileNum": 2,
+    "members": [
+      {
+        "name": "base.js",
+        "base": "base",
+        "ext": ".js",
+        "type": "file",
+        "size": 1037,
+        "size_kb": "1.01kb",
+        "path": "src\\base.js",
+        "absPath": "E:\\Code\\dir-parser\\src\\base.js",
+        "dir": "src",
+        "absDir": "E:\\Code\\dir-parser\\src"
+      },
+      {
+        "name": "dir-parser.js",
+        "base": "dir-parser",
+        "ext": ".js",
+        "type": "file",
+        "size": 4428,
+        "size_kb": "4.32kb",
+        "path": "src\\dir-parser.js",
+        "absPath": "E:\\Code\\dir-parser\\src\\dir-parser.js",
+        "dir": "src",
+        "absDir": "E:\\Code\\dir-parser\\src"
+      }
+    ]
+  },
+  {
+    "name": ".gitignore",
+    "base": ".gitignore",
+    "ext": "",
+    "type": "file",
+    "size": 34,
+    "size_kb": "0.03kb",
+    "path": ".gitignore",
+    "absPath": "E:\\Code\\dir-parser\\.gitignore",
+    "dir": "",
+    "absDir": "E:\\Code\\dir-parser"
+  },
+  {
+    "name": "dir-parser.png",
+    "base": "dir-parser",
+    "ext": ".png",
+    "type": "file",
+    "size": 76470,
+    "size_kb": "74.68kb",
+    "path": "dir-parser.png",
+    "absPath": "E:\\Code\\dir-parser\\dir-parser.png",
+    "dir": "",
+    "absDir": "E:\\Code\\dir-parser"
+  },
+  {
+    "name": "index.js",
+    "base": "index",
+    "ext": ".js",
+    "type": "file",
+    "size": 45,
+    "size_kb": "0.04kb",
+    "path": "index.js",
+    "absPath": "E:\\Code\\dir-parser\\index.js",
+    "dir": "",
+    "absDir": "E:\\Code\\dir-parser"
+  },
+  {
+    "name": "package.json",
+    "base": "package",
+    "ext": ".json",
+    "type": "file",
+    "size": 733,
+    "size_kb": "0.72kb",
+    "path": "package.json",
+    "absPath": "E:\\Code\\dir-parser\\package.json",
+    "dir": "",
+    "absDir": "E:\\Code\\dir-parser"
+  },
+  {
+    "name": "README.md",
+    "base": "README",
+    "ext": ".md",
+    "type": "file",
+    "size": 11276,
+    "size_kb": "11.01kb",
+    "path": "README.md",
+    "absPath": "E:\\Code\\dir-parser\\README.md",
+    "dir": "",
+    "absDir": "E:\\Code\\dir-parser"
+  },
+  {
+    "name": "test.js",
+    "base": "test",
+    "ext": ".js",
+    "type": "file",
+    "size": 1022,
+    "size_kb": "1kb",
+    "path": "test.js",
+    "absPath": "E:\\Code\\dir-parser\\test.js",
+    "dir": "",
+    "absDir": "E:\\Code\\dir-parser"
+  }
+]
+==================================================================
+
+
+==================================================================
+                   [08:48:52] # parsed.files
+------------------------------------------------------------------
+[
+  {
+    "name": "parser.js",
+    "base": "parser",
+    "ext": ".js",
+    "type": "file",
+    "size": 2760,
+    "size_kb": "2.7kb",
+    "path": "bin\\parser.js",
+    "absPath": "E:\\Code\\dir-parser\\bin\\parser.js",
+    "dir": "bin",
+    "absDir": "E:\\Code\\dir-parser\\bin"
+  },
+  {
+    "name": "base.js",
+    "base": "base",
+    "ext": ".js",
+    "type": "file",
+    "size": 1037,
+    "size_kb": "1.01kb",
+    "path": "src\\base.js",
+    "absPath": "E:\\Code\\dir-parser\\src\\base.js",
+    "dir": "src",
+    "absDir": "E:\\Code\\dir-parser\\src"
+  },
+  {
+    "name": "dir-parser.js",
+    "base": "dir-parser",
+    "ext": ".js",
+    "type": "file",
+    "size": 4428,
+    "size_kb": "4.32kb",
+    "path": "src\\dir-parser.js",
+    "absPath": "E:\\Code\\dir-parser\\src\\dir-parser.js",
+    "dir": "src",
+    "absDir": "E:\\Code\\dir-parser\\src"
+  },
+  {
+    "name": ".gitignore",
+    "base": ".gitignore",
+    "ext": "",
+    "type": "file",
+    "size": 34,
+    "size_kb": "0.03kb",
+    "path": ".gitignore",
+    "absPath": "E:\\Code\\dir-parser\\.gitignore",
+    "dir": "",
+    "absDir": "E:\\Code\\dir-parser"
+  },
+  {
+    "name": "dir-parser.png",
+    "base": "dir-parser",
+    "ext": ".png",
+    "type": "file",
+    "size": 76470,
+    "size_kb": "74.68kb",
+    "path": "dir-parser.png",
+    "absPath": "E:\\Code\\dir-parser\\dir-parser.png",
+    "dir": "",
+    "absDir": "E:\\Code\\dir-parser"
+  },
+  {
+    "name": "index.js",
+    "base": "index",
+    "ext": ".js",
+    "type": "file",
+    "size": 45,
+    "size_kb": "0.04kb",
+    "path": "index.js",
+    "absPath": "E:\\Code\\dir-parser\\index.js",
+    "dir": "",
+    "absDir": "E:\\Code\\dir-parser"
+  },
+  {
+    "name": "package.json",
+    "base": "package",
+    "ext": ".json",
+    "type": "file",
+    "size": 733,
+    "size_kb": "0.72kb",
+    "path": "package.json",
+    "absPath": "E:\\Code\\dir-parser\\package.json",
+    "dir": "",
+    "absDir": "E:\\Code\\dir-parser"
+  },
+  {
+    "name": "README.md",
+    "base": "README",
+    "ext": ".md",
+    "type": "file",
+    "size": 11276,
+    "size_kb": "11.01kb",
+    "path": "README.md",
+    "absPath": "E:\\Code\\dir-parser\\README.md",
+    "dir": "",
+    "absDir": "E:\\Code\\dir-parser"
+  },
+  {
+    "name": "test.js",
+    "base": "test",
+    "ext": ".js",
+    "type": "file",
+    "size": 1022,
+    "size_kb": "1kb",
+    "path": "test.js",
+    "absPath": "E:\\Code\\dir-parser\\test.js",
+    "dir": "",
+    "absDir": "E:\\Code\\dir-parser"
+  }
+]
 ==================================================================
 ```

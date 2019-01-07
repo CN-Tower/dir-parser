@@ -6,17 +6,15 @@ let excludes = [ '.git', 'dir-info.txt', 'package-lock.json' ];
 
 let parsed = parse(target, {
   excludes: excludes,
-  // dirTree: false,    // Default is true, returns will conatins a string of directory structure truee;
-  // files: true,       // Default is false, If true, parsed will conatins an array of all subfiles's info;
+  // dirTree: false,    // Default is true, parsed conatins a string of directory structure truee;
   // members: true      // Default is false, If true, parsed will conatins an object of all members's info;
+  // files: true,       // Default is false, If true, parsed will conatins an array of all subfiles's info;
 });
 
-const BaseInfo = fn.pick(parsed, prop => prop !== 'dirTree');
-
-fn.log(BaseInfo, '# Parsed Basic Info');
-fn.log(parsed.dirTree, '# Parsed Dir Tree');
-// fn.log(parsed.files, '# Parsed Dir Files');
-// fn.log(parsed.members, '# Parsed Dir Members');
+fn.log(parsed.dirTree, '# parsed.dirTree');
+fn.log(fn.pick(parsed, prop => prop !== 'dirTree'), '# parsed result info');
+// fn.log(parsed.members, '# parsed.members');
+// fn.log(parsed.files, '# parsed.files');
 
 excludes = ['.git', 'node_modules', 'dir-info.txt', 'package-lock.json'];
 parsed = parse(target, {
@@ -26,4 +24,5 @@ parsed = parse(target, {
   members: true
 });
 
-fn.log(parsed, '# Parsed Info');
+fn.log(parsed.members, '# parsed.members');
+fn.log(parsed.files, '# parsed.files');
