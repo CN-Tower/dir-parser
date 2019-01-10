@@ -17,7 +17,9 @@
     "dir-parser",
     "directory-parser",
     "dir-tree",
-    "directory-tree"
+    "directory-tree",
+    "dir-info",
+    "parse-dir"
   ],
   "author": "CN-Tower",
   "license": "MIT",
