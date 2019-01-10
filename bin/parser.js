@@ -18,10 +18,10 @@ program.version(package.version)
   .option('-o, --output [output]', 'Parse result output path, default: "./"')
   .option('-e, --excludes [excludes]', 'Exclude some directories or files by name')
   .option('-x, --excPaths [excPaths]', 'Exclude some directories or files by path')
-  .option('-r, --patterns [patterns]', 'Reject some directories or files by RegExp')
+  .option('-r, --patterns [patterns]', 'Exclude some directories or files by RegExp')
   .option('-c, --config [config]', 'Parser config file')
-  .option('-s, --silent', 'Don\'t print the parse-result in terminal')
   .option('-n, --noNum', 'Don\'t show file and directory number')
+  .option('-s, --silent', 'Don\'t print the parse-result in terminal')
   .parse(process.argv);
 
 let config = {};
