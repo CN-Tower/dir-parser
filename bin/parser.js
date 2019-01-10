@@ -17,7 +17,8 @@ program.version(package.version)
   .option('-d, --directory [directory]', 'The target directory, default: "./"')
   .option('-o, --output [output]', 'Parse result output path, default: "./"')
   .option('-e, --excludes [excludes]', 'Exclude some directories or files by name')
-  .option('-x, --exdPaths [exdPaths]', 'Exclude some directories or files by path')
+  .option('-x, --excPaths [excPaths]', 'Exclude some directories or files by path')
+  .option('-r, --patterns [patterns]', 'Reject some directories or files by RegExp')
   .option('-c, --config [config]', 'Parser config file')
   .option('-s, --silent', 'Don\'t print the parse-result in terminal')
   .option('-n, --noNum', 'Don\'t show file and directory number')
@@ -34,14 +35,15 @@ let output = program.output
   || fn.get(config, 'output', 'str')
   || path.resolve('./');
 let excludes = program.excludes
-  || fn.get(config, 'excludes', 'arr', 'str')
+  || fn.get(config, 'excludes', 'arr')
   || [];
-let exdPaths = program.exdPaths
-  || fn.get(config, 'exdPaths', 'arr', 'str')
+let excPaths = program.excPaths
+  || fn.get(config, 'excPaths', 'arr')
   || [];
-const noNum = program.noNum
-  || fn.get(config, 'noNum', 'bol')
-  || false;
+let patterns = program.patterns
+  || fn.get(config, 'patterns', 'arr')
+  || [];
+const noNum = program.noNum || fn.get(config, 'noNum', 'bol');
 const silent = program.silent;
 
 /**
@@ -66,31 +68,33 @@ if (outputStat.isDirectory()) {
 /**
  * Format the exculds
  */
-function exdHandler(ecd, item) {
-  if (fn.typeOf(ecd, 'str')) {
-    ecd = rmQuote(ecd);
-    if (ecd.startsWith('[')) {
+function excHandler(exc, type_) {
+  if (fn.typeOf(exc, 'str')) {
+    exc = rmQuote(exc);
+    if (exc.startsWith('[')) {
       try {
-        eval('ecd =' + ecd);
+        eval('exc =' + exc);
       } catch (e) {
-        ecd = fn.get(config, item, 'arr', 'str') || [];
+        exc = fn.get(config, type_, 'arr') || [];
       }
     } else {
-      ecd = ecd.split(',');
+      exc = exc.split(',');
     }
   }
-  return fn.toArr(ecd);
+  return fn.toArr(exc);
 }
-excludes = exdHandler(excludes, 'excludes');
-exdPaths = exdHandler(exdPaths, 'exdPaths');
-exdPaths.push(dirInfoFile);
+patterns = excHandler(patterns, 'patterns');
+excludes = excHandler(excludes, 'excludes');
+excPaths = excHandler(excPaths, 'excPaths');
+excPaths.push(dirInfoFile);
 
 /**
  * Parse by options
  */
 parse(target, {
   'excludes': excludes,
-  'exdPaths': exdPaths,
+  'excPaths': excPaths,
+  'patterns': patterns,
   'noNum': noNum
 }).then(
   parsed => {

@@ -1,4 +1,4 @@
-dir-parser ( Directorys: 8, Files: 30 )
+dir-parser ( Directorys: 8, Files: 31 )
  ├─ bin
  │ └─ parser.js
  ├─ node_modules
@@ -35,5 +35,6 @@ dir-parser ( Directorys: 8, Files: 30 )
  ├─ index.js
  ├─ package-lock.json
  ├─ package.json
+ ├─ parse.conf.json
  ├─ README.md
  └─ test.js

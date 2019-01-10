@@ -1,0 +1,5 @@
+{
+  "directory": "your/demo/app",
+  "output": "your/output/dir",
+  "excludes": [ ".git", "node_modules" ]
+}

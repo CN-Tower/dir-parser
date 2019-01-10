@@ -17,7 +17,7 @@ exports.DirInfo = class DirInfo {
     this.absDir = path.dirname(this.absPath);
     this.dirNum = 0;
     this.fileNum = 0;
-    this.members = [];
+    this.children = [];
   }
 }
 
