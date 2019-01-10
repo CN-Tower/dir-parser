@@ -14,8 +14,8 @@ const dirInfoFile = 'dir-info.txt';
  */
 program.version(package.version)
   .option('-v, --version')
-  .option('-d, --directory [directory]', 'The target directory, default: "./"')
-  .option('-o, --output [output]', 'Parse result output path, default: "./"')
+  .option('-d, --directory [directory]', 'Target directory, default: "./"')
+  .option('-o, --output [output]', 'Output path, default: "./"')
   .option('-e, --excludes [excludes]', 'Exclude some directories or files by name')
   .option('-x, --excPaths [excPaths]', 'Exclude some directories or files by path')
   .option('-r, --patterns [patterns]', 'Exclude some directories or files by RegExp')

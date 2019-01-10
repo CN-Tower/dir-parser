@@ -20,13 +20,14 @@ Usage: index [options]
 Options:
   -V, --version                output the version number
   -v, --version
-  -d, --directory [directory]  The target directory, default: "./"
-  -o, --output [output]        Parse result output path, default: "./"
+  -d, --directory [directory]  Target directory, default: "./"
+  -o, --output [output]        Output path, default: "./"
   -e, --excludes [excludes]    Exclude some directories or files by name
-  -x, --exdPaths [exdPaths]    Exclude some directories or files by path
+  -x, --excPaths [excPaths]    Exclude some directories or files by path
+  -r, --patterns [patterns]    Exclude some directories or files by RegExp
   -c, --config [config]        Parser config file
-  -s, --silent                 Don't print the parse-result in terminal
   -n, --noNum                  Don't show file and directory number
+  -s, --silent                 Don't print the parse-result in terminal
   -h, --help                   output usage information
 ```
 
@@ -101,36 +102,30 @@ Usage 03
   const parse = require('dir-parser');
 
   /**
-  * Get parsed dir-tree
-  * ============================================================
-  */
-  parse('./', { excludes: ['.git', 'dir-info.txt', 'package-lock.json'] }).then(parsed => {
-
+   * Get parsed dir-tree
+   * ============================================================
+   */
+  let excludes = ['.git', 'dir-info.txt', 'package-lock.json'];
+  parse('./', { excludes: excludes }).then(parsed => {
     fn.log(parsed.dirTree, '# parsed.dirTree');
     fn.log(fn.pick(parsed, prop => prop !== 'dirTree'), '# parsed result info');
     // fn.log(parsed.children, '# parsed.children');
     // fn.log(parsed.files, '# parsed.files');
-
   });
   
   /**
-  * Get parsed dir-info (children & files)
-  * ============================================================
-  */
+   * Get parsed dir-info (children & files)
+   * ============================================================
+   */
+  excludes = ['.git', 'node_modules', 'dir-info.txt', 'package-lock.json'];
   parse('./', {
-
-    excludes: [
-      '.git', 'node_modules', 'dir-info.txt', 'package-lock.json'
-    ],
+    excludes: excludes,
     files: true,       // Default is false, If true, returns will conatins an array of all subfiles's info;
     children: true,    // Default is false, If true, returns will conatins an object of all children's info;
     dirTree: false     // Default is true, returns will conatins a tree of the directory;
-
   }).then(parsed => {
-
     fn.log(parsed.children, '# parsed.children');
     fn.log(parsed.files, '# parsed.files');
-
   });
 ```
 > $ node test.js
