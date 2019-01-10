@@ -3,11 +3,26 @@ const path = require('path');
 const { DirInfo, FileInfo, calcSizekb } = require('./base');
 
 /**
+ * Export a dir-parser promise
+ * @param target  string
+ * @param options object
+ */
+module.exports = (target, options) => {
+  return new Promise((resolve, reject) => {
+    try {
+      resolve(dirParser(target, options));
+    } catch (err) {
+      reject(err);
+    }
+  });
+};
+
+/**
  * Parse the target directory and generate it's structure tree.
  * @param target  string
  * @param options object
  */
-module.exports = function (target, options = {}) {
+function dirParser(target, options = {}) {
   if (!fs.statSync(target).isDirectory()) {
     throw new Error('Target must be a directory!')
   }

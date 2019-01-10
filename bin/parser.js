@@ -88,16 +88,16 @@ exdPaths.push(dirInfoFile);
 /**
  * Parse by options
  */
-const parsed = parse(target, {
+parse(target, {
   'excludes': excludes,
   'exdPaths': exdPaths,
   'noNum': noNum
-});
-
-/**
- * The output
- */
-if (!silent) {
-  console.log(parsed.dirTree);
-}
-fn.wt(output, parsed.dirTree);
+}).then(
+  parsed => {
+    if (!silent) console.log(parsed.dirTree);
+    fn.wt(output, parsed.dirTree);
+  },
+  error => {
+    console.log(fn.chalk(error.message, 'red'));
+  }
+);
