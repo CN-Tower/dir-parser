@@ -33,6 +33,7 @@ function dirParser(target, options = {}) {
   const noNum = fn.get(options, 'noNum', 'bol');
   const isGetFiles = fn.get(options, 'files', 'bol');
   const isGetChildren = fn.get(options, 'children', 'bol');
+  const lineType = fn.get(options, 'lineType', 'str') || 'solid';
 
   let excludes = fn.get(options, 'excludes', 'arr') || [];
   let excPaths = fn.get(options, 'excPaths', 'arr') || [];
@@ -108,12 +109,22 @@ function dirParser(target, options = {}) {
         children.push(dirInfo);
       }
       if (isGetDirTree) {
-        if (i < subDirs.length - 1 || subFiles.length > 0) {
-          dirTree += `${prev} ├─ ${dir.name}\r\n`;
-          split = ' │';
+        if (lineType === 'dashed') {
+          if (i < subDirs.length - 1 || subFiles.length > 0) {
+            dirTree += `${prev} +-- ${dir.name}\r\n`;
+            split = ' ¦  ';
+          } else {
+            dirTree += `${prev} +-- ${dir.name}\r\n`;
+            split = '    ';
+          }
         } else {
-          dirTree += `${prev} └─ ${dir.name}\r\n`;
-          split = '  ';
+          if (i < subDirs.length - 1 || subFiles.length > 0) {
+            dirTree += `${prev} ├─ ${dir.name}\r\n`;
+            split = ' │';
+          } else {
+            dirTree += `${prev} └─ ${dir.name}\r\n`;
+            split = '  ';
+          }
         }
       }
       const nextPath = path.join(dirPath, dir.name);
@@ -136,10 +147,18 @@ function dirParser(target, options = {}) {
         filesSize += fileInfo.size;
       }
       if (isGetDirTree) {
-        if (i < subFiles.length - 1) {
-          dirTree += `${prev} ├─ ${file.name}\r\n`;
+        if (lineType === 'dashed') {
+          if (i < subFiles.length - 1) {
+            dirTree += `${prev} +-- ${file.name}\r\n`;
+          } else {
+            dirTree += `${prev} +-- ${file.name}\r\n`;
+          }
         } else {
-          dirTree += `${prev} └─ ${file.name}\r\n`;
+          if (i < subFiles.length - 1) {
+            dirTree += `${prev} ├─ ${file.name}\r\n`;
+          } else {
+            dirTree += `${prev} └─ ${file.name}\r\n`;
+          }
         }
       }
     });

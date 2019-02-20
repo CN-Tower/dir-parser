@@ -1,40 +1,318 @@
-dir-parser ( Directorys: 8, Files: 31 )
- ├─ bin
- │ └─ parser.js
- ├─ node_modules
- │ ├─ commander
- │ │ ├─ typings
- │ │ │ └─ index.d.ts
- │ │ ├─ CHANGELOG.md
- │ │ ├─ index.js
- │ │ ├─ LICENSE
- │ │ ├─ package.json
- │ │ └─ Readme.md
- │ ├─ funclib
- │ │ ├─ funclib.core.js
- │ │ ├─ funclib.js
- │ │ ├─ funclib.min.js
- │ │ ├─ index.d.ts
- │ │ ├─ index.js
- │ │ ├─ package.json
- │ │ └─ README.md
- │ └─ progress
- │   ├─ lib
- │   │ └─ node-progress.js
- │   ├─ CHANGELOG.md
- │   ├─ index.js
- │   ├─ LICENSE
- │   ├─ Makefile
- │   ├─ package.json
- │   └─ Readme.md
- ├─ src
- │ ├─ base.js
- │ └─ dir-parser.js
- ├─ .gitignore
- ├─ dir-parser.png
- ├─ index.js
- ├─ package-lock.json
- ├─ package.json
- ├─ parse.conf.json
- ├─ README.md
- └─ test.js
+dir-parser ( Directorys: 129, Files: 188 )
+ +-- .git
+ ¦   +-- hooks
+ ¦   ¦   +-- applypatch-msg.sample
+ ¦   ¦   +-- commit-msg.sample
+ ¦   ¦   +-- fsmonitor-watchman.sample
+ ¦   ¦   +-- post-update.sample
+ ¦   ¦   +-- pre-applypatch.sample
+ ¦   ¦   +-- pre-commit.sample
+ ¦   ¦   +-- pre-push.sample
+ ¦   ¦   +-- pre-rebase.sample
+ ¦   ¦   +-- pre-receive.sample
+ ¦   ¦   +-- prepare-commit-msg.sample
+ ¦   ¦   +-- update.sample
+ ¦   +-- info
+ ¦   ¦   +-- exclude
+ ¦   +-- logs
+ ¦   ¦   +-- refs
+ ¦   ¦   ¦   +-- heads
+ ¦   ¦   ¦   ¦   +-- master
+ ¦   ¦   ¦   +-- remotes
+ ¦   ¦   ¦       +-- origin
+ ¦   ¦   ¦           +-- HEAD
+ ¦   ¦   ¦           +-- master
+ ¦   ¦   +-- HEAD
+ ¦   +-- objects
+ ¦   ¦   +-- 01
+ ¦   ¦   ¦   +-- 76be161410f84406727eea6fa627fff04417f5
+ ¦   ¦   +-- 03
+ ¦   ¦   ¦   +-- 816620825e9037dfc7e2f8a681bacd7cff8474
+ ¦   ¦   +-- 05
+ ¦   ¦   ¦   +-- 07cec71fa0c08ee26ad10e0cc0c97bfae5020d
+ ¦   ¦   +-- 07
+ ¦   ¦   ¦   +-- 62a48a87b355132ea8fa59f72f23651ae6bc8c
+ ¦   ¦   +-- 08
+ ¦   ¦   ¦   +-- dc4609a56dbbda6f767ca4f9aa679668d4a055
+ ¦   ¦   +-- 09
+ ¦   ¦   ¦   +-- 9df5519b53a1d12ab5241477a8059452f6cb83
+ ¦   ¦   +-- 0a
+ ¦   ¦   ¦   +-- 304236bab350f262d2915a7cb6619d07b2fa05
+ ¦   ¦   +-- 0d
+ ¦   ¦   ¦   +-- 022c546fbff33f558944cb40e432e4a95f161b
+ ¦   ¦   +-- 0f
+ ¦   ¦   ¦   +-- 9962746c08169e4e8b2ba377bbb64655bb575c
+ ¦   ¦   +-- 11
+ ¦   ¦   ¦   +-- 35f2f831d5f5144b3326577541e025446203bd
+ ¦   ¦   +-- 17
+ ¦   ¦   ¦   +-- 08acabcb6b0b870616e95829a46262de24173d
+ ¦   ¦   ¦   +-- 1635fb4d0b9517869140b543df61231a5f2567
+ ¦   ¦   ¦   +-- 4a7bf8034b48e60512a94befc99db45f7158a0
+ ¦   ¦   ¦   +-- c011e1eba31018f673d28f5fb6dc668cb234d8
+ ¦   ¦   +-- 19
+ ¦   ¦   ¦   +-- 5ecadf91865842f8520c898c1364805f7595ce
+ ¦   ¦   +-- 1d
+ ¦   ¦   ¦   +-- a257582d9a64dfb7608917878dd8a8ffb503f8
+ ¦   ¦   +-- 21
+ ¦   ¦   ¦   +-- ab170c1ea98c2dbb50e653cc467c29f39ef4ce
+ ¦   ¦   +-- 23
+ ¦   ¦   ¦   +-- 93ae5390710a8b229305d8fa30932c33db1d4e
+ ¦   ¦   +-- 25
+ ¦   ¦   ¦   +-- b1fd76c00757bc1a3f2c7e21a66fad0ea9f4dc
+ ¦   ¦   +-- 27
+ ¦   ¦   ¦   +-- 5859895863d32aec800bb7a58ceccb226cae64
+ ¦   ¦   +-- 2b
+ ¦   ¦   ¦   +-- 21133d040492e880bcda616ea16c8c3c8ac2d3
+ ¦   ¦   +-- 2d
+ ¦   ¦   ¦   +-- 1ff29882d84be10746c101ddbc4d4b9ed32c6b
+ ¦   ¦   +-- 2e
+ ¦   ¦   ¦   +-- d728c83cca5747d2e727b7e78b2dd38c61d5a3
+ ¦   ¦   +-- 30
+ ¦   ¦   ¦   +-- 2ad0d1f3794d6e315651a1d3a7312fd59cb4fa
+ ¦   ¦   ¦   +-- 2bf4f04c290c431a3a4594921a583dea120d53
+ ¦   ¦   ¦   +-- ebe25484aa937e424727a71c6d4949268294f3
+ ¦   ¦   +-- 33
+ ¦   ¦   ¦   +-- afde379893c4a31370a9dfe137706919bdcfb5
+ ¦   ¦   +-- 34
+ ¦   ¦   ¦   +-- 5dd1401c32b8e1b7d528ea8d2c90952e4a8d5e
+ ¦   ¦   +-- 36
+ ¦   ¦   ¦   +-- ad556297c66519bf46abffceecb2627df9e522
+ ¦   ¦   +-- 37
+ ¦   ¦   ¦   +-- 7c4748de9cc2a7c0bf70509c5217c2d72efbbd
+ ¦   ¦   +-- 38
+ ¦   ¦   ¦   +-- ab92089356676b4971e03ca4f733aedc2fb628
+ ¦   ¦   +-- 3b
+ ¦   ¦   ¦   +-- 0cc80944d38e6e1ad09ab96c415b02038750ac
+ ¦   ¦   +-- 3c
+ ¦   ¦   ¦   +-- f796444ac8ff1e06eb726128c8037252fbfc24
+ ¦   ¦   +-- 3d
+ ¦   ¦   ¦   +-- c9882c3c4e934d219a04cbfdb3f6b5346fc975
+ ¦   ¦   ¦   +-- dab07d9feef2570ad9ff0eb03b71e3a69bcd45
+ ¦   ¦   +-- 3e
+ ¦   ¦   ¦   +-- 42bc0ea36e1f12ae50c47eb8df5f33009765e7
+ ¦   ¦   +-- 41
+ ¦   ¦   ¦   +-- 1b8cc696ca1e4479a3fc1c1aa747938125360a
+ ¦   ¦   ¦   +-- 20fa7ab09d915759c20612e4611c9e6345c8f3
+ ¦   ¦   +-- 42
+ ¦   ¦   ¦   +-- 4b94790d03dde2e41fb1e3ca6ec70495ee4828
+ ¦   ¦   +-- 43
+ ¦   ¦   ¦   +-- 46c22dc1093dacf0934e857af555b2039c4bb0
+ ¦   ¦   +-- 44
+ ¦   ¦   ¦   +-- cab7a95d4a89309b284e91e690096012a2cfc5
+ ¦   ¦   +-- 49
+ ¦   ¦   ¦   +-- a88e17fbf4d234b5cb83da4a93fbf04e942658
+ ¦   ¦   +-- 4e
+ ¦   ¦   ¦   +-- 4097317c51abb345488cfe27cc0865743cdf62
+ ¦   ¦   +-- 51
+ ¦   ¦   ¦   +-- 6758d351080b6377d9a20018496248f8046624
+ ¦   ¦   +-- 52
+ ¦   ¦   ¦   +-- 3f0b62efef4a1dce5b97eac6fc864ae1e9bcb1
+ ¦   ¦   +-- 53
+ ¦   ¦   ¦   +-- af3fd75adc33eb970272ca08be74687054dd48
+ ¦   ¦   +-- 54
+ ¦   ¦   ¦   +-- 3f26e4bea6baf01fcb3467c2e1d783fcceb15b
+ ¦   ¦   ¦   +-- 902c0a8c92a0628a41b7c5f46fb15364061f04
+ ¦   ¦   ¦   +-- ffb9372a489c25c01ef20e10a9a61065461fff
+ ¦   ¦   +-- 55
+ ¦   ¦   ¦   +-- b268eae65763f131a7710aecbe5d72de5ce478
+ ¦   ¦   +-- 56
+ ¦   ¦   ¦   +-- bb06da733ba87e915689264ebde3858bc91bca
+ ¦   ¦   +-- 59
+ ¦   ¦   ¦   +-- e83f2a0a166bdf1a12593d17d3a1ec79ca8401
+ ¦   ¦   +-- 5a
+ ¦   ¦   ¦   +-- fc190203f2a505f069af0475114bc07a11d7d3
+ ¦   ¦   +-- 5b
+ ¦   ¦   ¦   +-- 0052740db49bcf987297cc284c7e4cc55c8344
+ ¦   ¦   +-- 5e
+ ¦   ¦   ¦   +-- 4ae27f867e6231154ed6b5a99244aac79cecec
+ ¦   ¦   +-- 5f
+ ¦   ¦   ¦   +-- 8a5741623a139b27924ebc32d39b83bec26508
+ ¦   ¦   ¦   +-- a465658d4256388768d33606316f9302d3ed10
+ ¦   ¦   +-- 60
+ ¦   ¦   ¦   +-- 1402f49dfb65ce3d957b3c650e8e6e1eb017fc
+ ¦   ¦   +-- 61
+ ¦   ¦   ¦   +-- 988f0abc825b5961b414dfa8cac8091a538559
+ ¦   ¦   +-- 67
+ ¦   ¦   ¦   +-- 8f570b8ee858fc7d54785a9738e0c2b195d0f4
+ ¦   ¦   +-- 6b
+ ¦   ¦   ¦   +-- acbf6b475c61cf56b6e50ba9f6082fa179c45d
+ ¦   ¦   ¦   +-- efe28b9cb97847a1de15d46b8866a10e89570c
+ ¦   ¦   +-- 6f
+ ¦   ¦   ¦   +-- dfa107fd100c76ce099a67a718d1705787b56f
+ ¦   ¦   +-- 72
+ ¦   ¦   ¦   +-- 068c39f6c6b29665351c8dfe75010e6da32703
+ ¦   ¦   ¦   +-- 313aa764174e18b3e13c12152b9e66031d1225
+ ¦   ¦   +-- 79
+ ¦   ¦   ¦   +-- 1edf3db69cd2aeba8f82f7f060b60315747442
+ ¦   ¦   +-- 7d
+ ¦   ¦   ¦   +-- 9efbafd13d1ca6aaa302e10d0e5e8d0c180a40
+ ¦   ¦   +-- 7f
+ ¦   ¦   ¦   +-- a53fd16954a6e6d29e314629e79d6c10971015
+ ¦   ¦   +-- 87
+ ¦   ¦   ¦   +-- ffd37d3f74c37d34cd01acef408f6502f970e1
+ ¦   ¦   +-- 8a
+ ¦   ¦   ¦   +-- 48e1c416baa6e9cbdc8c6d35d6d992831eedac
+ ¦   ¦   +-- 8b
+ ¦   ¦   ¦   +-- 91965191dcd2c5e2a749993be4e4ae26159224
+ ¦   ¦   +-- 8c
+ ¦   ¦   ¦   +-- 50b648613b229c173854eb454e639e720e005a
+ ¦   ¦   +-- 8d
+ ¦   ¦   ¦   +-- 080af629c0fec415a69176e5e53b0e8495a3fc
+ ¦   ¦   +-- 8f
+ ¦   ¦   ¦   +-- 370ba482208a123320ae17364d4219e0e7e1cd
+ ¦   ¦   +-- 90
+ ¦   ¦   ¦   +-- d3e3026e2418f15f13d6c3205de9b71dd06a1d
+ ¦   ¦   ¦   +-- ee1b2463f0439b56bbc841236ce433b8fdccca
+ ¦   ¦   +-- 91
+ ¦   ¦   ¦   +-- 29a6579d2630101b6e77558209e77ce7ec6064
+ ¦   ¦   ¦   +-- 759d7e476dba653f08bac0c015676ac78e718b
+ ¦   ¦   +-- 93
+ ¦   ¦   ¦   +-- 2f6048527bd67f4fb60847d0f67dfed7678eaa
+ ¦   ¦   ¦   +-- 915a6d2cb418cb7adea4be49a0bebd374e4af8
+ ¦   ¦   ¦   +-- d96351e17cff97c96cf3f7d1b029e703b7e986
+ ¦   ¦   +-- 95
+ ¦   ¦   ¦   +-- cb398f7db1f114b8ca77cb4ce2f23df11db435
+ ¦   ¦   +-- 98
+ ¦   ¦   ¦   +-- c33245d0f98795d146cbb59020017bea54cd7d
+ ¦   ¦   +-- 9a
+ ¦   ¦   ¦   +-- 56b99b314ba432f98974610b3959824f765746
+ ¦   ¦   +-- 9f
+ ¦   ¦   ¦   +-- d9794ade280fb2e51c3af9f404162541068271
+ ¦   ¦   +-- a5
+ ¦   ¦   ¦   +-- 33879ae35e11a057b3064c30dc114cd00260b1
+ ¦   ¦   +-- ac
+ ¦   ¦   ¦   +-- 923491cc83813e895f5472cc77799709abe123
+ ¦   ¦   ¦   +-- cfb1b656ea4661fb28bae9f09bebd437cde33b
+ ¦   ¦   +-- b0
+ ¦   ¦   ¦   +-- 68a989fcc0efd71291fb854a81d93986cf8ea9
+ ¦   ¦   +-- b1
+ ¦   ¦   ¦   +-- 1cc082bd7f6356480f45406ddfb1f5cddbdc54
+ ¦   ¦   +-- b4
+ ¦   ¦   ¦   +-- 01b4009099102f10c23e55dc1f5b08d7e0f1a1
+ ¦   ¦   +-- b5
+ ¦   ¦   ¦   +-- 512d7d8f215ccb60f5d0aabcb870a89a8530e5
+ ¦   ¦   +-- b7
+ ¦   ¦   ¦   +-- 7b8e371d12229fd3d282e2930568be040f8e0a
+ ¦   ¦   +-- b9
+ ¦   ¦   ¦   +-- ac7c0759ba1d915080cdb2cd4c03d7abef0e83
+ ¦   ¦   +-- bf
+ ¦   ¦   ¦   +-- d9baa1d94d12d5fc8e9bac2d697687483d37a2
+ ¦   ¦   +-- c2
+ ¦   ¦   ¦   +-- 346aa5a0b6cf9a1b5e52eb6e388b70e277c305
+ ¦   ¦   +-- c4
+ ¦   ¦   ¦   +-- 82fc0b9f97fe92a534166f03f4402409b95921
+ ¦   ¦   +-- c5
+ ¦   ¦   ¦   +-- 1b73182fe4d768b3ad0e37a020d6fb251336e0
+ ¦   ¦   ¦   +-- 74ba3dddc4bc7318ff72981d59766baf4d3d19
+ ¦   ¦   +-- c8
+ ¦   ¦   ¦   +-- 03b374ceab09ca939fc689649eca32e70cfba9
+ ¦   ¦   +-- cb
+ ¦   ¦   ¦   +-- bb9d6114775b24be8065204c484bc7d537904d
+ ¦   ¦   +-- d1
+ ¦   ¦   ¦   +-- f851194847b39a3117febe062bc9a1f114767b
+ ¦   ¦   +-- d2
+ ¦   ¦   ¦   +-- fb0b3f5cbaadf2e805b497e1ee6d74fc220f40
+ ¦   ¦   +-- d4
+ ¦   ¦   ¦   +-- 94e332cc6a103bd9da417b8595b0079085ad92
+ ¦   ¦   +-- d5
+ ¦   ¦   ¦   +-- 1245871b298a0476136b2eb08c60f9410879c9
+ ¦   ¦   +-- d6
+ ¦   ¦   ¦   +-- 8a3f0dfed1cbaccbf2e98a7b5c665d92e94acd
+ ¦   ¦   ¦   +-- eb4c1fd06d2e32f8899ef9a78997b4ae84dc54
+ ¦   ¦   +-- d9
+ ¦   ¦   ¦   +-- b84c8befb04c28f87bbe6944ec55f4c76d4be2
+ ¦   ¦   +-- da
+ ¦   ¦   ¦   +-- 0220c7461994655c70c6140fe453c7bf0bd138
+ ¦   ¦   ¦   +-- a76e5969f9968ccaa4b8f87c37087919e971ae
+ ¦   ¦   +-- de
+ ¦   ¦   ¦   +-- 1c1ea8a7718187874a6dbbfb2c583602356d29
+ ¦   ¦   +-- e3
+ ¦   ¦   ¦   +-- 2b4cbc447b142b770fc347c74a965841a4baa7
+ ¦   ¦   +-- e4
+ ¦   ¦   ¦   +-- 45bd6b7a3b9a9e71dd81440a66bab2eeace3c5
+ ¦   ¦   +-- e5
+ ¦   ¦   ¦   +-- 3766066f2598d8ae694276b8e7710129e206da
+ ¦   ¦   +-- ee
+ ¦   ¦   ¦   +-- 1505b443a7fdfe0ffc0039474d4a3334a57ad4
+ ¦   ¦   ¦   +-- 4f5b1dc242ff27f6515ce7efef7348f8e15d74
+ ¦   ¦   +-- ef
+ ¦   ¦   ¦   +-- f1aad4e822c854ab66cbc37448ab08cb73076b
+ ¦   ¦   +-- f2
+ ¦   ¦   ¦   +-- e6bbdc5992252a4ceb653359564a5c1f60393e
+ ¦   ¦   +-- f6
+ ¦   ¦   ¦   +-- 53987a3dccd54695df85dc81a3ba7aba2bfabc
+ ¦   ¦   ¦   +-- b7a50d617fd245b1f2c766828ea2370d1de26d
+ ¦   ¦   +-- f7
+ ¦   ¦   ¦   +-- 02e74a46f12ceec24e16545e3188519c90122d
+ ¦   ¦   ¦   +-- ba6aaf39c8214cb6e487ed95678d3a0807f286
+ ¦   ¦   +-- f8
+ ¦   ¦   ¦   +-- 9eebf9fc889715641891f9c7fc46231a99096f
+ ¦   ¦   +-- f9
+ ¦   ¦   ¦   +-- e3b9be2e76bda11012088ea61505e832f59616
+ ¦   ¦   +-- fa
+ ¦   ¦   ¦   +-- 15c89fb5c4fa520f625f9c20d110ff0622629a
+ ¦   ¦   +-- fc
+ ¦   ¦   ¦   +-- e503d945f61e23723cc3b7d3a5409be1d7bef4
+ ¦   ¦   +-- fe
+ ¦   ¦   ¦   +-- e87d0e3bce914d3a594f62888fe77dbbfebb96
+ ¦   ¦   +-- ff
+ ¦   ¦   ¦   +-- d4267bbe75cf6c9c81195916a0bea18b7ae455
+ ¦   ¦   +-- info
+ ¦   ¦   +-- pack
+ ¦   ¦       +-- pack-0be23fd0535b137314db8abde1e6ce11518ecc20.idx
+ ¦   ¦       +-- pack-0be23fd0535b137314db8abde1e6ce11518ecc20.pack
+ ¦   +-- refs
+ ¦   ¦   +-- heads
+ ¦   ¦   ¦   +-- master
+ ¦   ¦   +-- remotes
+ ¦   ¦   ¦   +-- origin
+ ¦   ¦   ¦       +-- HEAD
+ ¦   ¦   ¦       +-- master
+ ¦   ¦   +-- tags
+ ¦   +-- COMMIT_EDITMSG
+ ¦   +-- config
+ ¦   +-- description
+ ¦   +-- FETCH_HEAD
+ ¦   +-- HEAD
+ ¦   +-- index
+ ¦   +-- ORIG_HEAD
+ ¦   +-- packed-refs
+ +-- bin
+ ¦   +-- parser.js
+ +-- node_modules
+ ¦   +-- commander
+ ¦   ¦   +-- typings
+ ¦   ¦   ¦   +-- index.d.ts
+ ¦   ¦   +-- CHANGELOG.md
+ ¦   ¦   +-- index.js
+ ¦   ¦   +-- LICENSE
+ ¦   ¦   +-- package.json
+ ¦   ¦   +-- Readme.md
+ ¦   +-- funclib
+ ¦   ¦   +-- funclib.core.js
+ ¦   ¦   +-- funclib.js
+ ¦   ¦   +-- funclib.min.js
+ ¦   ¦   +-- index.d.ts
+ ¦   ¦   +-- index.js
+ ¦   ¦   +-- package.json
+ ¦   ¦   +-- README.md
+ ¦   +-- progress
+ ¦       +-- lib
+ ¦       ¦   +-- node-progress.js
+ ¦       +-- CHANGELOG.md
+ ¦       +-- index.js
+ ¦       +-- LICENSE
+ ¦       +-- Makefile
+ ¦       +-- package.json
+ ¦       +-- Readme.md
+ +-- src
+ ¦   +-- base.js
+ ¦   +-- dir-parser.js
+ +-- .gitignore
+ +-- dir-parser.png
+ +-- index.js
+ +-- package-lock.json
+ +-- package.json
+ +-- parse.conf.json
+ +-- README.md
+ +-- test.js

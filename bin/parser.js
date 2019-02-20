@@ -5,7 +5,7 @@ const fn = require('funclib');
 const path = require('path');
 const program = require('commander');
 const package = require('../package.json');
-const parse = require('../src/dir-parser');
+const parser = require('../src/dir-parser');
 
 const dirInfoFile = 'dir-info.txt';
 
@@ -16,6 +16,7 @@ program.version(package.version)
   .option('-v, --version')
   .option('-d, --directory [directory]', 'Target directory, default: "./"')
   .option('-o, --output [output]', 'Output path, default: "./"')
+  .option('-l, --lineType [lineType]', 'Line type of tree (dashed | solid), default: solid')
   .option('-e, --excludes [excludes]', 'Exclude some directories or files by name')
   .option('-x, --excPaths [excPaths]', 'Exclude some directories or files by path')
   .option('-r, --patterns [patterns]', 'Exclude some directories or files by RegExp')
@@ -34,6 +35,9 @@ let target = program.directory
 let output = program.output
   || fn.get(config, 'output', 'str')
   || path.resolve('./');
+let lineType = program.lineType
+  || fn.get(config, 'lineType', 'str')
+  || 'solid';
 let excludes = program.excludes
   || fn.get(config, 'excludes', 'arr')
   || [];
@@ -91,7 +95,8 @@ excPaths.push(dirInfoFile);
 /**
  * Parse by options
  */
-parse(target, {
+parser(target, {
+  'lineType': lineType,
   'excludes': excludes,
   'excPaths': excPaths,
   'patterns': patterns,
