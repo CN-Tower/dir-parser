@@ -1,6 +1,6 @@
 # Dir Parser
 
-![npm](https://img.shields.io/npm/v/dir-parser.svg)
+[![npm](https://img.shields.io/npm/v/dir-parser.svg)](https://www.npmjs.com/package/dir-parser)
 
 Parse a directory and generate it's structure tree.
 
