@@ -1,6 +1,6 @@
 # Dir Parser
 
-[![npm](https://img.shields.io/npm/v/dir-parser.svg)
+![npm](https://img.shields.io/npm/v/dir-parser.svg)
 
 Parse a directory and generate it's structure tree.
 
@@ -38,10 +38,10 @@ Options:
 
 ### Parse your dir
 
-> $ cd your/demo/myapp<br>
+> $ cd your/demo/app<br>
 > $ parser
 ```
-myapp ( Directorys: 7, Files: 9 )
+app ( Directorys: 7, Files: 9 )
  ├─ bin
  │ └─ www
  ├─ public
@@ -64,7 +64,7 @@ myapp ( Directorys: 7, Files: 9 )
 
 > $ parser -l dashed -f
 ```
-myapp ( Directorys: 7, Files: 9 )
+app ( Directorys: 7, Files: 9 )
  +-- app.js
  +-- package.json
  +-- bin
@@ -113,6 +113,9 @@ Usage 03
 > $ vi parser.conf.json
 ```
 {
+  "filesFirst": false,
+  "noNum": false,
+  "silent": false,
   "directory": "your/demo/app",
   "output": "your/output/dir",
   "excludes": [ ".git", "node_modules" ]
@@ -129,6 +132,7 @@ Usage 03
   const parser = require('dir-parser');
 
   /**
+   * ============================================================
    * Get parsed dir-tree
    * ============================================================
    */
@@ -141,6 +145,7 @@ Usage 03
   });
   
   /**
+   * ============================================================
    * Get parsed dir-info (children & files)
    * ============================================================
    */
