@@ -30,7 +30,8 @@ function dirParser(target, options = {}) {
   }
 
   const isGetDirTree = fn.typeOf(options.dirTree, 'bol') ? options.dirTree : true;
-  const noNum = fn.get(options, 'noNum', 'bol');
+  const isFilesFirst = fn.get(options, 'filesFirst', 'bol');
+  const isNoNum = fn.get(options, 'noNum', 'bol');
   const isGetFiles = fn.get(options, 'files', 'bol');
   const isGetChildren = fn.get(options, 'children', 'bol');
   const lineType = fn.get(options, 'lineType', 'str') || 'solid';
@@ -65,6 +66,8 @@ function dirParser(target, options = {}) {
     });
   }
 
+  parseDir(target, tarInfo.children);
+
   /**
    * Parser The target directory
    * @param dirPath  string
@@ -96,72 +99,88 @@ function dirParser(target, options = {}) {
       }
     });
 
-    // handle directorys
-    let split = '';
-    let dirInfo = {};
-    subDirs.forEach((dir, i) => {
-      if (isGetChildren) {
-        dirInfo = new DirInfo(dir.name, dir.path);
-        dirs.push({
-          'path': dirInfo.path,
-          'info': dirInfo
-        });
-        children.push(dirInfo);
-      }
-      if (isGetDirTree) {
-        if (lineType === 'dashed') {
-          if (i < subDirs.length - 1 || subFiles.length > 0) {
-            dirTree += `${prev} +-- ${dir.name}\r\n`;
-            split = ' ¦  ';
-          } else {
-            dirTree += `${prev} +-- ${dir.name}\r\n`;
-            split = '    ';
-          }
-        } else {
-          if (i < subDirs.length - 1 || subFiles.length > 0) {
-            dirTree += `${prev} ├─ ${dir.name}\r\n`;
-            split = ' │';
-          } else {
-            dirTree += `${prev} └─ ${dir.name}\r\n`;
-            split = '  ';
-          }
-        }
-      }
-      const nextPath = path.join(dirPath, dir.name);
-      const nextMemb = isGetChildren ? dirInfo.children : children;
-      const nextDeep = deep + 1;
-      const nextSplit = prev + split;
-      parseDir(nextPath, nextMemb, nextDeep, nextSplit);
-    });
+    if (isFilesFirst) {
+      filesHandler();
+      directoriesHandler();
+    } else {
+      directoriesHandler();
+      filesHandler();
+    }
 
-    // Handle files
-    subFiles.forEach((file, i) => {
-      if (isGetChildren || isGetFiles) {
-        const fileInfo = new FileInfo(file.name, file.path);
-        if (isGetFiles) {
-          files.push(fileInfo);
-        }
+    /**
+     * handle directories
+     */
+    function directoriesHandler() {
+      let split = '';
+      let dirInfo = {};
+      subDirs.forEach((dir, i) => {
         if (isGetChildren) {
-          children.push(fileInfo);
+          dirInfo = new DirInfo(dir.name, dir.path);
+          dirs.push({
+            'path': dirInfo.path,
+            'info': dirInfo
+          });
+          children.push(dirInfo);
         }
-        filesSize += fileInfo.size;
-      }
-      if (isGetDirTree) {
-        if (lineType === 'dashed') {
-          if (i < subFiles.length - 1) {
-            dirTree += `${prev} +-- ${file.name}\r\n`;
+        if (isGetDirTree) {
+          if (lineType === 'dashed') {
+            if (i < subDirs.length - 1 || (!isFilesFirst && subFiles.length > 0)) {
+              dirTree += `${prev} +-- ${dir.name}\r\n`;
+              split = ' ¦  ';
+            } else {
+              dirTree += `${prev} +-- ${dir.name}\r\n`;
+              split = '    ';
+            }
           } else {
-            dirTree += `${prev} +-- ${file.name}\r\n`;
-          }
-        } else {
-          if (i < subFiles.length - 1) {
-            dirTree += `${prev} ├─ ${file.name}\r\n`;
-          } else {
-            dirTree += `${prev} └─ ${file.name}\r\n`;
+            if (i < subDirs.length - 1 || (!isFilesFirst && subFiles.length > 0)) {
+              dirTree += `${prev} ├─ ${dir.name}\r\n`;
+              split = ' │';
+            } else {
+              dirTree += `${prev} └─ ${dir.name}\r\n`;
+              split = '  ';
+            }
           }
         }
-      }
-    });
+        const nextPath = path.join(dirPath, dir.name);
+        const nextMemb = isGetChildren ? dirInfo.children : children;
+        const nextDeep = deep + 1;
+        const nextSplit = prev + split;
+        parseDir(nextPath, nextMemb, nextDeep, nextSplit);
+      });
+    }
+
+    /**
+     * Handle files
+     */
+    function filesHandler() {
+      subFiles.forEach((file, i) => {
+        if (isGetChildren || isGetFiles) {
+          const fileInfo = new FileInfo(file.name, file.path);
+          if (isGetFiles) {
+            files.push(fileInfo);
+          }
+          if (isGetChildren) {
+            children.push(fileInfo);
+          }
+          filesSize += fileInfo.size;
+        }
+        if (isGetDirTree) {
+          if (lineType === 'dashed') {
+            if (i < subFiles.length - 1 || (isFilesFirst && subDirs.length > 0)) {
+              dirTree += `${prev} +-- ${file.name}\r\n`;
+            } else {
+              dirTree += `${prev} +-- ${file.name}\r\n`;
+            }
+          } else {
+            if (i < subFiles.length - 1 || (isFilesFirst && subDirs.length > 0)) {
+              dirTree += `${prev} ├─ ${file.name}\r\n`;
+            } else {
+              dirTree += `${prev} └─ ${file.name}\r\n`;
+            }
+          }
+        }
+      });
+    }
 
     if (isGetChildren) {
       dirs.forEach(dir => {
@@ -178,8 +197,6 @@ function dirParser(target, options = {}) {
     }
   }
 
-  parseDir(target, tarInfo.children);
-
   if (!isGetChildren) {
     delete tarInfo.children;
     if (!isGetFiles) {
@@ -193,7 +210,7 @@ function dirParser(target, options = {}) {
     tarInfo.size_kb = calcSizekb(tarInfo.size);
   }
   if (isGetDirTree) {
-    if (noNum) {
+    if (isNoNum) {
       dirTree = `${tarName}\r\n${dirTree}`;
     } else {
       dirTree = `${tarName} ( Directorys: ${tarInfo.dirNum}, Files: ${tarInfo.fileNum} )\r\n${dirTree}`;

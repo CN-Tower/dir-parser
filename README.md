@@ -1,5 +1,7 @@
 # Dir Parser
 
+[![npm](https://img.shields.io/npm/v/dir-parser.svg)
+
 Parse a directory and generate it's structure tree.
 
 ## Quick Start
@@ -14,29 +16,32 @@ Parse a directory and generate it's structure tree.
 
 ### Get help
 
-> $ parse -h
+> $ parser -h
 ```
-Usage: index [options]
+Usage: parser [options]
+
 Options:
   -V, --version                output the version number
   -v, --version
   -d, --directory [directory]  Target directory, default: "./"
   -o, --output [output]        Output path, default: "./"
-  -e, --excludes [excludes]    Exclude some directories or files by name
-  -x, --excPaths [excPaths]    Exclude some directories or files by path
-  -r, --patterns [patterns]    Exclude some directories or files by RegExp
-  -c, --config [config]        Parser config file
-  -n, --noNum                  Don't show file and directory number
-  -s, --silent                 Don't print the parse-result in terminal
+  -l, --lineType [lineType]    Line type of tree (dashed | solid), default: solid.
+  -e, --excludes [excludes]    Exclude some directories or files by name.
+  -x, --excPaths [excPaths]    Exclude some directories or files by path.
+  -r, --patterns [patterns]    Exclude some directories or files by RegExp.
+  -c, --config [config]        Parser config file.
+  -f, --filesFirst             Print files first, before than directories.
+  -n, --noNum                  Not show file and directory number.
+  -s, --silent                 Not print the parse-result in terminal.
   -h, --help                   output usage information
 ```
 
 ### Parse your dir
 
-> $ cd your/demo/app<br>
-> $ parse
+> $ cd your/demo/myapp<br>
+> $ parser
 ```
-app ( Directorys: 7, Files: 9 )
+myapp ( Directorys: 7, Files: 9 )
  ├─ bin
  │ └─ www
  ├─ public
@@ -48,15 +53,37 @@ app ( Directorys: 7, Files: 9 )
  │ ├─ index.js
  │ └─ users.js
  ├─ views
- │ ├─ error.jade
- │ ├─ index.jade
- │ └─ layout.jade
+ │ ├─ error.pug
+ │ ├─ index.pug
+ │ └─ layout.pug
  ├─ app.js
  └─ package.json
 ```
+
 ### Parse your dir with params
 
-> $ parse -e bin,public -n -s<br>
+> $ parser -l dashed -f
+```
+myapp ( Directorys: 7, Files: 9 )
+ +-- app.js
+ +-- package.json
+ +-- bin
+ ¦   +-- www
+ +-- public
+ ¦   +-- images
+ ¦   +-- javascripts
+ ¦   +-- stylesheets
+ ¦       +-- style.css
+ +-- routes
+ ¦   +-- index.js
+ ¦   +-- users.js
+ +-- views
+     +-- error.pug
+     +-- index.pug
+     +-- layout.pug
+```
+
+> $ parser -e bin,public -n -s<br>
 > $ cat dir-info.txt
 ```
 app
@@ -75,11 +102,11 @@ app
 
 Usage 01
 *There should no white space in the excludes series!*
-> $ parse -e .git,node_modules -x bin/www
+> $ parser -e .git,node_modules -x bin/www
 
 Usage 02
 *There should no white space in the excludes Array!*
-> $ parse -e ['.git','node_modules']  -x ['bin/www']
+> $ parser -e ['.git','node_modules']  -x ['bin/www']
 
 Usage 03
 *Parse by a config file*
@@ -91,22 +118,22 @@ Usage 03
   "excludes": [ ".git", "node_modules" ]
 }
 ```
-> $ parse -c ./parser.conf.json
+> $ parser -c ./parser.conf.json
 
 ### Use dir-parser in javaScript code
 
-> $ npm install dir-parse funclib<br>
+> $ npm install dir-parser funclib<br>
 > $ vi test.js
 ```
   const fn = require('funclib');
-  const parse = require('dir-parser');
+  const parser = require('dir-parser');
 
   /**
    * Get parsed dir-tree
    * ============================================================
    */
   let excludes = ['.git', 'dir-info.txt', 'package-lock.json'];
-  parse('./', { excludes: excludes }).then(parsed => {
+  parser('./', { excludes: excludes }).then(parsed => {
     fn.log(parsed.dirTree, '# parsed.dirTree');
     fn.log(fn.pick(parsed, prop => prop !== 'dirTree'), '# parsed result info');
     // fn.log(parsed.children, '# parsed.children');
@@ -118,7 +145,7 @@ Usage 03
    * ============================================================
    */
   excludes = ['.git', 'node_modules', 'dir-info.txt', 'package-lock.json'];
-  parse('./', {
+  parser('./', {
     excludes: excludes,
     files: true,       // Default is false, If true, returns will conatins an array of all subfiles's info;
     children: true,    // Default is false, If true, returns will conatins an object of all children's info;
@@ -169,7 +196,7 @@ dir-parser ( Directorys: 8, Files: 30 )
  ├─ dir-parser.png
  ├─ index.js
  ├─ package.json
- ├─ parse.conf.json
+ ├─ parser.conf.json
  ├─ README.md
  └─ test.js
 ==================================================================
@@ -308,14 +335,14 @@ dir-parser ( Directorys: 8, Files: 30 )
     "absDir": "E:\\work\\code\\dir-parser"
   },
   {
-    "name": "parse.conf.json",
-    "base": "parse.conf",
+    "name": "parser.conf.json",
+    "base": "parser.conf",
     "ext": ".json",
     "type": "file",
     "size": 111,
     "size_kb": "0.11kb",
-    "path": "parse.conf.json",
-    "absPath": "E:\\work\\code\\dir-parser\\parse.conf.json",
+    "path": "parser.conf.json",
+    "absPath": "E:\\work\\code\\dir-parser\\parser.conf.json",
     "dir": "",
     "absDir": "E:\\work\\code\\dir-parser"
   },
@@ -436,14 +463,14 @@ dir-parser ( Directorys: 8, Files: 30 )
     "absDir": "E:\\work\\code\\dir-parser"
   },
   {
-    "name": "parse.conf.json",
-    "base": "parse.conf",
+    "name": "parser.conf.json",
+    "base": "parser.conf",
     "ext": ".json",
     "type": "file",
     "size": 111,
     "size_kb": "0.11kb",
-    "path": "parse.conf.json",
-    "absPath": "E:\\work\\code\\dir-parser\\parse.conf.json",
+    "path": "parser.conf.json",
+    "absPath": "E:\\work\\code\\dir-parser\\parser.conf.json",
     "dir": "",
     "absDir": "E:\\work\\code\\dir-parser"
   },

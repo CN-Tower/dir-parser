@@ -16,13 +16,14 @@ program.version(package.version)
   .option('-v, --version')
   .option('-d, --directory [directory]', 'Target directory, default: "./"')
   .option('-o, --output [output]', 'Output path, default: "./"')
-  .option('-l, --lineType [lineType]', 'Line type of tree (dashed | solid), default: solid')
-  .option('-e, --excludes [excludes]', 'Exclude some directories or files by name')
-  .option('-x, --excPaths [excPaths]', 'Exclude some directories or files by path')
-  .option('-r, --patterns [patterns]', 'Exclude some directories or files by RegExp')
-  .option('-c, --config [config]', 'Parser config file')
-  .option('-n, --noNum', 'Don\'t show file and directory number')
-  .option('-s, --silent', 'Don\'t print the parse-result in terminal')
+  .option('-l, --lineType [lineType]', 'Line type of tree (dashed | solid), default: solid.')
+  .option('-e, --excludes [excludes]', 'Exclude some directories or files by name.')
+  .option('-x, --excPaths [excPaths]', 'Exclude some directories or files by path.')
+  .option('-r, --patterns [patterns]', 'Exclude some directories or files by RegExp.')
+  .option('-c, --config [config]', 'Parser config file.')
+  .option('-f, --filesFirst', 'Print files first, before than directories.')
+  .option('-n, --noNum', 'Not show file and directory number.')
+  .option('-s, --silent', 'Not print the parse-result in terminal.')
   .parse(process.argv);
 
 let config = {};
@@ -47,8 +48,9 @@ let excPaths = program.excPaths
 let patterns = program.patterns
   || fn.get(config, 'patterns', 'arr')
   || [];
+const filesFirst = program.filesFirst || fn.get(config, 'filesFirst', 'bol');
 const noNum = program.noNum || fn.get(config, 'noNum', 'bol');
-const silent = program.silent;
+const silent = program.silent || fn.get(config, 'silent', 'bol');
 
 /**
  * Format the target and output
@@ -100,6 +102,7 @@ parser(target, {
   'excludes': excludes,
   'excPaths': excPaths,
   'patterns': patterns,
+  'filesFirst': filesFirst,
   'noNum': noNum
 }).then(
   parsed => {

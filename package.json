@@ -4,7 +4,6 @@
   "description": "Parse a directory and generate it's structure tree.",
   "main": "index.js",
   "bin": {
-    "parse": "./bin/parser.js",
     "parser": "./bin/parser.js"
   },
   "scripts": {
