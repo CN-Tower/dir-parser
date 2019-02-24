@@ -124,19 +124,62 @@ Usage 03
 `$ parser -c ./parser.conf.json`
 
 ### Use dir-parser in javaScript code
+```
+parser(dirPath: string, ptions: Options): Promise<Parsed>
 
+interface Options {
+  output?: string;               // path string
+  lineType?: 'solid' | 'dashed';
+  excludes?: Array<string>;      // eg: [ '.git', 'node_modules', '.idea' ];
+  excPaths?: Array<string>;      // eg: [ 'src/app' ];
+  patterns?: Array<string>;      // eg: [ 'src/*.js ]';
+  filesFirst?: boolean;
+  noNum?: boolean;
+  files?: boolean;
+  children?: boolean;
+  dirTree?: boolean;
+}
+
+interface Parsed extends DirInfo {
+  dirTree: string;
+  children: Array<DirInfo|FileInfo>
+  files: Array<FileInfo>
+}
+
+interface DirInfo {
+  name: string = name;
+  type: 'directory';
+  size: number;
+  size_kb: number;
+  path: string;
+  absPath: string;
+  dir: string;
+  absDir: string;
+  dirNum: number;
+  fileNum: number;
+  children: Array<DirInfo|FileInfo>
+}
+
+interface FileInfo {
+  name: string = name;
+  base: string = infos.name;
+  ext: string = infos.ext;
+  type: 'file';
+  size: number;
+  size_kb: number;
+  path: string;
+  absPath: string;
+  dir: string;
+  absDir: string;
+}
+```
 `$ npm install dir-parser funclib`<br>
 `$ vi test.js`
 ```
   const fn = require('funclib');
   const parser = require('dir-parser');
 
-  /**
-   * ============================================================
-   * Get parsed dir-tree
-   * ============================================================
-   */
-  let excludes = ['.git', 'dir-info.txt', 'package-lock.json'];
+  const excludes = ['.git', 'dir-info.txt', 'package-lock.json'];
   parser('./', {
     excludes: excludes,
     // lineType: 'dashed',
@@ -213,13 +256,10 @@ dir-parser ( directories: 8, Files: 30 )
 `$ npm install dir-parser funclib`<br>
 `$ vi test.js`
 ```
-  ...
-  /**
-   * ============================================================
-   * Get parsed dir-info (children & files)
-   * ============================================================
-   */
-  excludes = ['.git', 'node_modules', 'dir-info.txt', 'package-lock.json'];
+  const fn = require('funclib');
+  const parser = require('dir-parser');
+
+  const excludes = ['.git', 'node_modules', 'dir-info.txt', 'package-lock.json'];
   parser('./', {
     excludes: excludes,
     files: true,       // Default is false, If true, returns will conatins an array of all subfiles's info;
