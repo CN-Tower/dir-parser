@@ -12,11 +12,11 @@ Parse a directory and generate it's structure tree.
 
 ### Install dir-parser
 
-> $ npm install dir-parser -g
+`$ npm install dir-parser -g`
 
 ### Get help
 
-> $ parser -h
+`$ parser -h`
 ```
 Usage: parser [options]
 
@@ -38,10 +38,10 @@ Options:
 
 ### Parse your dir
 
-> $ cd your/demo/app<br>
-> $ parser
+`$ cd your/demo/app`<br>
+`$ parser`
 ```
-app ( Directorys: 7, Files: 9 )
+app ( directories: 7, Files: 9 )
  ├─ bin
  │ └─ www
  ├─ public
@@ -62,9 +62,9 @@ app ( Directorys: 7, Files: 9 )
 
 ### Parse your dir with params
 
-> $ parser -l dashed -f
+`$ parser -l dashed -f`
 ```
-app ( Directorys: 7, Files: 9 )
+app ( directories: 7, Files: 9 )
  +-- app.js
  +-- package.json
  +-- bin
@@ -83,8 +83,8 @@ app ( Directorys: 7, Files: 9 )
      +-- layout.pug
 ```
 
-> $ parser -e bin,public -n -s<br>
-> $ cat dir-info.txt
+`$ parser -e bin,public -n -s`<br>
+`$ cat dir-info.txt`
 ```
 app
  ├─ routes
@@ -102,15 +102,15 @@ app
 
 Usage 01
 *There should no white space in the excludes series!*
-> $ parser -e .git,node_modules -x bin/www
+`$ parser -e .git,node_modules -x bin/www`
 
 Usage 02
 *There should no white space in the excludes Array!*
-> $ parser -e ['.git','node_modules']  -x ['bin/www']
+`$ parser -e ['.git','node_modules']  -x ['bin/www']`
 
 Usage 03
 *Parse by a config file*
-> $ vi parser.conf.json
+`$ vi parser.conf.json`
 ```
 {
   "filesFirst": false,
@@ -121,12 +121,12 @@ Usage 03
   "excludes": [ ".git", "node_modules" ]
 }
 ```
-> $ parser -c ./parser.conf.json
+`$ parser -c ./parser.conf.json`
 
 ### Use dir-parser in javaScript code
 
-> $ npm install dir-parser funclib<br>
-> $ vi test.js
+`$ npm install dir-parser funclib`<br>
+`$ vi test.js`
 ```
   const fn = require('funclib');
   const parser = require('dir-parser');
@@ -137,35 +137,23 @@ Usage 03
    * ============================================================
    */
   let excludes = ['.git', 'dir-info.txt', 'package-lock.json'];
-  parser('./', { excludes: excludes }).then(parsed => {
+  parser('./', {
+    excludes: excludes,
+    // lineType: 'dashed',
+    // filesFirst: true,
+  }).then(parsed => {
     fn.log(parsed.dirTree, '# parsed.dirTree');
     fn.log(fn.pick(parsed, prop => prop !== 'dirTree'), '# parsed result info');
     // fn.log(parsed.children, '# parsed.children');
     // fn.log(parsed.files, '# parsed.files');
   });
-  
-  /**
-   * ============================================================
-   * Get parsed dir-info (children & files)
-   * ============================================================
-   */
-  excludes = ['.git', 'node_modules', 'dir-info.txt', 'package-lock.json'];
-  parser('./', {
-    excludes: excludes,
-    files: true,       // Default is false, If true, returns will conatins an array of all subfiles's info;
-    children: true,    // Default is false, If true, returns will conatins an object of all children's info;
-    dirTree: false     // Default is true, returns will conatins a tree of the directory;
-  }).then(parsed => {
-    fn.log(parsed.children, '# parsed.children');
-    fn.log(parsed.files, '# parsed.files');
-  });
 ```
-> $ node test.js
+`$ node test.js`
 ```
 ==================================================================
                   [17:06:57] # parsed.dirTree
 ------------------------------------------------------------------
-dir-parser ( Directorys: 8, Files: 30 )
+dir-parser ( directories: 8, Files: 30 )
  ├─ bin
  │ └─ parser.js
  ├─ node_modules
@@ -221,8 +209,29 @@ dir-parser ( Directorys: 8, Files: 30 )
   "fileNum": 30
 }
 ==================================================================
-
-
+```
+`$ npm install dir-parser funclib`<br>
+`$ vi test.js`
+```
+  ...
+  /**
+   * ============================================================
+   * Get parsed dir-info (children & files)
+   * ============================================================
+   */
+  excludes = ['.git', 'node_modules', 'dir-info.txt', 'package-lock.json'];
+  parser('./', {
+    excludes: excludes,
+    files: true,       // Default is false, If true, returns will conatins an array of all subfiles's info;
+    children: true,    // Default is false, If true, returns will conatins an object of all children's info;
+    dirTree: false     // Default is true, returns will conatins a tree of the directory;
+  }).then(parsed => {
+    fn.log(parsed.children, '# parsed.children');
+    fn.log(parsed.files, '# parsed.files');
+  });
+```
+`$ node test.js`
+```
 ==================================================================
                   [17:06:57] # parsed.children
 ------------------------------------------------------------------

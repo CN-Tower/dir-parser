@@ -79,7 +79,7 @@ function dirParser(target, options = {}) {
     const subFiles = [];
     let filesSize = 0;
 
-    // Classify directorys and files of the dirPath
+    // Classify directories and files of the dirPath
     fs.readdirSync(dirPath).forEach(path_ => {
       const iPath = path.join(dirPath, path_);
       const iPath_ = iPath.replace(/\\/mg, '/');
@@ -213,7 +213,7 @@ function dirParser(target, options = {}) {
     if (isNoNum) {
       dirTree = `${tarName}\r\n${dirTree}`;
     } else {
-      dirTree = `${tarName} ( Directorys: ${tarInfo.dirNum}, Files: ${tarInfo.fileNum} )\r\n${dirTree}`;
+      dirTree = `${tarName} ( directories: ${tarInfo.dirNum}, Files: ${tarInfo.fileNum} )\r\n${dirTree}`;
     }
     tarInfo.dirTree = dirTree.replace(/\r\n$/, '');
   }
