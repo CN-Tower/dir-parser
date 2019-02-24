@@ -1,40 +1,15 @@
-dir-parser ( Directorys: 8, Files: 31 )
- +-- bin
- ¦   +-- parser.js
- +-- node_modules
- ¦   +-- commander
- ¦   ¦   +-- typings
- ¦   ¦   ¦   +-- index.d.ts
- ¦   ¦   +-- CHANGELOG.md
- ¦   ¦   +-- index.js
- ¦   ¦   +-- LICENSE
- ¦   ¦   +-- package.json
- ¦   ¦   +-- Readme.md
- ¦   +-- funclib
- ¦   ¦   +-- funclib.core.js
- ¦   ¦   +-- funclib.js
- ¦   ¦   +-- funclib.min.js
- ¦   ¦   +-- index.d.ts
- ¦   ¦   +-- index.js
- ¦   ¦   +-- package.json
- ¦   ¦   +-- README.md
- ¦   +-- progress
- ¦       +-- lib
- ¦       ¦   +-- node-progress.js
- ¦       +-- CHANGELOG.md
- ¦       +-- index.js
- ¦       +-- LICENSE
- ¦       +-- Makefile
- ¦       +-- package.json
- ¦       +-- Readme.md
- +-- src
- ¦   +-- base.js
- ¦   +-- dir-parser.js
- +-- .gitignore
- +-- dir-parser.png
- +-- index.js
- +-- package-lock.json
- +-- package.json
- +-- parser.conf.json
- +-- README.md
- +-- test.js
+dir-parser ( directories: 2, Files: 12 )
+ ├─ bin
+ │ └─ parser.js
+ ├─ src
+ │ ├─ base.js
+ │ └─ dir-parser.js
+ ├─ .gitignore
+ ├─ dir-parser.png
+ ├─ index.d.ts
+ ├─ index.js
+ ├─ package-lock.json
+ ├─ package.json
+ ├─ parser.conf.json
+ ├─ README.md
+ └─ test.js

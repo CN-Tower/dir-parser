@@ -179,6 +179,11 @@ interface FileInfo {
   const fn = require('funclib');
   const parser = require('dir-parser');
 
+ /**
+  * ============================================================
+  * Get parsed dir-tree
+  * ============================================================
+  */
   const excludes = ['.git', 'dir-info.txt', 'package-lock.json'];
   parser('./', {
     excludes: excludes,
@@ -259,6 +264,11 @@ dir-parser ( directories: 8, Files: 30 )
   const fn = require('funclib');
   const parser = require('dir-parser');
 
+  /**
+   * ============================================================
+   * Get parsed dir-info (children & files)
+   * ============================================================
+   */
   const excludes = ['.git', 'node_modules', 'dir-info.txt', 'package-lock.json'];
   parser('./', {
     excludes: excludes,
