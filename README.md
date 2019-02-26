@@ -125,7 +125,7 @@ Usage 03
 
 ### Use dir-parser in javaScript code
 ```
-parser(dirPath: string, ptions: Options): Promise<Parsed>
+parser(dirPath: string, options: Options): Promise<Parsed>
 
 interface Options {
   output?: string;               // path string
