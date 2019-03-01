@@ -145,12 +145,12 @@ interface Options {
 
 interface Parsed extends DirInfo {
   dirTree: string;
-  children: Array<DirInfo|FileInfo>
+  children: Array<DirInfo | FileInfo>
   files: Array<FileInfo>
 }
 
 interface DirInfo {
-  name: string = name;
+  name: string;
   type: 'directory';
   size: number;
   size_kb: number;
@@ -160,13 +160,13 @@ interface DirInfo {
   absDir: string;
   dirNum: number;
   fileNum: number;
-  children: Array<DirInfo|FileInfo>
+  children: Array<DirInfo | FileInfo>
 }
 
 interface FileInfo {
-  name: string = name;
-  base: string = infos.name;
-  ext: string = infos.ext;
+  name: string;
+  base: string;
+  ext: string;
   type: 'file';
   size: number;
   size_kb: number;
