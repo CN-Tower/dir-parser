@@ -23,6 +23,7 @@ program.version(package.version)
   .option('-c, --config [config]', 'Parser config file.')
   .option('-f, --filesFirst', 'Print files first, before than directories.')
   .option('-n, --noNum', 'Not show file and directory number.')
+  .option('-g, --generate', 'Generate dir-info file under the output path.')
   .option('-s, --silent', 'Not print the parse-result in terminal.')
   .parse(process.argv);
 
@@ -51,6 +52,7 @@ let patterns = program.patterns
 const filesFirst = program.filesFirst || fn.get(config, 'filesFirst', 'bol');
 const noNum = program.noNum || fn.get(config, 'noNum', 'bol');
 const silent = program.silent || fn.get(config, 'silent', 'bol');
+const generate = program.generate || fn.get(config, 'generate', 'bol');
 
 /**
  * Format the target and output
@@ -107,7 +109,7 @@ parser(target, {
 }).then(
   parsed => {
     if (!silent) console.log(parsed.dirTree);
-    fn.wt(output, parsed.dirTree);
+    if (generate || silent) fn.wt(output, parsed.dirTree);
   },
   error => {
     console.log(fn.chalk(error.message, 'red'));

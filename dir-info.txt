@@ -1,6 +1,24 @@
-dir-parser ( directories: 2, Files: 12 )
+dir-parser ( directories: 7, Files: 25 )
  ├─ bin
  │ └─ parser.js
+ ├─ node_modules
+ │ ├─ commander
+ │ │ ├─ typings
+ │ │ │ └─ index.d.ts
+ │ │ ├─ CHANGELOG.md
+ │ │ ├─ index.js
+ │ │ ├─ LICENSE
+ │ │ ├─ package.json
+ │ │ └─ Readme.md
+ │ └─ progress
+ │   ├─ lib
+ │   │ └─ node-progress.js
+ │   ├─ CHANGELOG.md
+ │   ├─ index.js
+ │   ├─ LICENSE
+ │   ├─ Makefile
+ │   ├─ package.json
+ │   └─ Readme.md
  ├─ src
  │ ├─ base.js
  │ └─ dir-parser.js

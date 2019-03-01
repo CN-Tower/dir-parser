@@ -33,6 +33,7 @@ Options:
   -f, --filesFirst             Print files first, before than directories.
   -n, --noNum                  Not show file and directory number.
   -s, --silent                 Not print the parse-result in terminal.
+  -g, --generate               Generate dir-info file under the output path.
   -h, --help                   output usage information
 ```
 
@@ -83,7 +84,7 @@ app ( directories: 7, Files: 9 )
      +-- layout.pug
 ```
 
-`$ parser -e bin,public -n -s`<br>
+`$ parser -e bin,public -n -g -s`<br>
 `$ cat dir-info.txt`
 ```
 app
@@ -116,6 +117,7 @@ Usage 03
   "filesFirst": false,
   "noNum": false,
   "silent": false,
+  "generate": true,
   "directory": "your/demo/app",
   "output": "your/output/dir",
   "excludes": [ ".git", "node_modules" ]
