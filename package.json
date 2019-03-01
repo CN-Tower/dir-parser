@@ -1,6 +1,6 @@
 {
   "name": "dir-parser",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "Parse a directory and generate it's structure tree.",
   "main": "index.js",
   "bin": {

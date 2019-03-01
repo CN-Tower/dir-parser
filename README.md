@@ -124,6 +124,7 @@ Usage 03
 `$ parser -c ./parser.conf.json`
 
 ### Use dir-parser in javaScript code
+Interfaces
 ```
 parser(dirPath: string, options: Options): Promise<Parsed>
 
