@@ -23,8 +23,8 @@ program.version(package.version)
   .option('-c, --config [config]', 'Parser config file.')
   .option('-f, --filesFirst', 'Print files first, before than directories.')
   .option('-n, --noNum', 'Not show file and directory number.')
-  .option('-g, --generate', 'Generate dir-info file under the output path.')
   .option('-s, --silent', 'Not print the parse-result in terminal.')
+  .option('-g, --generate', 'Generate dir-info file under the output path.')
   .parse(process.argv);
 
 let config = {};
