@@ -84,7 +84,7 @@ app ( directories: 7, Files: 9 )
      +-- layout.pug
 ```
 
-`$ parser -e bin,public -n -g -s`<br>
+`$ parser -e bin,public -n -g`<br>
 `$ cat dir-info.txt`
 ```
 app
