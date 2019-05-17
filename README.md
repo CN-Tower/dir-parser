@@ -8,7 +8,7 @@ Parse a directory and generate it's structure tree.
 
 ### Demo Image
 
-![Dir Parser Demo](dir-parser.png)
+![Dir Parser Demo](dir-parser.jpg)
 
 ### Install dir-parser
 
