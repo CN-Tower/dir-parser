@@ -128,10 +128,14 @@ Usage 03
 ### Use dir-parser in javaScript code
 #### Interfaces
 ```
-/* Main Function */
+/**
+ * Main Function
+ */
 parser(dirPath: string, options: Options): Promise<Parsed>
 
-/* Options */
+/**
+ *Options
+ */
 interface options {
   output?: string;               // path string
   lineType?: 'solid' | 'dashed';
@@ -145,14 +149,18 @@ interface options {
   dirTree?: boolean;
 }
 
-/* Parse result */
+/**
+ * Parse result
+ */
 interface Parsed extends DirInfo {
   dirTree: string;
   children: Array<DirInfo | FileInfo>
   files: Array<FileInfo>
 }
 
-/* Directory Info */
+/**
+ * Directory Info
+ */
 interface DirInfo {
   name: string;
   type: 'directory';
@@ -167,7 +175,9 @@ interface DirInfo {
   children: Array<DirInfo | FileInfo>
 }
 
-/* File Info */
+/**
+ *File Info
+ */
 interface FileInfo {
   name: string;
   base: string;
