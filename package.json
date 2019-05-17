@@ -1,6 +1,6 @@
 {
   "name": "dir-parser",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "description": "Parse a directory and generate it's structure tree.",
   "main": "index.js",
   "bin": {
@@ -14,11 +14,27 @@
     "url": "git+https://github.com/CN-Tower/dir-parser.git"
   },
   "keywords": [
-    "dir-parser", "directory-parser", "dir-tree",
-    "directory-tree", "dir-info", "parse-dir",
-    "parse-directory", "tree", "dir", "directory",
-    "file", "files", "parse", "parser", "util", "utils",
-    "path", "paths", "filepath", "glob", "command"
+    "dir-parser",
+    "directory-parser",
+    "dir-tree",
+    "directory-tree",
+    "dir-info",
+    "parse-dir",
+    "parse-directory",
+    "tree",
+    "dir",
+    "directory",
+    "file",
+    "files",
+    "parse",
+    "parser",
+    "util",
+    "utils",
+    "path",
+    "paths",
+    "filepath",
+    "glob",
+    "command"
   ],
   "author": "CN-Tower",
   "license": "MIT",
