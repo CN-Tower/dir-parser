@@ -102,15 +102,15 @@ app
 ### Recommend usages
 
 Usage 01
-*There should no white space in the excludes series!*
+*There should no white space in the excludes series!*<br>
 `$ parser -e .git,node_modules -x bin/www`
 
 Usage 02
-*There should no white space in the excludes Array!*
+*There should no white space in the excludes Array!*<br>
 `$ parser -e ['.git','node_modules']  -x ['bin/www']`
 
 Usage 03
-*Parse by a config file*
+*Parse by a config file*<br>
 `$ vi parser.conf.json`
 ```
 {
@@ -126,11 +126,14 @@ Usage 03
 `$ parser -c ./parser.conf.json`
 
 ### Use dir-parser in javaScript code
-Interfaces
+#### Interfaces
+Main Function
 ```
 parser(dirPath: string, options: Options): Promise<Parsed>
-
-interface Options {
+```
+Options
+```
+interface options {
   output?: string;               // path string
   lineType?: 'solid' | 'dashed';
   excludes?: Array<string>;      // eg: [ '.git', 'node_modules', '.idea' ];
@@ -142,13 +145,17 @@ interface Options {
   children?: boolean;
   dirTree?: boolean;
 }
-
+```
+Parse result
+```
 interface Parsed extends DirInfo {
   dirTree: string;
   children: Array<DirInfo | FileInfo>
   files: Array<FileInfo>
 }
-
+```
+Directory Info
+```
 interface DirInfo {
   name: string;
   type: 'directory';
@@ -162,7 +169,10 @@ interface DirInfo {
   fileNum: number;
   children: Array<DirInfo | FileInfo>
 }
+```
+File Info
 
+```
 interface FileInfo {
   name: string;
   base: string;
@@ -176,30 +186,34 @@ interface FileInfo {
   absDir: string;
 }
 ```
+#### Usages in js
 `$ npm install dir-parser funclib`<br>
+`$ vi test.js`<br>
+
+##### Import Dependencies
+```
+const fn = require('funclib');
+const parser = require('dir-parser');
+// excludes list
+const excludes = ['.git', 'node_modules', 'dir-info.txt', 'package-lock.json'];
+```
+
+##### Generate dir Tree
 `$ vi test.js`
 ```
-  const fn = require('funclib');
-  const parser = require('dir-parser');
+parser('./', {
+  excludes: excludes,
+  // lineType: 'dashed',
+  // filesFirst: true,
+}).then(parsed => {
+  fn.log(parsed.dirTree, '# parsed.dirTree');
 
- /**
-  * ============================================================
-  * Get parsed dir-tree
-  * ============================================================
-  */
-  const excludes = ['.git', 'dir-info.txt', 'package-lock.json'];
-  parser('./', {
-    excludes: excludes,
-    // lineType: 'dashed',
-    // filesFirst: true,
-  }).then(parsed => {
-    fn.log(parsed.dirTree, '# parsed.dirTree');
-    fn.log(fn.pick(parsed, prop => prop !== 'dirTree'), '# parsed result info');
-    // fn.log(parsed.children, '# parsed.children');
-    // fn.log(parsed.files, '# parsed.files');
-  });
+  // fn.log(fn.pick(parsed, prop => prop !== 'dirTree'), '# parsed result info');
+  // fn.log(parsed.children, '# parsed.children');
+  // fn.log(parsed.files, '# parsed.files');
+});
 ```
-`$ node test.js`
+*Execute example:* `$ node test.js`
 ```
 ==================================================================
                   [17:06:57] # parsed.dirTree
@@ -244,8 +258,24 @@ dir-parser ( directories: 8, Files: 30 )
  ├─ README.md
  └─ test.js
 ==================================================================
-
-
+```
+##### Get parsed info
+`$ vi test.js`
+```
+parser('./', {
+  excludes: excludes,
+  // lineType: 'dashed',
+  // filesFirst: true,
+}).then(parsed => {
+  fn.log(fn.pick(parsed, prop => prop !== 'dirTree'), '# parsed result info');
+  
+  // fn.log(parsed.dirTree, '# parsed.dirTree');
+  // fn.log(parsed.children, '# parsed.children');
+  // fn.log(parsed.files, '# parsed.files');
+});
+```
+*Execute example:* `$ node test.js`
+```
 ==================================================================
                 [17:06:57] # parsed result info
 ------------------------------------------------------------------
@@ -261,29 +291,20 @@ dir-parser ( directories: 8, Files: 30 )
 }
 ==================================================================
 ```
-`$ npm install dir-parser funclib`<br>
+##### Get directory json
 `$ vi test.js`
 ```
-  const fn = require('funclib');
-  const parser = require('dir-parser');
-
-  /**
-   * ============================================================
-   * Get parsed dir-info (children & files)
-   * ============================================================
-   */
-  const excludes = ['.git', 'node_modules', 'dir-info.txt', 'package-lock.json'];
-  parser('./', {
-    excludes: excludes,
-    files: true,       // Default is false, If true, returns will conatins an array of all subfiles's info;
-    children: true,    // Default is false, If true, returns will conatins an object of all children's info;
-    dirTree: false     // Default is true, returns will conatins a tree of the directory;
-  }).then(parsed => {
-    fn.log(parsed.children, '# parsed.children');
-    fn.log(parsed.files, '# parsed.files');
-  });
+parser('./', {
+  excludes: excludes,
+  files: true,       // Default is false, If true, returns will conatins an array of all subfiles's info;
+  children: true,    // Default is false, If true, returns will conatins an object of all children's info;
+  dirTree: false     // Default is true, returns will conatins a tree of the directory;
+}).then(parsed => {
+  fn.log(parsed.children, '# parsed.children');
+  // fn.log(parsed.files, '# parsed.files');
+});
 ```
-`$ node test.js`
+*Execute example:* `$ node test.js`
 ```
 ==================================================================
                   [17:06:57] # parsed.children
@@ -439,8 +460,22 @@ dir-parser ( directories: 8, Files: 30 )
   }
 ]
 ==================================================================
-
-
+```
+##### Get directory json
+`$ vi test.js`
+```
+parser('./', {
+  excludes: excludes,
+  files: true,
+  children: true,
+  dirTree: false
+}).then(parsed => {
+  // fn.log(parsed.children, '# parsed.children');
+  fn.log(parsed.files, '# parsed.files');
+});
+```
+*Execute example:* `$ node test.js`
+```
 ==================================================================
                    [17:06:57] # parsed.files
 ------------------------------------------------------------------
