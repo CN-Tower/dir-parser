@@ -44,6 +44,6 @@
   "homepage": "https://github.com/CN-Tower/dir-parser#readme",
   "dependencies": {
     "commander": "^2.19.0",
-    "funclib": "^3.2.3"
+    "funclib": "^4.0.3"
   }
 }
