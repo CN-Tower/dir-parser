@@ -9,16 +9,18 @@ declare namespace parser {
   }
 
   interface Options {
-    output?: string;               // path string
+    output?: string;
     lineType?: 'solid' | 'dashed';
-    excludes?: Array<string>;      // eg: [ '.git', 'node_modules', '.idea' ];
-    excPaths?: Array<string>;      // eg: [ 'src/app' ];
-    patterns?: Array<string>;      // eg: [ 'src/*.js ]';
-    filesFirst?: boolean;
+    depth?: number;
     noNum?: boolean;
+    dirOnly?: boolean;
+    fileFirst?: boolean;
     files?: boolean;
     children?: boolean;
     dirTree?: boolean;
+    excludes?: Array<string>;      // eg: [ '.git', 'node_modules', '.idea' ];
+    excPaths?: Array<string>;      // eg: [ 'src/app' ];
+    patterns?: Array<string>;      // eg: [ 'src/*.js ]';
   }
 
   interface Parsed extends DirInfo {
