@@ -14,29 +14,34 @@ const dirInfoFile = 'dir-info.txt';
  */
 program.version(package.version)
   .option('-v, --version')
-  .option('-d, --directory [directory]', 'Target directory, default: "./"')
+  .option('-i, --input [input]', 'Target directory, default: "./"')
   .option('-o, --output [output]', 'Output path, default: "./"')
+  .option('-d, --depth [depth]', 'Depth of the directory (int, 0 means no limit), default: 0.')
   .option('-l, --lineType [lineType]', 'Line type of tree (dashed | solid), default: solid.')
   .option('-e, --excludes [excludes]', 'Exclude some directories or files by name.')
   .option('-x, --excPaths [excPaths]', 'Exclude some directories or files by path.')
   .option('-r, --patterns [patterns]', 'Exclude some directories or files by RegExp.')
   .option('-c, --config [config]', 'Parser config file.')
-  .option('-f, --filesFirst', 'Print files first, before than directories.')
-  .option('-n, --noNum', 'Not show file and directory number.')
-  .option('-s, --silent', 'Not print the parse-result in terminal.')
-  .option('-g, --generate', 'Generate dir-info file under the output path.')
+  .option('-S, --silent', 'Not print the parse-result in terminal.')
+  .option('-G, --generate', 'Generate dir-info file under the output path.')
+  .option('-N, --noNum', 'Not show file and directory number.')
+  .option('-D, --dirOnly', 'Only pase the directories.')
+  .option('-F, --fileFirst', 'Print files first, before than directories.')
   .parse(process.argv);
 
 let config = {};
 if (program.config) {
   config = require(path.resolve(program.config));
 }
-let target = program.directory
-  || fn.get(config, 'directory', 'str')
+let target = program.input
+  || fn.get(config, 'input', 'str')
   || path.resolve('./');
 let output = program.output
   || fn.get(config, 'output', 'str')
   || path.resolve('./');
+let depth = parseInt(program.depth)
+  || parseInt(fn.get(config, 'depth', 'str'))
+  || 0;
 let lineType = program.lineType
   || fn.get(config, 'lineType', 'str')
   || 'solid';
@@ -49,10 +54,16 @@ let excPaths = program.excPaths
 let patterns = program.patterns
   || fn.get(config, 'patterns', 'arr')
   || [];
-const filesFirst = program.filesFirst || fn.get(config, 'filesFirst', 'bol');
-const noNum = program.noNum || fn.get(config, 'noNum', 'bol');
 const silent = program.silent || fn.get(config, 'silent', 'bol');
 const generate = program.generate || fn.get(config, 'generate', 'bol');
+const noNum = program.noNum || fn.get(config, 'noNum', 'bol');
+const dirOnly = program.dirOnly || fn.get(config, 'dirOnly', 'bol');
+const fileFirst = program.fileFirst || fn.get(config, 'fileFirst', 'bol');
+
+// fn.log({
+//   target, output, depth, lineType, excludes, excPaths,
+//   patterns, silent, generate, noNum, fileFirst, dirOnly
+// }, '#Cmd Params');
 
 /**
  * Format the target and output
@@ -99,14 +110,7 @@ excPaths.push(dirInfoFile);
 /**
  * Parse by options
  */
-parser(target, {
-  'lineType': lineType,
-  'excludes': excludes,
-  'excPaths': excPaths,
-  'patterns': patterns,
-  'filesFirst': filesFirst,
-  'noNum': noNum
-}).then(
+parser(target, { depth, lineType, excludes, excPaths, patterns, noNum, dirOnly, fileFirst }).then(
   parsed => {
     if (!silent) console.log(parsed.dirTree);
     if (generate || silent) fn.wt(output, parsed.dirTree);

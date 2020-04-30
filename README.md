@@ -21,20 +21,22 @@ Parse a directory and generate it's structure tree.
 Usage: parser [options]
 
 Options:
-  -V, --version                output the version number
+  -V, --version              output the version number
   -v, --version
-  -d, --directory [directory]  Target directory, default: "./"
-  -o, --output [output]        Output path, default: "./"
-  -l, --lineType [lineType]    Line type of tree (dashed | solid), default: solid.
-  -e, --excludes [excludes]    Exclude some directories or files by name.
-  -x, --excPaths [excPaths]    Exclude some directories or files by path.
-  -r, --patterns [patterns]    Exclude some directories or files by RegExp.
-  -c, --config [config]        Parser config file.
-  -f, --filesFirst             Print files first, before than directories.
-  -n, --noNum                  Not show file and directory number.
-  -s, --silent                 Not print the parse-result in terminal.
-  -g, --generate               Generate dir-info file under the output path.
-  -h, --help                   output usage information
+  -i, --input [input]        Target directory, default: "./"
+  -o, --output [output]      Output path, default: "./"
+  -d, --depth [depth]        Depth of the directory (int, 0 means no limit), default: 0.
+  -l, --lineType [lineType]  Line type of tree (dashed | solid), default: solid.
+  -e, --excludes [excludes]  Exclude some directories or files by name.
+  -x, --excPaths [excPaths]  Exclude some directories or files by path.
+  -r, --patterns [patterns]  Exclude some directories or files by RegExp.
+  -c, --config [config]      Parser config file.
+  -S, --silent               Not print the parse-result in terminal.
+  -G, --generate             Generate dir-info file under the output path.
+  -N, --noNum                Not show file and directory number.
+  -D, --dirOnly              Only pase the directories.
+  -F, --fileFirst            Print files first, before than directories.
+  -h, --help                 output usage information
 ```
 
 ### Parse your dir
@@ -63,7 +65,18 @@ app ( directories: 7, Files: 9 )
 
 ### Parse your dir with params
 
-`$ parser -l dashed -f`
+`$ parser -d 1`
+```
+app ( directories: 4, Files: 2 )
+ ├─ bin
+ ├─ public
+ ├─ routes
+ ├─ views
+ ├─ app.js
+ └─ package.json
+```
+
+`$ parser -l dashed -F`
 ```
 app ( directories: 7, Files: 9 )
  +-- app.js
@@ -84,7 +97,7 @@ app ( directories: 7, Files: 9 )
      +-- layout.pug
 ```
 
-`$ parser -e bin,public -n -g`<br>
+`$ parser -e bin,public -N -G`<br>
 `$ cat dir-info.txt`
 ```
 app
@@ -114,7 +127,7 @@ Usage 03
 `$ vi parser.conf.json`
 ```
 {
-  "filesFirst": false,
+  "fileFirst": false,
   "noNum": false,
   "silent": false,
   "generate": true,
@@ -137,16 +150,18 @@ parser(dirPath: string, options: Options): Promise<Parsed>
  *Options
  */
 interface options {
-  output?: string;               // path string
+  output?: string;
   lineType?: 'solid' | 'dashed';
-  excludes?: Array<string>;      // eg: [ '.git', 'node_modules', '.idea' ];
-  excPaths?: Array<string>;      // eg: [ 'src/app' ];
-  patterns?: Array<string>;      // eg: [ 'src/*.js ]';
-  filesFirst?: boolean;
+  depth?: number;
   noNum?: boolean;
+  dirOnly?: boolean;
+  fileFirst?: boolean;
   files?: boolean;
   children?: boolean;
   dirTree?: boolean;
+  excludes?: Array<string>;      // eg: [ '.git', 'node_modules', '.idea' ];
+  excPaths?: Array<string>;      // eg: [ 'src/app' ];
+  patterns?: Array<string>;      // eg: [ 'src/*.js ]';
 }
 
 /**
@@ -209,7 +224,7 @@ const excludes = ['.git', 'node_modules', 'dir-info.txt', 'package-lock.json'];
 parser('./', {
   excludes: excludes,
   // lineType: 'dashed',
-  // filesFirst: true,
+  // fileFirst: true,
 }).then(parsed => {
   fn.log(parsed.dirTree, '# parsed.dirTree');
 
@@ -270,7 +285,7 @@ dir-parser ( directories: 8, Files: 30 )
 parser('./', {
   excludes: excludes,
   // lineType: 'dashed',
-  // filesFirst: true,
+  // fileFirst: true,
 }).then(parsed => {
   fn.log(fn.pick(parsed, prop => prop !== 'dirTree'), '# parsed result info');
   
