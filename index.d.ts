@@ -5,9 +5,17 @@ declare var parser: parser.Parser;
 
 declare namespace parser {
   interface Parser {
+    /**
+     * parser() main method
+     * @param dirPath { string }
+     * @param ptions { Options }
+     */
     (dirPath: string, ptions: Options): Promise<Parsed>
   }
 
+  /**
+   * options of dirparse 
+   */
   interface Options {
     output?: string;
     lineType?: 'solid' | 'dashed';
@@ -23,12 +31,19 @@ declare namespace parser {
     patterns?: Array<string>;      // eg: [ 'src/*.js ]';
   }
 
+  /**
+   * the pased result.
+   */
   interface Parsed extends DirInfo {
     dirTree: string;
     children: Array<DirInfo | FileInfo>
     files: Array<FileInfo>
   }
 
+
+  /**
+   * field of directory info.
+   */
   interface DirInfo {
     name: string;
     type: 'directory';
@@ -43,6 +58,9 @@ declare namespace parser {
     children: Array<DirInfo | FileInfo>
   }
 
+  /**
+   * field of file info.
+   */
   interface FileInfo {
     name: string;
     base: string;

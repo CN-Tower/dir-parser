@@ -4,6 +4,11 @@ const fn = require('funclib');
 const { DirInfo, FileInfo, calcSizekb } = require('./base');
 
 /**
+ * Order of common symbols.
+ */
+const symbolsOrder = ['_', '-', '(', ')', '@', '&', '#', '^', '+', '~', '$'];
+
+/**
  * Export a dir-parser promise
  * @param target  string
  * @param options object
@@ -19,33 +24,27 @@ module.exports = (target, options) => {
 };
 
 /**
- * Parse the target directory and generate it's structure tree.
- * @param target  string
- * @param options object
+ * Format excludes or includes
+ * @param {*} exs 
  */
-function dirParser(target, options = {}) {
+function fmtMatchs(exs) {
+  return fn.drop(exs.map(ex => fn.typeVal(ex, 'str')));
+}
 
-  if (!fs.statSync(target).isDirectory()) {
-    throw new Error('Target must be a directory!')
-  }
+/**
+ * Format paths
+ * @param {*} pts 
+ */
+function fmtPaths(pts) {
+  return fn.drop(pts.map(ex => fn.typeVal(ex, 'str') ? path.resolve(ex) : ''));
+}
 
-  const isGetDirTree = fn.typeOf(options.dirTree, 'bol') ? options.dirTree : true;
-  const isNoNum = fn.get(options, 'noNum', 'bol');
-  const isDirOnly = fn.get(options, 'dirOnly', 'bol');
-  const isFileFirst = fn.get(options, 'fileFirst', 'bol');
-  const isGetFiles = fn.get(options, 'files', 'bol');
-  const isGetChildren = fn.get(options, 'children', 'bol');
-  const lineType = fn.get(options, 'lineType', 'str') || 'solid';
-  let depth = fn.get(options, 'depth', 'num');
-  if (!fn.isNum(depth)) depth = 0;
-
-  let excludes = fn.get(options, 'excludes', 'arr') || [];
-  let excPaths = fn.get(options, 'excPaths', 'arr') || [];
-  excludes = fn.drop(excludes.map(ex => fn.typeVal(ex, 'str')));
-  excPaths = fn.drop(excPaths.map(ex => fn.typeVal(ex, 'str') ? path.resolve(ex) : ''));
-
-  let patterns = fn.get(options, 'patterns', 'arr') || [];
-  patterns = fn.drop(patterns.map(ptn => {
+/**
+ * Format patterns
+ * @param {*} ptns 
+ */
+function fmtPatterns(ptns) {
+  return fn.drop(ptns.map(ptn => {
     if (fn.typeOf(ptn, 'ptn')) {
       return ptn;
     } else if (fn.typeVal(ptn, 'str')) {
@@ -54,6 +53,34 @@ function dirParser(target, options = {}) {
       return '';
     }
   }));
+}
+
+/**
+ * Parse the target directory and generate it's structure tree.
+ * @param target  string
+ * @param options object
+ */
+function dirParser(target, options = {}) {
+  if (!fs.statSync(target).isDirectory()) throw new Error('Target must be a directory!')
+
+  const isGetDirTree = fn.typeOf(options.dirTree, 'bol') ? options.dirTree : true;
+  const isReverse = fn.get(options, 'reverse', 'bol');
+  const isNeedInfo = fn.get(options, 'needInfo', 'bol');
+  const isFileOnly = fn.get(options, 'fileOnly', 'bol');
+  const isDirOnly = fn.get(options, 'dirOnly', 'bol');
+  const isFileFirst = fn.get(options, 'fileFirst', 'bol');
+  const isGetFiles = fn.get(options, 'files', 'bol');
+  const isGetChildren = fn.get(options, 'children', 'bol');
+  const lineType = fn.get(options, 'lineType', 'str') || 'solid';
+  let depth = fn.get(options, 'depth', 'num');
+  if (!fn.isNum(depth)) depth = 0;
+
+  const excludes = fmtMatchs(fn.get(options, 'excludes', 'arr') || []);
+  const excPaths = fmtPaths(fn.get(options, 'excPaths', 'arr') || []);
+  const excPatterns = fmtPatterns(fn.get(options, 'excPatterns', 'arr') || []);
+  const includes = fmtMatchs(fn.get(options, 'includes', 'arr') || []);
+  const paths = fmtPaths(fn.get(options, 'paths', 'arr') || []);
+  const patterns = fmtPatterns(fn.get(options, 'patterns', 'arr') || []);
 
   let dirTree = '';
   const dirs = [];
@@ -63,10 +90,7 @@ function dirParser(target, options = {}) {
   const tarInfo = new DirInfo(tarName, target);
 
   if (isGetChildren) {
-    dirs.push({
-      'path': target,
-      'info': tarInfo
-    });
+    dirs.push({ path: target, info: tarInfo });
   }
 
   parseDir(target, tarInfo.children);
@@ -83,17 +107,25 @@ function dirParser(target, options = {}) {
     let filesSize = 0;
 
     // Classify directories and files of the dirPath
-    fs.readdirSync(dirPath).forEach(path_ => {
+    const dirPathArr = fs.readdirSync(dirPath);
+    let dirPaths = [];
+    symbolsOrder.forEach(symbol => {
+      dirPaths = dirPaths.concat(fn.filter(dirPathArr, path_ => path_.startsWith(symbol)));
+    });
+    dirPaths = dirPaths.concat(fn.reject(dirPathArr, path_ => {
+      return symbolsOrder.some(symbol => path_.startsWith(symbol));
+    }));
+    if (isReverse) {
+      dirPaths.reverse();
+    }
+    dirPaths.forEach(path_ => {
       const iPath = path.join(dirPath, path_);
       const iPath_ = iPath.replace(/\\/mg, '/');
       const isExclude = excludes.includes(path_) || excPaths.some(ePath => iPath === ePath);
-      const isRejects = isExclude || patterns.some(ptn => !!iPath.match(ptn) || !!iPath_.match(ptn));
+      const isRejects = isExclude || excPatterns.some(ptn => !!iPath.match(ptn) || !!iPath_.match(ptn));
       if (!isRejects) {
         const stat = fs.statSync(iPath);
-        const memberInfo = {
-          'name': path_,
-          'path': iPath
-        };
+        const memberInfo = { name: path_, path: iPath };
         if (stat.isDirectory()) {
           subDirs.push(memberInfo);
         } else if (stat.isFile()) {
@@ -121,10 +153,7 @@ function dirParser(target, options = {}) {
       subDirs.forEach((dir, i) => {
         if (isGetChildren) {
           dirInfo = new DirInfo(dir.name, dir.path);
-          dirs.push({
-            'path': dirInfo.path,
-            'info': dirInfo
-          });
+          dirs.push({ path: dirInfo.path, info: dirInfo });
           children.push(dirInfo);
         }
         if (isGetDirTree) {
@@ -218,7 +247,7 @@ function dirParser(target, options = {}) {
     tarInfo.size_kb = calcSizekb(tarInfo.size);
   }
   if (isGetDirTree) {
-    if (isNoNum) {
+    if (isNeedInfo) {
       dirTree = `${tarName}\r\n${dirTree}`;
     } else if (isDirOnly) {
       dirTree = `${tarName} ( directories: ${tarInfo.dirNum} )\r\n${dirTree}`;
