@@ -30,7 +30,7 @@ program.version(package.version)
   .option('--excPatterns <excPatterns...>', 'exclude directories or files by RegExp.')
   .option('--dirOnly', 'only pase the directories.')
   .option('--fileOnly', 'only pase the files.')
-  .option('--fileFirst', 'print files first, before than directories.')
+  .option('--fileFirst', 'print files first, before directories.')
   .option('--no-info', 'hide file and directory number on the result top.')
   .parse(process.argv);
 

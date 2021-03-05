@@ -108,13 +108,16 @@ function dirParser(target, options = {}) {
 
     // Classify directories and files of the dirPath
     const dirPathArr = fs.readdirSync(dirPath);
-    let dirPaths = [];
+    let dirPaths = [], i = -1;
     symbolsOrder.forEach(symbol => {
-      dirPaths = dirPaths.concat(fn.filter(dirPathArr, path_ => path_.startsWith(symbol)));
+      while (++i < dirPathArr.length) {
+        if (dirPathArr[i] && dirPathArr[i].startsWith(symbol)) {
+          dirPaths = dirPaths.concat(dirPathArr.splice(i, 1));
+          i --;
+        }
+      }
     });
-    dirPaths = dirPaths.concat(fn.reject(dirPathArr, path_ => {
-      return symbolsOrder.some(symbol => path_.startsWith(symbol));
-    }));
+    dirPaths = dirPaths.concat(dirPathArr);
     if (isReverse) {
       dirPaths.reverse();
     }
