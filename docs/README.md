@@ -1,20 +1,20 @@
-# Dir Parser
+# Dir Parser(文件解析工具)
 
 [![npm](https://img.shields.io/npm/v/dir-parser.svg)](https://www.npmjs.com/package/dir-parser)
 
-> Parse a directory and generate it's structure tree.
+> 解析一个文件夹并生成它的结构树
 
-## Quick Start
+## 快速开始
 
-### Demo Image
+### 示例图片
 
 ![Dir Parser Demo](images/dir-parser.jpg)
 
-### Install dir-parser
+### 安装 dir-parser
 
 `$ npm install dir-parser -g`
 
-### Get help
+### 打印帮助
 
 `$ parser -h`
 ```
@@ -45,7 +45,7 @@ Options:
   -h, --help                      output usage information
 ```
 
-### Parse your dir
+### 解析文件夹
 
 `$ cd your/demo/app`<br>
 `$ parser`
@@ -69,7 +69,7 @@ app ( directories: 7, Files: 9 )
  └─ package.json
 ```
 
-### Parse your dir with params
+### 根据参数解析文件夹
 
 `$ parser -d 1`
 ```
@@ -118,17 +118,17 @@ app
  └─ package.json
 ```
 
-### Recommend usages
+### 推荐用法
 
-Usage 01
+用例一：
 *There should no white space in the excludes series!*<br>
 `$ parser -e .git,node_modules -x bin/www`
 
-Usage 02
+用例二：
 *There should no white space in the excludes Array!*<br>
 `$ parser -e ['.git','node_modules']  -x ['bin/www']`
 
-Usage 03
+用例三：
 *Parse by a config file*<br>
 `$ vi parser.conf.json`
 ```
@@ -144,8 +144,9 @@ Usage 03
 ```
 `$ parser -c ./parser.conf.json`
 
-### Use dir-parser in javaScript code
-#### Interfaces
+### 在JavaScript代码中使用 dir-parser
+
+#### 接口
 ```
 /**
  * Main Function
@@ -217,10 +218,10 @@ interface FileInfo {
   absDir: string;
 }
 ```
-#### Usages in javaScript
+#### 在JavaScript中使用
 `$ npm install dir-parser funclib`
 
-##### Import Dependencies
+##### 导入依赖
 `$ vi test.js`
 ```
 const fn = require('funclib');
@@ -229,7 +230,7 @@ const parser = require('dir-parser');
 const excludes = ['.git', 'node_modules', 'dir-info.txt', 'package-lock.json'];
 ```
 
-##### Generate dir Tree
+##### 生成结构树
 `$ vi test.js`
 ```
 parser('./', {
@@ -244,7 +245,7 @@ parser('./', {
   // fn.log(parsed.files, '# parsed.files');
 });
 ```
-*Execute example:* `$ node test.js`
+*调用:* `$ node test.js`
 ```
 ==================================================================
                   [17:06:57] # parsed.dirTree
@@ -290,7 +291,7 @@ dir-parser ( directories: 8, Files: 30 )
  └─ test.js
 ==================================================================
 ```
-##### Get parsed info
+##### 获取解析结果
 `$ vi test.js`
 ```
 parser('./', {
@@ -322,7 +323,7 @@ parser('./', {
 }
 ==================================================================
 ```
-##### Get directory json
+##### 获取文件信息对象
 `$ vi test.js`
 ```
 parser('./', {
@@ -335,7 +336,7 @@ parser('./', {
   // fn.log(parsed.files, '# parsed.files');
 });
 ```
-*Execute example:* `$ node test.js`
+*调用:* `$ node test.js`
 ```
 ==================================================================
                   [17:06:57] # parsed.children
