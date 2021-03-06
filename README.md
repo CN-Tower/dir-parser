@@ -10,7 +10,7 @@
 Read this in other languages: English | [简体中文](./README_zh-CN.md)
 
 - [dir-parser](#dir-parser)
-  - [1. What Is dir-parser](#1-what-is-dir-parser)
+  - [1. What is dir-parser](#1-what-is-dir-parser)
     - [1.1 Brief introduce](#11-brief-introduce)
     - [1.2 Installation](#12-installation)
   - [2. Command Line](#2-command-line)
@@ -22,7 +22,7 @@ Read this in other languages: English | [简体中文](./README_zh-CN.md)
     - [3.2 Get dir-tree](#32-get-dir-tree)
     - [3.3 Get dir-info](#33-get-dir-info)
 
-## 1. What Is dir-parser
+## 1. What is dir-parser
 
 <p align="center">
   <img width="80%;" src="images/demo.png">
@@ -33,11 +33,11 @@ Dir parser is a powerful folder analysis tool based on nodejs, which can be used
 
 ### 1.2 Installation
 
-#### 1.2.1 Global Install
+#### 1.2.1 Global install
 - yarn: `$ yarn global add dir-parser`
 - npm: `$ npm install -g dir-parser`
 
-#### 1.2.2 Local Install
+#### 1.2.2 Local install
 - yarn: `$ yarn add dir-parser` or `$ yarn add dir-parser -D`
 - npm: `$ npm install dir-parser` or `$ npm install dir-parser -D`
 
