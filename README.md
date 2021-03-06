@@ -7,9 +7,9 @@
 
 > Parse a directory and generate it's structure tree.
 
-Read this in other languages: English | [简体中文](./README_zh-CN.md)
-
 ![Dir Parser Demo](images/demo.png)
+
+Read this in other languages: English | [简体中文](./README_zh-CN.md)
 
 - [dir-parser](#dir-parser)
   - [1. What Is dir-parser](#1-what-is-dir-parser)
