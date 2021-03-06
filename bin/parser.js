@@ -7,11 +7,6 @@ const program = require('commander');
 const package = require('../package.json');
 const parser = require('../src/dir-parser');
 
-const dirInfoFile = 'dir-info.txt';
-
-/**
- * Get command arguments
- */
 program.version(package.version)
   .option('-v, --version', 'output the version number')
   .option('-c, --config [config]', 'config file, Optional.')
@@ -39,17 +34,17 @@ if (program.config) {
   config = require(path.resolve(program.config));
 }
 
-let target        = program.input || fn.get(config, 'input', 'str') || path.resolve('./');
-let output        = program.output || fn.get(config, 'output', 'str') || path.resolve('./');
-let lineType      = program.lineType || fn.get(config, 'lineType', 'str') || 'solid';
-let depth         = parseInt(program.depth) || parseInt(fn.get(config, 'depth', 'str')) || 0;
-const excludes    = excHandler(program.excludes || fn.get(config, 'excludes', 'arr') || [], 'excludes');
-const excPaths    = excHandler(program.excPaths || fn.get(config, 'excPaths', 'arr') || [], 'excPaths');
-const excPatterns = excHandler(program.excPatterns || fn.get(config, 'excPatterns', 'arr') || [], 'excPatterns');
-const includes    = excHandler(program.includes || fn.get(config, 'includes', 'arr') || [], 'includes');
-const paths       = excHandler(program.paths || fn.get(config, 'paths', 'arr') || [], 'paths');
-const patterns    = excHandler(program.patterns || fn.get(config, 'patterns', 'arr') || [], 'patterns');
-const generate    = program.generate || fn.get(config, 'generate', 'bol');
+const target      = rmQuote(program.input || fn.get(config, 'input', 'str') || path.resolve('./'));
+const output      = rmQuote(program.output || fn.get(config, 'output', 'str') || path.resolve('./'));
+const lineType    = program.lineType || fn.get(config, 'lineType', 'str') || 'solid';
+const depth       = parseInt(program.depth) || parseInt(fn.get(config, 'depth', 'str')) || 0;
+const excludes    = matchHandler(program.excludes || fn.get(config, 'excludes', 'arr') || [], 'excludes');
+const excPaths    = matchHandler(program.excPaths || fn.get(config, 'excPaths', 'arr') || [], 'excPaths');
+const excPatterns = matchHandler(program.excPatterns || fn.get(config, 'excPatterns', 'arr') || [], 'excPatterns');
+const includes    = matchHandler(program.includes || fn.get(config, 'includes', 'arr') || [], 'includes');
+const paths       = matchHandler(program.paths || fn.get(config, 'paths', 'arr') || [], 'paths');
+const patterns    = matchHandler(program.patterns || fn.get(config, 'patterns', 'arr') || [], 'patterns');
+const generate    = program.generate || fn.get(config, 'generate');
 const reverse     = program.reverse || fn.get(config, 'reverse', 'bol');
 const silent      = program.silent || fn.get(config, 'silent', 'bol');
 const dirOnly     = program.dirOnly || fn.get(config, 'dirOnly', 'bol');
@@ -57,15 +52,8 @@ const fileOnly    = program.fileOnly || fn.get(config, 'fileOnly', 'bol');
 const fileFirst   = program.fileFirst || fn.get(config, 'fileFirst', 'bol');
 const info        = program.info || fn.get(config, 'info', 'bol');
 const needInfo    = fn.isBol(info) ? info : true;
+const outputName = fn.isStr(generate) && generate || 'dir-info.txt';
 
-/**
- * Format the target and output
- */
-function rmQuote(str) {
-  return str.replace(/^['"`]|['"`]$/mg, '');
-}
-target = rmQuote(target);
-output = rmQuote(output);
 if (!fs.statSync(target).isDirectory()) {
   throw new Error('Target must be a directory!')
 }
@@ -74,36 +62,46 @@ if (!outputStat.isDirectory() && !outputStat.isFile()) {
   throw new Error('Output must be a file or a directory!')
 }
 if (outputStat.isDirectory()) {
-  outputFile = path.join(output, dirInfoFile)
+  outputFile = path.join(output, outputName)
 }
 excPaths.push(outputFile);
 
 /**
- * Format the exculds
+ * Format the target and output
  */
-function excHandler(exc, type_) {
-  if (fn.typeOf(exc, 'str')) {
-    exc = rmQuote(exc);
-    if (exc.startsWith('[')) {
-      try {
-        eval('exc =' + exc);
-      } catch (e) {
-        exc = fn.get(config, type_, 'arr') || [];
-      }
-    } else {
-      exc = exc.split(',');
-    }
-  }
-  return fn.toArr(exc);
+function rmQuote(str) {
+  return str.replace(/^['"`]|['"`]$/mg, '');
 }
 
-fn.log({
-  target, output, depth, lineType, excludes, excPaths, excPatterns, includes,
-  paths, patterns, reverse, silent, generate, needInfo, dirOnly, fileOnly, fileFirst
-}, '#Cmd Params');
+/**
+ * Format the matchs
+ */
+function matchHandler(match, type_) {
+  if (fn.typeOf(match, 'str')) {
+    match = rmQuote(match);
+    if (match.startsWith('[')) {
+      try {
+        eval('match =' + match);
+      } catch (e) {
+        match = fn.get(config, type_, 'arr') || [];
+      }
+    } else {
+      match = match.split(',');
+    }
+  }
+  return fn.toArr(match);
+}
 
 /**
- * Parse by options
+ * Log the parameters
+ */
+// fn.log({
+//   target, output, depth, lineType, excludes, excPaths, excPatterns, includes,
+//   paths, patterns, reverse, silent, generate, needInfo, dirOnly, fileOnly, fileFirst
+// }, '#Cmd Params');
+
+/**
+ * Parse target dir by options
  */
 parser(target, {
   depth, reverse, lineType, excludes, excPaths, excPatterns,

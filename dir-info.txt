@@ -1,15 +1,18 @@
-dir-parser ( directories: 2, Files: 12 )
+dir-parser
  ├─ bin
  │ └─ parser.js
+ ├─ images
+ │ └─ dir-parser.jpg
  ├─ src
  │ ├─ base.js
  │ └─ dir-parser.js
+ ├─ test
+ │ └─ test.js
  ├─ .gitignore
- ├─ dir-parser.png
+ ├─ README.md
+ ├─ dir-info.txt
  ├─ index.d.ts
  ├─ index.js
  ├─ package-lock.json
  ├─ package.json
- ├─ parser.conf.json
- ├─ README.md
- └─ test.js
+ └─ parser.conf.json

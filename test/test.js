@@ -1,5 +1,5 @@
 const fn = require('funclib');
-const parser = require('./index');
+const parser = require('../index');
 
 /**
  * ============================================================
