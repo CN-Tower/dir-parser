@@ -1,4 +1,4 @@
-<h1 align="center">👍 Dir Parser 👍</h1>
+<h1 align="center">😎 Dir Parser 😎</h1>
 <p align="center">
   <img width="80%;" src="images/demo.png">
 </p>
@@ -30,7 +30,7 @@ Read this in other languages: English | [简体中文](./README_zh-CN.md)
 ## 1. What is dir-parser
 
 ### 1.1 Brief introduce
-Dir parser is a powerful folder analysis tool based on nodejs, which can be used in command line or JavaScript code. There are many practical parameters that can be set to help you get the formatted folder tree and internal information.
+👍👍👍Dir parser is a powerful folder analysis tool based on nodejs, which can be used in command line or JavaScript code. There are many practical parameters that can be set to help you get the formatted folder tree and internal information.
 
 ### 1.2 Installation
 
