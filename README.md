@@ -1,9 +1,12 @@
 # dir-parser
 
+<p align="center">
+ 
 [![npm](https://img.shields.io/npm/v/dir-parser.svg)](https://www.npmjs.com/package/dir-parser)
 [![LICENSE MIT](https://img.shields.io/npm/l/dir-parser.svg)](https://www.npmjs.com/package/dir-parser) 
 [![NPM Downloads](https://img.shields.io/npm/dm/dir-parser.svg?style=flat)](https://npmcharts.com/compare/dir-parser?minimal=true)
 [![Install Size](https://packagephobia.now.sh/badge?p=dir-parser)](https://packagephobia.now.sh/result?p=dir-parser)
+</p>
 
 > Parse a directory and generate it's structure tree.
 
@@ -25,7 +28,7 @@ Read this in other languages: English | [简体中文](./README_zh-CN.md)
 ## 1. What is dir-parser
 
 <p align="center">
-  Example Image<br>
+  [Example Image]<br><br>
   <img width="80%;" src="images/demo.png">
 </p>
 
