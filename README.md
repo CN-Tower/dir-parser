@@ -22,12 +22,14 @@ Read this in other languages: English | [简体中文](./README_zh-CN.md)
     - [2.1 Print help info](#21-print-help-info)
     - [2.2 Generate dir-tree](#22-generate-dir-tree)
     - [2.3 With parameters](#23-with-parameters)
+  
 | :----- | :----- | :----- |
 | [2.3.1 excludes](#231-excludes) | [2.3.2 ignores](#232-ignores) | [2.3.3 patterns](#233-patterns) |
 | [2.3.4 lineType](#234-lineType) | [2.3.5 depth](#235-depth) | [2.3.5 depth](#235-depth) |
 | [2.3.6 reverse](#236-reverse) | [2.3.7 fileFirst](#237-fileFirst) | [2.3.8 fileOnly](#238-fileOnly) |
 | 单元格 | 单元格 | 单元格 |
 | 单元格 | 单元格 | 单元格 |
+
       - [2.3.9 dirOnly](#239-dirOnly)
       - [2.3.10 dirInfo](#2310-dirInfo)
       - [2.3.11 excPaths](#2311-excPaths)
