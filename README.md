@@ -37,10 +37,24 @@ Read this in other languages: English | [简体中文](./README_zh-CN.md)
       - [2.3.13 silent](#2313-silent)
       - [2.3.14 generate](#2314-generate)
       - [2.3.15 config](#2315-config)
+    - [2.4 Use multiple commands together](#24-use-multiple-commands-together)
   - [3. In JavaScript](#3-in-javascript)
     - [3.1 Interface](#31-interface)
+      - [3.1.1 Main function](#311-main-function)
+      - [3.1.2 Options](#312-options)
+      - [3.1.3 Parsed result](#313-parsed-result)
+      - [3.1.4 Directory info](#314-directory-info)
+      - [3.1.5 File info](#315-file-info)
     - [3.2 Get dir-tree](#32-get-dir-tree)
+      - [3.2.1 Make dir-tree example](#32-make-dir-tree-example)
+      - [3.2.2 Run dir-tree example](#32-run-dir-tree-example)
     - [3.3 Get dir-info](#33-get-dir-info)
+      - [3.3.1 Make dir-info example](#331-make-dir-info-example)
+      - [3.3.2 Run dir-info example](#332-run-dir-info-example)
+      - [3.3.3 Make dir-children example](#333-make-dir-children-example)
+      - [3.3.4 Run dir-children example](#334-run-dir-children-example)
+      - [3.3.5 Make dir-files example](#335-make-dir-files-example)
+      - [3.3.6 Run dir-files example](#336-run-dir-files-example)
 
 ## 1. What is dir-parser
 
@@ -356,6 +370,7 @@ myapp ( directories: 2, Files: 7 )
 
 #### 2.3.15 config
 👉 Config file, Optional.<br>
+`$ touch parser.conf.json`<br>
 `$ vi parser.conf.json`
 ```json
 {
@@ -380,12 +395,32 @@ myapp ( directories: 2, Files: 8 )
  └─ package.json
 ```
 
+### 2.4 Use multiple commands together
+`parser -e node_modules,bin -I views -d 2 -Nr`
+```
+myapp
+ ├─ views/
+ ├─ routes
+ │ ├─ users.js
+ │ └─ index.js
+ ├─ public
+ │ ├─ stylesheets/*
+ │ ├─ javascripts/
+ │ └─ images/
+ ├─ parser.conf.json
+ ├─ package.json
+ └─ app.js
+```
+
 ## 3. In JavaScript
-### 3.1 Interfaces
+
+### 3.1 Interface
+
 #### 3.1.1 Main Function
 ```ts
 parser(dirPath: string, options: Options): Promise<Parsed>
 ```
+
 #### 3.1.2 Options
 ```ts
 interface options {             
@@ -408,7 +443,7 @@ interface options {
   patterns?: Array<string>;      // eg: [ '*.js ]';
 }
 ```
-#### 3.1.3 Parsed Result
+#### 3.1.3 Parsed result
 ```ts
 interface Parsed extends DirInfo {
   dirTree: string;
@@ -416,6 +451,7 @@ interface Parsed extends DirInfo {
   files: Array<FileInfo>
 }
 ```
+
 #### 3.1.4 Directory Info
 ```ts
 interface DirInfo {
@@ -432,7 +468,8 @@ interface DirInfo {
   children: Array<DirInfo | FileInfo>
 }
 ```
-#### 3.1.4 File Info
+
+#### 3.1.5 File info
 ```ts
 interface FileInfo {
   name: string;
@@ -450,21 +487,14 @@ interface FileInfo {
 
 ### 3.2 Get dir-tree
 
-
-
-#### 1.2.3 Install demo dependencies
-
-`$ vi test.js`
+#### 3.2.1 Make dir-tree example
+`$ npm install funclib`<br>
+`$ touch test.js`<br>
+`$ vi test.js`<br>
 ```js
 const fn = require('funclib');
 const parser = require('dir-parser');
-// excludes list
-const excludes = ['.git', 'node_modules', 'dir-info.txt', 'package-lock.json'];
-```
 
-##### Generate dir Tree
-`$ vi test.js`
-```js
 parser('./', {
   excludes: excludes,
   // lineType: 'dashed',
@@ -477,7 +507,9 @@ parser('./', {
   // fn.log(parsed.files, '# parsed.files');
 });
 ```
-*Execute example:* `$ node test.js`
+
+#### 3.2.2 Run dir-tree example
+`$ node test.js`
 ```
 ==================================================================
                   [17:06:57] # parsed.dirTree
@@ -523,9 +555,12 @@ dir-parser ( directories: 8, Files: 30 )
  └─ test.js
 ==================================================================
 ```
-#### 3.3 Get dir-info
+
+### 3.3 Get dir-info
+
+#### 3.3.1 Make dir-info example 
 `$ vi test.js`
-```
+```js
 parser('./', {
   excludes: excludes,
   // lineType: 'dashed',
@@ -538,7 +573,8 @@ parser('./', {
   // fn.log(parsed.files, '# parsed.files');
 });
 ```
-*Execute example:* `$ node test.js`
+#### 3.3.2 Run dir-info example 
+`$ node test.js`
 ```
 ==================================================================
                 [17:06:57] # parsed result info
@@ -555,9 +591,10 @@ parser('./', {
 }
 ==================================================================
 ```
-##### Get directory json
+
+#### 3.3.3 Make dir-children example 
 `$ vi test.js`
-```
+```js
 parser('./', {
   excludes: excludes,
   getFiles: true,    // Default is false, If true, returns will conatins an array of all subfiles's info;
@@ -568,8 +605,10 @@ parser('./', {
   // fn.log(parsed.files, '# parsed.files');
 });
 ```
-*Execute example:* `$ node test.js`
-```
+
+#### 3.3.4 Run dir-children example 
+`$ node test.js`
+```json
 ==================================================================
                   [17:06:57] # parsed.children
 ------------------------------------------------------------------
@@ -725,9 +764,10 @@ parser('./', {
 ]
 ==================================================================
 ```
-##### Get directory json
+
+#### 3.3.5 Make dir-files example 
 `$ vi test.js`
-```
+```js
 parser('./', {
   excludes: excludes,
   getFiles: true,
@@ -738,8 +778,10 @@ parser('./', {
   fn.log(parsed.files, '# parsed.files');
 });
 ```
-*Execute example:* `$ node test.js`
-```
+
+#### 3.3.6 Run dir-files example 
+`$ node test.js`
+```json
 ==================================================================
                    [17:06:57] # parsed.files
 ------------------------------------------------------------------
