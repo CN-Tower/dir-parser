@@ -4,7 +4,7 @@
 
 > 解析一个文件夹并生成它的结构树
 
-使用其它语言阅读: [English](./) | 简体中文
+使用其它语言阅读: [English](https://github.com/CN-Tower/dir-parser) | 简体中文
 
 ## 快速开始
 
