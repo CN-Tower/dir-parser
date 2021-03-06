@@ -566,7 +566,7 @@ parser('./', {
   // lineType: 'dashed',
   // fileFirst: true,
 }).then(parsed => {
-  fn.log(fn.pick(parsed, prop => prop !== 'dirTree'), '# parsed result info');
+  console.log(fn.pretty(fn.pick(parsed, prop => prop !== 'dirTree')));
   
   // fn.log(parsed.dirTree, '# parsed.dirTree');
   // fn.log(parsed.children, '# parsed.children');
@@ -575,10 +575,7 @@ parser('./', {
 ```
 #### 3.3.2 Run dir-info example 
 `$ node test.js`
-```
-==================================================================
-                [17:06:57] # parsed result info
-------------------------------------------------------------------
+```json
 {
   "name": "dir-parser",
   "type": "directory",
@@ -589,7 +586,6 @@ parser('./', {
   "dirNum": 8,
   "fileNum": 30
 }
-==================================================================
 ```
 
 #### 3.3.3 Make dir-children example 
@@ -601,7 +597,7 @@ parser('./', {
   getChildren: true, // Default is false, If true, returns will conatins an object of all children's info;
   dirTree: false     // Default is true, returns will conatins a tree of the directory;
 }).then(parsed => {
-  fn.log(parsed.children, '# parsed.children');
+  console.log(fn.pretty(parsed.children));
   // fn.log(parsed.files, '# parsed.files');
 });
 ```
@@ -609,9 +605,6 @@ parser('./', {
 #### 3.3.4 Run dir-children example 
 `$ node test.js`
 ```json
-==================================================================
-                  [17:06:57] # parsed.children
-------------------------------------------------------------------
 [
   {
     "name": "bin",
@@ -762,7 +755,6 @@ parser('./', {
     "absDir": "E:\\work\\code\\dir-parser"
   }
 ]
-==================================================================
 ```
 
 #### 3.3.5 Make dir-files example 
@@ -775,16 +767,13 @@ parser('./', {
   dirTree: false
 }).then(parsed => {
   // fn.log(parsed.children, '# parsed.children');
-  fn.log(parsed.files, '# parsed.files');
+  console.log(fn.pretty(parsed.files));
 });
 ```
 
 #### 3.3.6 Run dir-files example 
 `$ node test.js`
 ```json
-==================================================================
-                   [17:06:57] # parsed.files
-------------------------------------------------------------------
 [
   {
     "name": "parser.js",
@@ -907,5 +896,4 @@ parser('./', {
     "absDir": "E:\\work\\code\\dir-parser"
   }
 ]
-==================================================================
 ```
