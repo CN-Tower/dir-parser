@@ -1,4 +1,4 @@
-<h1 align="center">😎 Dir Parser 😎</h1>
+<h1 align="center">👍 Dir Parser 👍</h1>
 <p align="center">
   <img width="80%;" src="images/demo.png">
 </p>
