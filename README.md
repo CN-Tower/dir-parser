@@ -104,10 +104,12 @@ myapp ( directories: 7, Files: 9 )
 ### 2.3 With parameters
 
 #### 2.3.1 excludes
-exclude some directories or files by name.<br>
+👉exclude some directories or files by name.<br>
 `$ # git init`<br>
 `$ npm install`<br>
-`$ parser -e .git,node_modules,public` (or: `$ parser --excludes .git,node_modules,public`)
+`$ parser -e .git,node_modules,public`<br>
+Or:<br>
+`$ parser --excludes .git,node_modules,public`)
 ```
 myapp ( directories: 3, Files: 8 )
  ├─ bin
@@ -124,8 +126,10 @@ myapp ( directories: 3, Files: 8 )
 ```
 
 #### 2.3.1 ignores
-ignore some directories or files by name.<br>
-`$ parser -e node_modules -I bin,public` (or: `$ parser -e node_modules --ignores bin,public`)
+👉ignore some directories or files by name.<br>
+`$ parser -e node_modules -I bin,public`<br>
+Or:<br>
+`$ parser -e node_modules --ignores bin,public`
 ```
 myapp ( directories: 4, Files: 7 )
  ├─ bin/
@@ -142,8 +146,10 @@ myapp ( directories: 4, Files: 7 )
 ```
 
 #### 2.3.2 patterns
-filter directories or files by RegExp.<br>
-`$ parser -e node_modules -p .js$` (or: `parser -e node_modules --patterns .js$`)
+👉filter directories or files by RegExp.<br>
+`$ parser -e node_modules -p .js$`<br>
+Or:<br>
+`parser -e node_modules --patterns .js$`
 ```
 myapp ( directories: 1, Files: 3 )
  ├─ routes
@@ -153,8 +159,10 @@ myapp ( directories: 1, Files: 3 )
 ```
 
 #### 2.3.3 lineType
-line type of tree, "dashed" or "solid" (default: "solid")<br>
-`$ parser -e bin,node_modules -l dashed` (or: `$ parser -e bin,node_modules --lineType dashed`)
+👉line type of tree, "dashed" or "solid" (default: "solid")<br>
+`$ parser -e bin,node_modules -l dashed`<br>
+Or:<br>
+`$ parser -e bin,node_modules --lineType dashed`
 ```
 myapp ( directories: 6, Files: 8 )
  +-- public
@@ -174,8 +182,10 @@ myapp ( directories: 6, Files: 8 )
 ```
 
 #### 2.3.2 depth
-depth of a parse process, 0 means no limit (default: 0)<br>
-`$ parser -e node_modules,views -d 2` (or: `parser -e node_modules,views --depth 2`)
+👉depth of a parse process, 0 means no limit (default: 0)<br>
+`$ parser -e node_modules,views -d 2`<br>
+Or:<br>
+`parser -e node_modules,views --depth 2`
 ```
 myapp ( directories: 6, Files: 5 )
  ├─ bin
@@ -192,8 +202,10 @@ myapp ( directories: 6, Files: 5 )
 ```
 
 #### 2.3.2 reverse
-reverse the parsed dir-tree nodes.<br>
-`$ parser -e node_modules,views -d 2 -r` (or: `parser -e node_modules,views -d 2 --reverse`)
+👉reverse the parsed dir-tree nodes.<br>
+`$ parser -e node_modules,views -d 2 -r`<br>
+Or:<br>
+`parser -e node_modules,views -d 2 --reverse`
 ```
 myapp ( directories: 6, Files: 5 )
  ├─ routes
@@ -210,8 +222,10 @@ myapp ( directories: 6, Files: 5 )
 ```
 
 #### 2.3.2 fileFirst
-print files first, before directories.<br>
-`$ parser -e node_modules,bin,views -f` (or: `parser -e node_modules,bin,views --fileFirst`)
+👉print files first, before directories.<br>
+`$ parser -e node_modules,bin,views -f`<br>
+Or:<br>
+`parser -e node_modules,bin,views --fileFirst`
 ```
 myapp ( directories: 5, Files: 6 )
  ├─ app.js
@@ -228,8 +242,10 @@ myapp ( directories: 5, Files: 6 )
 ```
 
 #### 2.3.2 fileOnly
-Pase files only.<br>
-`$ parser -e node_modules,bin,views -F` (or: `parser -e node_modules,bin,views --fileOnly`)
+👉pase files only.<br>
+`$ parser -e node_modules,bin,views -F`<br>
+Or:<br>
+`parser -e node_modules,bin,views --fileOnly`
 ```
 myapp ( directories: 3, Files: 6 )
  ├─ public
@@ -244,8 +260,10 @@ myapp ( directories: 3, Files: 6 )
 ```
 
 #### 2.3.2 dirOnly
-Pase directories only, and it only takes effect when fileOnly is false.<br>
-`$ parser -e node_modules,bin,views -D` (or: `parser -e node_modules,bin,views --dirOnly`)
+👉pase directories only, and it only takes effect when fileOnly is false.<br>
+`$ parser -e node_modules,bin,views -D`<br>
+Or:<br>
+`parser -e node_modules,bin,views --dirOnly`
 ```
 myapp ( directories: 5 )
  ├─ public
@@ -256,8 +274,10 @@ myapp ( directories: 5 )
 ```
 
 #### 2.3.3 dirInfo
-hide file and directory number info on the result top.<br>
-`$ parser -e node_modules,bin,public -N` (or: `$ parser -e node_modules,bin,public --no-dirInfo`)
+👉hide file and directory number info on the result top.<br>
+`$ parser -e node_modules,bin,public -N`<br>
+Or:<br>
+`$ parser -e node_modules,bin,public --no-dirInfo`
 ```
 myapp
  ├─ routes
@@ -273,8 +293,10 @@ myapp
 ```
 
 #### 2.3.3 excPaths
-exclude directories or files by path.<br>
-`$ parser -e node_modules,bin -x myapp/public` (or: `$ parser -e node_modules,bin -excPath myapp/public`)
+👉exclude directories or files by path.<br>
+`$ parser -e node_modules,bin -x myapp/public`<br>
+Or:<br>
+`$ parser -e node_modules,bin -excPath myapp/public`
 ```
 myapp ( directories: 2, Files: 7 )
  ├─ routes
@@ -289,7 +311,7 @@ myapp ( directories: 2, Files: 7 )
 ```
 
 #### 2.3.3 excPatterns
-exclude directories or files by RegExp.<br>
+👉exclude directories or files by RegExp.<br>
 `$ parser -e node_modules,bin --excPatterns .jade$,.css$`
 ```
 myapp ( directories: 6, Files: 4 )
@@ -306,12 +328,16 @@ myapp ( directories: 6, Files: 4 )
 ```
 
 #### 2.3.3 silent
-not show the parsed dir-tree in terminal.<br>
-`$ parser -e node_modules,bin,public -s` (or: `$ parser -e node_modules,bin,public --silent`)
+👉not show the parsed dir-tree in terminal.<br>
+`$ parser -e node_modules,bin,public -s`<br>
+Or:<br>
+`$ parser -e node_modules,bin,public --silent`
 
 #### 2.3.3 generate
-generate a dir-info file to the output path, "dir-info.txt" is default.<br>
-`$ parser -e node_modules,bin,public -sg` (or: `$ parser -e node_modules,bin,public -s --generate`)<br>
+👉generate a dir-info file to the output path, "dir-info.txt" is default.<br>
+`$ parser -e node_modules,bin,public -sg`<br>
+Or:<br>
+`$ parser -e node_modules,bin,public -s --generate`<br>
 `$ cat dir-info.txt`
 ```
 myapp ( directories: 2, Files: 7 )
@@ -327,7 +353,7 @@ myapp ( directories: 2, Files: 7 )
 ```
 
 #### 2.3.3 config
-config file, Optional.<br>
+👉config file, Optional.<br>
 `$ vi parser.conf.json`
 ```json
 {
