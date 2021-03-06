@@ -239,12 +239,12 @@ function dirParser(target, options = {}) {
       const iPath = path.join(dirPath, sub);
       const sPath = iPath.replace(/\\/mg, '/');
       const isExclude = excludes.includes(sub)
-        || excPaths.some(pth => iPath === pth)
+        || excPaths.some(pth => iPath === pth || pth.endsWith(iPath))
         || excPatterns.some(ptn => iPath.match(ptn) || sPath.match(ptn));
       if (!isExclude) {
         const isIgnore = ignores.length && ignores.includes(sub);
         const isInclude = (!includes.length || includes.includes(sub))
-          && (!paths.length || paths.some(pth => iPath.includes(pth)))
+          && (!paths.length || paths.some(pth => iPath === pth || pth.endsWith(iPath)))
           && (!patterns.length || patterns.some(ptn => iPath.match(ptn) || sPath.match(ptn)));
         const stat = fs.statSync(iPath);
         const iDir = { name: sub, path: iPath };

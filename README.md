@@ -32,21 +32,19 @@ Read this in other languages: English | [简体中文](./README_zh-CN.md)
 Dir parser is a powerful folder analysis tool based on nodejs, which can be used in command line or JavaScript code. There are many practical parameters that can be set to help you get the formatted folder tree and internal information.
 
 ### 1.2 Installation
+
 #### 1.2.1 Global Install
-- npm: `$ npm install -g dir-parser`
 - yarn: `$ yarn global add dir-parser`
+- npm: `$ npm install -g dir-parser`
+
 #### 1.2.2 Local Install
-- npm: `$ npm install dir-parser` or `$ npm install dir-parser -D`
 - yarn: `$ yarn add dir-parser` or `$ yarn add dir-parser -D`
-#### 1.2.3 Install demo dependencies
-To run demos, you need to install `funclib` and `express-generator`:<br>
-- npm: `$ npm install -g express-generator`
-- yarn: `$ yarn global add express-generator`
+- npm: `$ npm install dir-parser` or `$ npm install dir-parser -D`
 
 ## 2. Command Line
 
 ### 2,1 Print help info
-`$ parser -h`
+`$ parser -h` (or: `$ parser --help`)
 ```
 Usage: parser [options]
 
@@ -75,10 +73,13 @@ Options:
   -h, --help                      output usage information
 ```
 
-### 2.2 Generate dir tree
+### 2.2 Generate dir-tree
+To run demo, you need to install `express-generator`:<br>
+Run: <br>
+`$ npm install -g express-generator`<br>
 `$ express myapp`<br>
 `$ cd myapp`<br>
-`$ parser`
+`$ parser`<br>
 ```
 myapp ( directories: 7, Files: 9 )
  ├─ bin
@@ -101,42 +102,15 @@ myapp ( directories: 7, Files: 9 )
 
 ### 2.3 With parameters
 
-`$ parser -d 1`
+#### 2.3.1 excludes
+exclude some directories or files by name.<br>
+`$ # git init`<br>
+`$ npm install`<br>
+`$ parser -e .git,node_modules,public` (or: `$ parser --excludes .git,node_modules,public`)
 ```
-app ( directories: 4, Files: 2 )
+myapp ( directories: 3, Files: 8 )
  ├─ bin
- ├─ public
- ├─ routes
- ├─ views
- ├─ app.js
- └─ package.json
-```
-
-`$ parser -l dashed -f`
-```
-app ( directories: 7, Files: 9 )
- +-- app.js
- +-- package.json
- +-- bin
- ¦   +-- www
- +-- public
- ¦   +-- images
- ¦   +-- javascripts
- ¦   +-- stylesheets
- ¦       +-- style.css
- +-- routes
- ¦   +-- index.js
- ¦   +-- users.js
- +-- views
-     +-- error.pug
-     +-- index.pug
-     +-- layout.pug
-```
-
-`$ parser -e bin,public -Ng`<br>
-`$ cat dir-info.txt`
-```
-app
+ │ └─ www
  ├─ routes
  │ ├─ index.js
  │ └─ users.js
@@ -148,38 +122,242 @@ app
  └─ package.json
 ```
 
-Usage 01
-*There should no white space in the excludes series!*<br>
-`$ parser -e .git,node_modules -x bin/www`
-
-Usage 02
-*There should no white space in the excludes Array!*<br>
-`$ parser -e ['.git','node_modules']  -x ['bin/www']`
-
-Usage 03
-*Parse by a config file*<br>
-`$ vi parser.conf.json`
+#### 2.3.1 ignores
+ignore some directories or files by name.<br>
+`$ parser -e node_modules -I bin,public` (or: `$ parser -e node_modules --ignores bin,public`)
 ```
+myapp ( directories: 4, Files: 7 )
+ ├─ bin/
+ ├─ public/
+ ├─ routes
+ │ ├─ index.js
+ │ └─ users.js
+ ├─ views
+ │ ├─ error.jade
+ │ ├─ index.jade
+ │ └─ layout.jade
+ ├─ app.js
+ └─ package.json
+```
+
+#### 2.3.2 patterns
+filter directories or files by RegExp.<br>
+`$ parser -e node_modules -p .js$` (or: `parser -e node_modules --patterns .js$`)
+```
+myapp ( directories: 1, Files: 3 )
+ ├─ routes
+ │ ├─ index.js
+ │ └─ users.js
+ └─ app.js
+```
+
+#### 2.3.3 lineType
+line type of tree, "dashed" or "solid" (default: "solid")<br>
+`$ parser -e bin,node_modules -l dashed` (or: `$ parser -e bin,node_modules --lineType dashed`)
+```
+myapp ( directories: 6, Files: 8 )
+ +-- public
+ ¦   +-- images/
+ ¦   +-- javascripts/
+ ¦   +-- stylesheets
+ ¦       +-- style.css
+ +-- routes
+ ¦   +-- index.js
+ ¦   +-- users.js
+ +-- views
+ ¦   +-- error.jade
+ ¦   +-- index.jade
+ ¦   +-- layout.jade
+ +-- app.js
+ +-- package.json
+```
+
+#### 2.3.2 depth
+depth of a parse process, 0 means no limit (default: 0)<br>
+`$ parser -e node_modules,views -d 2` (or: `parser -e node_modules,views --depth 2`)
+```
+myapp ( directories: 6, Files: 5 )
+ ├─ bin
+ │ └─ www
+ ├─ public
+ │ ├─ images/
+ │ ├─ javascripts/
+ │ └─ stylesheets/*
+ ├─ routes
+ │ ├─ index.js
+ │ └─ users.js
+ ├─ app.js
+ └─ package.json
+```
+
+#### 2.3.2 reverse
+reverse the parsed dir-tree nodes.<br>
+`$ parser -e node_modules,views -d 2 -r` (or: `parser -e node_modules,views -d 2 --reverse`)
+```
+myapp ( directories: 6, Files: 5 )
+ ├─ routes
+ │ ├─ users.js
+ │ └─ index.js
+ ├─ public
+ │ ├─ stylesheets/*
+ │ ├─ javascripts/
+ │ └─ images/
+ ├─ bin
+ │ └─ www
+ ├─ package.json
+ └─ app.js
+```
+
+#### 2.3.2 fileFirst
+print files first, before directories.<br>
+`$ parser -e node_modules,bin,views -f` (or: `parser -e node_modules,bin,views --fileFirst`)
+```
+myapp ( directories: 5, Files: 6 )
+ ├─ app.js
+ ├─ dir-info.txt
+ ├─ package.json
+ ├─ public
+ │ ├─ images/
+ │ ├─ javascripts/
+ │ └─ stylesheets
+ │   └─ style.css
+ └─ routes
+   ├─ index.js
+   └─ users.js
+```
+
+#### 2.3.2 fileOnly
+Pase files only.<br>
+`$ parser -e node_modules,bin,views -F` (or: `parser -e node_modules,bin,views --fileOnly`)
+```
+myapp ( directories: 3, Files: 6 )
+ ├─ public
+ │ └─ stylesheets
+ │   └─ style.css
+ ├─ routes
+ │ ├─ index.js
+ │ └─ users.js
+ ├─ app.js
+ ├─ dir-info.txt
+ └─ package.json
+```
+
+#### 2.3.2 dirOnly
+Pase directories only, and it only takes effect when fileOnly is false.<br>
+`$ parser -e node_modules,bin,views -D` (or: `parser -e node_modules,bin,views --dirOnly`)
+```
+myapp ( directories: 5 )
+ ├─ public
+ │ ├─ images/
+ │ ├─ javascripts/
+ │ └─ stylesheets/
+ └─ routes/
+```
+
+#### 2.3.3 dirInfo
+hide file and directory number info on the result top.<br>
+`$ parser -e node_modules,bin,public -N` (or: `$ parser -e node_modules,bin,public --no-dirInfo`)
+```
+myapp
+ ├─ routes
+ │ ├─ index.js
+ │ └─ users.js
+ ├─ views
+ │ ├─ error.jade
+ │ ├─ index.jade
+ │ └─ layout.jade
+ ├─ app.js
+ ├─ dir-info.txt
+ └─ package.json
+```
+
+#### 2.3.3 excPaths
+exclude directories or files by path.<br>
+`$ parser -e node_modules,bin -x myapp/public` (or: `$ parser -e node_modules,bin -excPath myapp/public`)
+```
+myapp ( directories: 2, Files: 7 )
+ ├─ routes
+ │ ├─ index.js
+ │ └─ users.js
+ ├─ views
+ │ ├─ error.jade
+ │ ├─ index.jade
+ │ └─ layout.jade
+ ├─ app.js
+ └─ package.json
+```
+
+#### 2.3.3 excPatterns
+exclude directories or files by RegExp.<br>
+`$ parser -e node_modules,bin --excPatterns .jade$,.css$`
+```
+myapp ( directories: 6, Files: 4 )
+ ├─ public
+ │ ├─ images/
+ │ ├─ javascripts/
+ │ └─ stylesheets/
+ ├─ routes
+ │ ├─ index.js
+ │ └─ users.js
+ ├─ views/
+ ├─ app.js
+ └─ package.json
+```
+
+#### 2.3.3 silent
+not show the parsed dir-tree in terminal.<br>
+`$ parser -e node_modules,bin,public -s` (or: `$ parser -e node_modules,bin,public --silent`)
+
+#### 2.3.3 generate
+generate a dir-info file to the output path, "dir-info.txt" is default.<br>
+`$ parser -e node_modules,bin,public -sg` (or: `$ parser -e node_modules,bin,public -s --generate`)<br>
+`$ cat dir-info.txt`
+```
+myapp ( directories: 2, Files: 7 )
+ ├─ routes
+ │ ├─ index.js
+ │ └─ users.js
+ ├─ views
+ │ ├─ error.jade
+ │ ├─ index.jade
+ │ └─ layout.jade
+ ├─ app.js
+ └─ package.json
+```
+
+#### 2.3.3 config
+config file, Optional.<br>
+`$ vi parser.conf.json`
+```json
 {
-  "fileFirst": false,
-  "noNum": false,
-  "silent": false,
-  "generate": true,
-  "directory": "your/demo/app",
-  "output": "your/output/dir",
-  "excludes": [ ".git", "node_modules" ]
+  "directory": "./",
+  "excludes": [ ".git", "node_modules", "bin", "public", "parser.conf.json" ],
+  "depth": "2",
+  "generate": "info.txt"
 }
 ```
 `$ parser -c ./parser.conf.json`
-
+```
+myapp ( directories: 2, Files: 8 )
+ ├─ routes
+ │ ├─ index.js
+ │ └─ users.js
+ ├─ views
+ │ ├─ error.jade
+ │ ├─ index.jade
+ │ └─ layout.jade
+ ├─ app.js
+ ├─ dir-info.txt
+ └─ package.json
+```
 
 ## 3. In JavaScript
-#### 3.1 Interfaces
-##### 3.1.1 Main Function
+### 3.1 Interfaces
+#### 3.1.1 Main Function
 ```ts
 parser(dirPath: string, options: Options): Promise<Parsed>
 ```
-##### 3.1.2 Options
+#### 3.1.2 Options
 ```ts
 interface options {             
   depth?: number;
@@ -201,7 +379,7 @@ interface options {
   patterns?: Array<string>;      // eg: [ '*.js ]';
 }
 ```
-##### 3.1.3 Parsed Result
+#### 3.1.3 Parsed Result
 ```ts
 interface Parsed extends DirInfo {
   dirTree: string;
@@ -209,7 +387,7 @@ interface Parsed extends DirInfo {
   files: Array<FileInfo>
 }
 ```
-##### 3.1.4 Directory Info
+#### 3.1.4 Directory Info
 ```ts
 interface DirInfo {
   name: string;
@@ -225,7 +403,7 @@ interface DirInfo {
   children: Array<DirInfo | FileInfo>
 }
 ```
-##### 3.1.4 File Info
+#### 3.1.4 File Info
 ```ts
 interface FileInfo {
   name: string;
@@ -241,10 +419,12 @@ interface FileInfo {
 }
 ```
 
-#### 3.2 Get dir-tree
-`$ npm install dir-parser funclib`
+### 3.2 Get dir-tree
 
-##### 3.2.1 Import dependencies
+
+
+#### 1.2.3 Install demo dependencies
+
 `$ vi test.js`
 ```js
 const fn = require('funclib');
