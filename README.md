@@ -8,7 +8,7 @@
 > Parse a directory and generate it's structure tree.
 
 <p align="center">
-  <img src="images/demo.png" style="wdith: 60%;">
+  <img style="width: 60%;" src="images/demo.png">
 </p>
 
 Read this in other languages: English | [简体中文](./README_zh-CN.md)
