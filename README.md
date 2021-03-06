@@ -24,8 +24,8 @@ Read this in other languages: English | [简体中文](./README_zh-CN.md)
 
 ## 1. What is dir-parser
 
-<br>
 <p align="center">
+  Example Image<br>
   <img width="80%;" src="images/demo.png">
 </p>
 
