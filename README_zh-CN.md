@@ -8,6 +8,8 @@
 
 ## 快速开始
 
+dir-parser是一个基于nodejs的强大的文件夹分析工具，可以在命令行中使用也可以在javascript代码中应用。有很多实用的参数可以设置，可以帮助你获取格式化的文件夹树和内部信息。
+
 ### 示例图片
 
 ![Dir Parser Demo](images/dir-parser.jpg)

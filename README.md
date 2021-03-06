@@ -1,4 +1,4 @@
-# Dir Parser
+# dir-parser
 
 [![npm](https://img.shields.io/npm/v/dir-parser.svg)](https://www.npmjs.com/package/dir-parser)
 
@@ -7,31 +7,32 @@
 Read this in other languages: English | [简体中文](./README_zh-CN.md)
 
 - [dir-parser](#dirparser)
-  - [1. Quick Start](#1quickstart)
-    - [Demo Image](#demoimage)
-    - [Installation](#installation)
-  - [2. Cammand Line](#2commandline)
-    - [Get Help](#demoimage)
-    - [Generate Dir-Tree](#demoimage)
-    - [With Paramaters](#demoimage)
-  - [3. In JavaScript](#3injavascript)
-    - [Interface](#demoimage)
-    - [Get Dir-Tree](#demoimage)
-    - [Get Directory Info](#demoimage)
+  - [1. What Is dir-parser](#1-what-is-dir-parser)
+    - [1.1 Introduce](#11-introduce)
+    - [1.2 Installation](#12-installation)
+  - [2. Cammand Line](#2-command-line)
+    - [2.1 Demo Image](#21-demo-image)
+    - [2.2 Print help info](#22-get-help)
+    - [2.3 Generate dir-tree](#23-generate-dir-tree)
+    - [2.4 With paramaters](#24-demoimage)
+  - [3. In JavaScript](#3-in-javascript)
+    - [3.1 Interface](#31-interface)
+    - [3.2 Get dir-tree](#32-get-dir-tree)
+    - [3.3 Get directory info](#33-get-directory-info)
 
 ## 1. Quick Start
 
-### Demo Image
+### 1.1 Introduce
+Dir parser is a powerful folder analysis tool based on nodejs, which can be used in command line or JavaScript code. There are many practical parameters that can be set to help you get the formatted folder tree and internal information.
 
-![Dir Parser Demo](../images/dir-parser.jpg)
-
-### Installation
-
+### 1.2 Installation
 `$ npm install dir-parser -g`
 
 ## 2. Cammand Line
-### Get help
+### 2,1 Demo image
+![Dir Parser Demo](images/dir-parser.jpg)
 
+### 2,2 Print help info
 `$ parser -h`
 ```
 Usage: parser [options]
