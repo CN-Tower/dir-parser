@@ -8,17 +8,17 @@ Read this in other languages: English | [简体中文](./README_zh-CN.md)
 
 - [dir-parser](#dir-parser)
   - [1. What Is dir-parser](#1-what-is-dir-parser)
-    - [1.1 Brief introduce](#11-introduce)
+    - [1.1 Brief introduce](#11-brief-introduce)
     - [1.2 Installation](#12-installation)
   - [2. Command Line](#2-command-line)
-    - [2.1 Demo Image](#21-demo-image)
-    - [2.2 Print help info](#22-get-help)
+    - [2.1 Example image](#21-example-image)
+    - [2.2 Print help info](#22-print-help-info)
     - [2.3 Generate dir-tree](#23-generate-dir-tree)
-    - [2.4 With paramaters](#24-demoimage)
+    - [2.4 With parameters](#24-with-parameters)
   - [3. In JavaScript](#3-in-javascript)
     - [3.1 Interface](#31-interface)
     - [3.2 Get dir-tree](#32-get-dir-tree)
-    - [3.3 Get directory info](#33-get-directory-info)
+    - [3.3 Get dir-info](#33-get-dir-info)
 
 ## 1. What Is dir-parser
 
@@ -26,15 +26,19 @@ Read this in other languages: English | [简体中文](./README_zh-CN.md)
 Dir parser is a powerful folder analysis tool based on nodejs, which can be used in command line or JavaScript code. There are many practical parameters that can be set to help you get the formatted folder tree and internal information.
 
 ### 1.2 Installation
-#### Global Install
+#### 1.2.1 Global Install
 - npm: `$ npm install -g dir-parser`
 - yarn: `$ yarn global add dir-parser`
-#### Local Install
-- npm: `$ npm install -D dir-parser`
-- yarn: `$ yarn add -D dir-parser`
+#### 1.2.2 Local Install
+- npm: `$ npm install dir-parser` or `$ npm install dir-parser -D`
+- yarn: `$ yarn add dir-parser` or `$ yarn add dir-parser -D`
+#### 1.2.3 Install demo dependencies
+To run demos, you need to install `funclib` and `express-generator`:<br>
+- npm: `$ npm install -g express-generator`
+- yarn: `$ yarn global add express-generator`
 
 ## 2. Command Line
-### 2,1 Demo image
+### 2,1 Example image
 ![Dir Parser Demo](images/dir-parser.jpg)
 
 ### 2,2 Print help info
@@ -67,31 +71,31 @@ Options:
   -h, --help                      output usage information
 ```
 
-### Parse your dir
-
-`$ cd your/demo/app`<br>
+### 2.3 Generate dir tree
+`$ express myapp`<br>
+`$ cd myapp`<br>
 `$ parser`
 ```
-app ( directories: 7, Files: 9 )
+myapp ( directories: 7, Files: 9 )
  ├─ bin
  │ └─ www
  ├─ public
- │ ├─ images
- │ ├─ javascripts
+ │ ├─ images/
+ │ ├─ javascripts/
  │ └─ stylesheets
  │   └─ style.css
  ├─ routes
  │ ├─ index.js
  │ └─ users.js
  ├─ views
- │ ├─ error.pug
- │ ├─ index.pug
- │ └─ layout.pug
+ │ ├─ error.jade
+ │ ├─ index.jade
+ │ └─ layout.jade
  ├─ app.js
  └─ package.json
 ```
 
-### Parse your dir with params
+### 2.4 With parameters
 
 `$ parser -d 1`
 ```
@@ -140,8 +144,6 @@ app
  └─ package.json
 ```
 
-### Recommend usages
-
 Usage 01
 *There should no white space in the excludes series!*<br>
 `$ parser -e .git,node_modules -x bin/www`
@@ -166,17 +168,15 @@ Usage 03
 ```
 `$ parser -c ./parser.conf.json`
 
-## 3. In JavaScript
-#### Interfaces
-```
-/**
- * Main Function
- */
-parser(dirPath: string, options: Options): Promise<Parsed>
 
-/**
- *Options
- */
+## 3. In JavaScript
+#### 3.1 Interfaces
+##### 3.1.1 Main Function
+```ts
+parser(dirPath: string, options: Options): Promise<Parsed>
+```
+##### 3.1.2 Options
+```ts
 interface options {             
   depth?: number;
   reverse?: boolean;
@@ -196,19 +196,17 @@ interface options {
   paths?: Array<string>;         // eg: [ 'src/public' ];
   patterns?: Array<string>;      // eg: [ '*.js ]';
 }
-
-/**
- * Parse result
- */
+```
+##### 3.1.3 Parsed Result
+```ts
 interface Parsed extends DirInfo {
   dirTree: string;
   children: Array<DirInfo | FileInfo>
   files: Array<FileInfo>
 }
-
-/**
- * Directory Info
- */
+```
+##### 3.1.4 Directory Info
+```ts
 interface DirInfo {
   name: string;
   type: 'directory';
@@ -222,10 +220,9 @@ interface DirInfo {
   fileNum: number;
   children: Array<DirInfo | FileInfo>
 }
-
-/**
- *File Info
- */
+```
+##### 3.1.4 File Info
+```ts
 interface FileInfo {
   name: string;
   base: string;
@@ -239,12 +236,13 @@ interface FileInfo {
   absDir: string;
 }
 ```
-#### Usages in javaScript
+
+#### 3.2 Get dir-tree
 `$ npm install dir-parser funclib`
 
-##### Import Dependencies
+##### 3.2.1 Import dependencies
 `$ vi test.js`
-```
+```js
 const fn = require('funclib');
 const parser = require('dir-parser');
 // excludes list
@@ -253,7 +251,7 @@ const excludes = ['.git', 'node_modules', 'dir-info.txt', 'package-lock.json'];
 
 ##### Generate dir Tree
 `$ vi test.js`
-```
+```js
 parser('./', {
   excludes: excludes,
   // lineType: 'dashed',
@@ -312,7 +310,7 @@ dir-parser ( directories: 8, Files: 30 )
  └─ test.js
 ==================================================================
 ```
-##### Get parsed info
+#### 3.3 Get dir-info
 `$ vi test.js`
 ```
 parser('./', {
