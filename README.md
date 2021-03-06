@@ -6,16 +6,30 @@
 
 Read this in other languages: English | [简体中文](./README_zh-CN.md)
 
-## Quick Start
+- [dir-parser](#dirparser)
+  - [1. Quick Start](#1quickstart)
+    - [Demo Image](#demoimage)
+    - [Installation](#installation)
+  - [2. Cammand Line](#2commandline)
+    - [Get Help](#demoimage)
+    - [Generate Dir-Tree](#demoimage)
+    - [With Paramaters](#demoimage)
+  - [3. In JavaScript](#3injavascript)
+    - [Interface](#demoimage)
+    - [Get Dir-Tree](#demoimage)
+    - [Get Directory Info](#demoimage)
+
+## 1. Quick Start
 
 ### Demo Image
 
 ![Dir Parser Demo](../images/dir-parser.jpg)
 
-### Install dir-parser
+### Installation
 
 `$ npm install dir-parser -g`
 
+## 2. Cammand Line
 ### Get help
 
 `$ parser -h`
@@ -146,7 +160,7 @@ Usage 03
 ```
 `$ parser -c ./parser.conf.json`
 
-### Use dir-parser in javaScript code
+## 3. In JavaScript
 #### Interfaces
 ```
 /**
