@@ -28,6 +28,7 @@ program.version(package.version)
   .option('--paths <paths..>', 'filter directories or files by path.')
   .option('--includes <includes..>', 'filter directories or files by name.')
   .option('--excPatterns <excPatterns...>', 'exclude directories or files by RegExp.')
+  .option('-H, --Help', 'output chinese usage information.(打印中文帮助信息.)')
   .parse(process.argv);
 
 let config = {};
