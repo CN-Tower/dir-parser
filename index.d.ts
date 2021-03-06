@@ -16,7 +16,7 @@ declare namespace parser {
   /**
    * options of dirparse 
    */
-  interface options {             
+  interface Options {             
     depth?: number;
     reverse?: boolean;
     fileFirst?: boolean;

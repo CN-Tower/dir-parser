@@ -1,26 +1,80 @@
-# Dir Parser(文件解析工具)
+<h1 align="center">😎 Dir Parser(文件夹解析器) v2 😎</h1>
+<p align="center">
+  <img width="80%;" src="images/demo.png">
+</p>
+
+# dir-parser 文件夹解析器
 
 [![npm](https://img.shields.io/npm/v/dir-parser.svg)](https://www.npmjs.com/package/dir-parser)
+[![LICENSE MIT](https://img.shields.io/npm/l/dir-parser.svg)](https://www.npmjs.com/package/dir-parser) 
+[![NPM Downloads](https://img.shields.io/npm/dm/dir-parser.svg?style=flat)](https://npmcharts.com/compare/dir-parser?minimal=true)
+[![Install Size](https://packagephobia.now.sh/badge?p=dir-parser)](https://packagephobia.now.sh/result?p=dir-parser)
 
 > 解析一个文件夹并生成它的结构树
 
 使用其它语言阅读: [English](https://github.com/CN-Tower/dir-parser) | 简体中文
 
-## 快速开始
+- [dir-parser](#dir-parser-文件夹解析器)
+  - [一、什么是dir-parser](#一、什么是dir-parser)
+    - [1.1 工具简介](#11-工具简介)
+    - [1.2 安装使用](#12-安装使用)
+  - [二、命令行](#二、命令行e)
+    - [2.1 打印帮助信息](#21-打印帮助信息)
+    - [2.2 生成文件树](#22-generate-dir-tree)
+    - [2.3 使用解析参数](#23-with-parameters)
+      - [2.3.1 excludes排除项](#231-excludes)
+      - [2.3.2 ignores忽略项](#232-ignores)
+      - [2.3.3 patterns正则匹配](#233-patterns)
+      - [2.3.4 lineType结构线型](#234-lineType)
+      - [2.3.5 depth解析深度](#235-depth)
+      - [2.3.6 reverse节点逆序](#236-reverse)
+      - [2.3.7 fileFirst文件优先](#237-fileFirst)
+      - [2.3.8 fileOnly仅文件](#238-fileOnly)
+      - [2.3.9 dirOnly仅文件夹](#239-dirOnly)
+      - [2.3.10 dirInfo解析信息](#2310-dirInfo)
+      - [2.3.11 excPaths路径排除](#2311-excPaths)
+      - [2.3.12 excPatterns正则排除](#2312-excPatterns)
+      - [2.3.13 silent静默](#2313-silent)
+      - [2.3.14 generate生成结果](#2314-generate)
+      - [2.3.15 config配置文件](#2315-config)
+    - [2.4 多个命令混合使用](#24-use-multiple-commands-together)
+  - [三、JavaScript](#三、in-javascript)
+    - [3.1 Interface](#31-interface)
+      - [3.1.1 Main function](#311-main-function)
+      - [3.1.2 Options](#312-options)
+      - [3.1.3 Parsed](#313-parsed)
+      - [3.1.4 DirInfo](#314-dirinfo)
+      - [3.1.5 FileInfo](#315-fileinfo)
+    - [3.2 Get dir-tree](#32-get-dir-tree)
+      - [3.2.1 Make dir-tree example](#32-make-dir-tree-example)
+      - [3.2.2 Run dir-tree example](#32-run-dir-tree-example)
+    - [3.3 Get dir-info](#33-get-dir-info)
+      - [3.3.1 Make dir-info example](#331-make-dir-info-example)
+      - [3.3.2 Run dir-info example](#332-run-dir-info-example)
+      - [3.3.3 Make dir-children example](#333-make-dir-children-example)
+      - [3.3.4 Run dir-children example](#334-run-dir-children-example)
+      - [3.3.5 Make dir-files example](#335-make-dir-files-example)
+      - [3.3.6 Run dir-files example](#336-run-dir-files-example)
 
-dir-parser是一个基于nodejs的强大的文件夹分析工具，可以在命令行中使用也可以在javascript代码中应用。有很多实用的参数可以设置，可以帮助你获取格式化的文件夹树和内部信息。
+## 1. What is dir-parser
 
-### 示例图片
+### 1.1 Brief introduce
+👍👍👍dir-parser是一个基于nodejs的强大的文件夹分析工具，可以在命令行中使用也可以在javascript代码中应用。有很多实用的参数可以设置，可以帮助你获取格式化的文件夹树和内部信息。
 
-![Dir Parser Demo](images/dir-parser.jpg)
+### 1.2 Installation
 
-### 安装 dir-parser
+#### 1.2.1 Global install
+- yarn: `$ yarn global add dir-parser`
+- npm: `$ npm install -g dir-parser`
 
-`$ npm install dir-parser -g`
+#### 1.2.2 Local install
+- yarn: `$ yarn add dir-parser` or `$ yarn add dir-parser -D`
+- npm: `$ npm install dir-parser` or `$ npm install dir-parser -D`
 
-### 打印帮助
+## 2. Command Line
 
-`$ parser -h`
+### 2,1 Print help info
+`$ parser -h` (or: `$ parser --help`)
 ```
 Usage: parser [options]
 
@@ -49,68 +103,22 @@ Options:
   -h, --help                      output usage information
 ```
 
-### 解析文件夹
-
-`$ cd your/demo/app`<br>
-`$ parser`
+### 2.2 Generate dir-tree
+To run demo, you need to install `express-generator`:<br>
+Run: <br>
+`$ npm install -g express-generator`<br>
+`$ express myapp`<br>
+`$ cd myapp`<br>
+`$ parser`<br>
 ```
-app ( directories: 7, Files: 9 )
+myapp ( directories: 7, Files: 9 )
  ├─ bin
  │ └─ www
  ├─ public
- │ ├─ images
- │ ├─ javascripts
+ │ ├─ images/
+ │ ├─ javascripts/
  │ └─ stylesheets
  │   └─ style.css
- ├─ routes
- │ ├─ index.js
- │ └─ users.js
- ├─ views
- │ ├─ error.pug
- │ ├─ index.pug
- │ └─ layout.pug
- ├─ app.js
- └─ package.json
-```
-
-### 根据参数解析文件夹
-
-`$ parser -d 1`
-```
-app ( directories: 4, Files: 2 )
- ├─ bin
- ├─ public
- ├─ routes
- ├─ views
- ├─ app.js
- └─ package.json
-```
-
-`$ parser -l dashed -f`
-```
-app ( directories: 7, Files: 9 )
- +-- app.js
- +-- package.json
- +-- bin
- ¦   +-- www
- +-- public
- ¦   +-- images
- ¦   +-- javascripts
- ¦   +-- stylesheets
- ¦       +-- style.css
- +-- routes
- ¦   +-- index.js
- ¦   +-- users.js
- +-- views
-     +-- error.pug
-     +-- index.pug
-     +-- layout.pug
-```
-
-`$ parser -e bin,public -Ng`<br>
-`$ cat dir-info.txt`
-```
-app
  ├─ routes
  │ ├─ index.js
  │ └─ users.js
@@ -122,45 +130,300 @@ app
  └─ package.json
 ```
 
-### 推荐用法
+### 2.3 With parameters
 
-用例一：
-*There should no white space in the excludes series!*<br>
-`$ parser -e .git,node_modules -x bin/www`
-
-用例二：
-*There should no white space in the excludes Array!*<br>
-`$ parser -e ['.git','node_modules']  -x ['bin/www']`
-
-用例三：
-*Parse by a config file*<br>
-`$ vi parser.conf.json`
+#### 2.3.1 excludes
+👉 Exclude some directories or files by name.<br>
+`$ # git init`<br>
+`$ npm install`<br>
+`$ parser -e .git,node_modules,public`<br>
+or: `$ parser --excludes .git,node_modules,public`)
 ```
+myapp ( directories: 3, Files: 8 )
+ ├─ bin
+ │ └─ www
+ ├─ routes
+ │ ├─ index.js
+ │ └─ users.js
+ ├─ views
+ │ ├─ error.jade
+ │ ├─ index.jade
+ │ └─ layout.jade
+ ├─ app.js
+ └─ package.json
+```
+
+#### 2.3.2 ignores
+👉 Ignore some directories or files by name.<br>
+`$ parser -e node_modules -I bin,public`<br>
+or: `$ parser -e node_modules --ignores bin,public`
+```
+myapp ( directories: 4, Files: 7 )
+ ├─ bin/
+ ├─ public/
+ ├─ routes
+ │ ├─ index.js
+ │ └─ users.js
+ ├─ views
+ │ ├─ error.jade
+ │ ├─ index.jade
+ │ └─ layout.jade
+ ├─ app.js
+ └─ package.json
+```
+
+#### 2.3.3 patterns
+👉 Filter directories or files by RegExp.<br>
+`$ parser -e node_modules -p .js$`<br>
+or: `$ parser -e node_modules --patterns .js$`
+```
+myapp ( directories: 1, Files: 3 )
+ ├─ routes
+ │ ├─ index.js
+ │ └─ users.js
+ └─ app.js
+```
+
+#### 2.3.4 lineType
+👉 Line type of tree, "dashed" or "solid" (default: "solid")<br>
+`$ parser -e bin,node_modules -l dashed`<br>
+or: `$ parser -e bin,node_modules --lineType dashed`
+```
+myapp ( directories: 6, Files: 8 )
+ +-- public
+ ¦   +-- images/
+ ¦   +-- javascripts/
+ ¦   +-- stylesheets
+ ¦       +-- style.css
+ +-- routes
+ ¦   +-- index.js
+ ¦   +-- users.js
+ +-- views
+ ¦   +-- error.jade
+ ¦   +-- index.jade
+ ¦   +-- layout.jade
+ +-- app.js
+ +-- package.json
+```
+
+#### 2.3.5 depth
+👉 Depth of a parse process, 0 means no limit (default: 0)<br>
+`$ parser -e node_modules,views -d 2`<br>
+or: `$ parser -e node_modules,views --depth 2`
+```
+myapp ( directories: 6, Files: 5 )
+ ├─ bin
+ │ └─ www
+ ├─ public
+ │ ├─ images/
+ │ ├─ javascripts/
+ │ └─ stylesheets/*
+ ├─ routes
+ │ ├─ index.js
+ │ └─ users.js
+ ├─ app.js
+ └─ package.json
+```
+
+#### 2.3.6 reverse
+👉 Reverse the parsed dir-tree nodes.<br>
+`$ parser -e node_modules,views -d 2 -r`<br>
+or: `$ parser -e node_modules,views -d 2 --reverse`
+```
+myapp ( directories: 6, Files: 5 )
+ ├─ routes
+ │ ├─ users.js
+ │ └─ index.js
+ ├─ public
+ │ ├─ stylesheets/*
+ │ ├─ javascripts/
+ │ └─ images/
+ ├─ bin
+ │ └─ www
+ ├─ package.json
+ └─ app.js
+```
+
+#### 2.3.7 fileFirst
+👉 Print files first, before directories.<br>
+`$ parser -e node_modules,bin,views -f`<br>
+or: `$ parser -e node_modules,bin,views --fileFirst`
+```
+myapp ( directories: 5, Files: 6 )
+ ├─ app.js
+ ├─ dir-info.txt
+ ├─ package.json
+ ├─ public
+ │ ├─ images/
+ │ ├─ javascripts/
+ │ └─ stylesheets
+ │   └─ style.css
+ └─ routes
+   ├─ index.js
+   └─ users.js
+```
+
+#### 2.3.8 fileOnly
+👉 Pase files only.<br>
+`$ parser -e node_modules,bin,views -F`<br>
+or: `$ parser -e node_modules,bin,views --fileOnly`
+```
+myapp ( directories: 3, Files: 6 )
+ ├─ public
+ │ └─ stylesheets
+ │   └─ style.css
+ ├─ routes
+ │ ├─ index.js
+ │ └─ users.js
+ ├─ app.js
+ ├─ dir-info.txt
+ └─ package.json
+```
+
+#### 2.3.9 dirOnly
+👉 Pase directories only, and it only takes effect when fileOnly is false.<br>
+`$ parser -e node_modules,bin,views -D`<br>
+or: `$ parser -e node_modules,bin,views --dirOnly`
+```
+myapp ( directories: 5 )
+ ├─ public
+ │ ├─ images/
+ │ ├─ javascripts/
+ │ └─ stylesheets/
+ └─ routes/
+```
+
+#### 2.3.10 dirInfo
+👉 Hide file and directory number info on the result top.<br>
+`$ parser -e node_modules,bin,public -N`<br>
+or: `$ parser -e node_modules,bin,public --no-dirInfo`
+```
+myapp
+ ├─ routes
+ │ ├─ index.js
+ │ └─ users.js
+ ├─ views
+ │ ├─ error.jade
+ │ ├─ index.jade
+ │ └─ layout.jade
+ ├─ app.js
+ ├─ dir-info.txt
+ └─ package.json
+```
+
+#### 2.3.11 excPaths
+👉 Exclude directories or files by path.<br>
+`$ parser -e node_modules,bin -x myapp/public`<br>
+or: `$ parser -e node_modules,bin -excPath myapp/public`
+```
+myapp ( directories: 2, Files: 7 )
+ ├─ routes
+ │ ├─ index.js
+ │ └─ users.js
+ ├─ views
+ │ ├─ error.jade
+ │ ├─ index.jade
+ │ └─ layout.jade
+ ├─ app.js
+ └─ package.json
+```
+
+#### 2.3.12 excPatterns
+👉 Exclude directories or files by RegExp.<br>
+`$ parser -e node_modules,bin --excPatterns .jade$,.css$`
+```
+myapp ( directories: 6, Files: 4 )
+ ├─ public
+ │ ├─ images/
+ │ ├─ javascripts/
+ │ └─ stylesheets/
+ ├─ routes
+ │ ├─ index.js
+ │ └─ users.js
+ ├─ views/
+ ├─ app.js
+ └─ package.json
+```
+
+#### 2.3.13 silent
+👉 Not show the parsed dir-tree in terminal.<br>
+`$ parser -e node_modules,bin,public -s`<br>
+or: `$ parser -e node_modules,bin,public --silent`
+
+#### 2.3.14 generate
+👉 Generate a dir-info file to the output path, "dir-info.txt" is default.<br>
+`$ parser -e node_modules,bin,public -sg`<br>
+or: `$ parser -e node_modules,bin,public -s --generate`<br>
+`$ cat dir-info.txt`
+```
+myapp ( directories: 2, Files: 7 )
+ ├─ routes
+ │ ├─ index.js
+ │ └─ users.js
+ ├─ views
+ │ ├─ error.jade
+ │ ├─ index.jade
+ │ └─ layout.jade
+ ├─ app.js
+ └─ package.json
+```
+
+#### 2.3.15 config
+👉 Config file, Optional.<br>
+`$ touch parser.conf.json`<br>
+`$ vi parser.conf.json`
+```json
 {
-  "fileFirst": false,
-  "noNum": false,
-  "silent": false,
-  "generate": true,
-  "directory": "your/demo/app",
-  "output": "your/output/dir",
-  "excludes": [ ".git", "node_modules" ]
+  "directory": "./",
+  "excludes": [ ".git", "node_modules", "bin", "public", "parser.conf.json" ],
+  "depth": "2",
+  "generate": "info.txt"
 }
 ```
 `$ parser -c ./parser.conf.json`
-
-### 在JavaScript代码中使用 dir-parser
-
-#### 接口
 ```
-/**
- * Main Function
- */
-parser(dirPath: string, options: Options): Promise<Parsed>
+myapp ( directories: 2, Files: 8 )
+ ├─ routes
+ │ ├─ index.js
+ │ └─ users.js
+ ├─ views
+ │ ├─ error.jade
+ │ ├─ index.jade
+ │ └─ layout.jade
+ ├─ app.js
+ ├─ dir-info.txt
+ └─ package.json
+```
 
-/**
- *Options
- */
-interface options {             
+### 2.4 Use multiple commands together
+`parser -e node_modules,bin -I views -d 2 -Nr`
+```
+myapp
+ ├─ views/
+ ├─ routes
+ │ ├─ users.js
+ │ └─ index.js
+ ├─ public
+ │ ├─ stylesheets/*
+ │ ├─ javascripts/
+ │ └─ images/
+ ├─ parser.conf.json
+ ├─ package.json
+ └─ app.js
+```
+
+## 3. In JavaScript
+
+### 3.1 Interface
+
+#### 3.1.1 Main Function
+```ts
+parser(dirPath: string, options: Options): Promise<Parsed>
+```
+
+#### 3.1.2 Options
+```ts
+interface Options {             
   depth?: number;
   reverse?: boolean;
   fileFirst?: boolean;
@@ -179,19 +442,18 @@ interface options {
   paths?: Array<string>;         // eg: [ 'src/public' ];
   patterns?: Array<string>;      // eg: [ '*.js ]';
 }
-
-/**
- * Parse result
- */
+```
+#### 3.1.3 Parsed
+```ts
 interface Parsed extends DirInfo {
   dirTree: string;
   children: Array<DirInfo | FileInfo>
   files: Array<FileInfo>
 }
+```
 
-/**
- * Directory Info
- */
+#### 3.1.4 DirInfo
+```ts
 interface DirInfo {
   name: string;
   type: 'directory';
@@ -205,10 +467,10 @@ interface DirInfo {
   fileNum: number;
   children: Array<DirInfo | FileInfo>
 }
+```
 
-/**
- *File Info
- */
+#### 3.1.5 FileInfo
+```ts
 interface FileInfo {
   name: string;
   base: string;
@@ -222,21 +484,17 @@ interface FileInfo {
   absDir: string;
 }
 ```
-#### 在JavaScript中使用
-`$ npm install dir-parser funclib`
 
-##### 导入依赖
-`$ vi test.js`
-```
+### 3.2 Get dir-tree
+
+#### 3.2.1 Make dir-tree example
+`$ npm install funclib`<br>
+`$ touch test.js`<br>
+`$ vi test.js`<br>
+```js
 const fn = require('funclib');
 const parser = require('dir-parser');
-// excludes list
-const excludes = ['.git', 'node_modules', 'dir-info.txt', 'package-lock.json'];
-```
 
-##### 生成结构树
-`$ vi test.js`
-```
 parser('./', {
   excludes: excludes,
   // lineType: 'dashed',
@@ -249,7 +507,9 @@ parser('./', {
   // fn.log(parsed.files, '# parsed.files');
 });
 ```
-*调用:* `$ node test.js`
+
+#### 3.2.2 Run dir-tree example
+`$ node test.js`
 ```
 ==================================================================
                   [17:06:57] # parsed.dirTree
@@ -295,26 +555,27 @@ dir-parser ( directories: 8, Files: 30 )
  └─ test.js
 ==================================================================
 ```
-##### 获取解析结果
+
+### 3.3 Get dir-info
+
+#### 3.3.1 Make dir-info example 
 `$ vi test.js`
-```
+```js
 parser('./', {
   excludes: excludes,
   // lineType: 'dashed',
   // fileFirst: true,
 }).then(parsed => {
-  fn.log(fn.pick(parsed, prop => prop !== 'dirTree'), '# parsed result info');
+  console.log(fn.pretty(fn.pick(parsed, prop => prop !== 'dirTree')));
   
   // fn.log(parsed.dirTree, '# parsed.dirTree');
   // fn.log(parsed.children, '# parsed.children');
   // fn.log(parsed.files, '# parsed.files');
 });
 ```
-*Execute example:* `$ node test.js`
-```
-==================================================================
-                [17:06:57] # parsed result info
-------------------------------------------------------------------
+#### 3.3.2 Run dir-info example 
+`$ node test.js`
+```json
 {
   "name": "dir-parser",
   "type": "directory",
@@ -325,26 +586,25 @@ parser('./', {
   "dirNum": 8,
   "fileNum": 30
 }
-==================================================================
 ```
-##### 获取文件信息对象
+
+#### 3.3.3 Make dir-children example 
 `$ vi test.js`
-```
+```js
 parser('./', {
   excludes: excludes,
   getFiles: true,    // Default is false, If true, returns will conatins an array of all subfiles's info;
   getChildren: true, // Default is false, If true, returns will conatins an object of all children's info;
   dirTree: false     // Default is true, returns will conatins a tree of the directory;
 }).then(parsed => {
-  fn.log(parsed.children, '# parsed.children');
+  console.log(fn.pretty(parsed.children));
   // fn.log(parsed.files, '# parsed.files');
 });
 ```
-*调用:* `$ node test.js`
-```
-==================================================================
-                  [17:06:57] # parsed.children
-------------------------------------------------------------------
+
+#### 3.3.4 Run dir-children example 
+`$ node test.js`
+```json
 [
   {
     "name": "bin",
@@ -495,11 +755,11 @@ parser('./', {
     "absDir": "E:\\work\\code\\dir-parser"
   }
 ]
-==================================================================
 ```
-##### Get directory json
+
+#### 3.3.5 Make dir-files example 
 `$ vi test.js`
-```
+```js
 parser('./', {
   excludes: excludes,
   getFiles: true,
@@ -507,14 +767,13 @@ parser('./', {
   dirTree: false
 }).then(parsed => {
   // fn.log(parsed.children, '# parsed.children');
-  fn.log(parsed.files, '# parsed.files');
+  console.log(fn.pretty(parsed.files));
 });
 ```
-*Execute example:* `$ node test.js`
-```
-==================================================================
-                   [17:06:57] # parsed.files
-------------------------------------------------------------------
+
+#### 3.3.6 Run dir-files example 
+`$ node test.js`
+```json
 [
   {
     "name": "parser.js",
@@ -637,5 +896,4 @@ parser('./', {
     "absDir": "E:\\work\\code\\dir-parser"
   }
 ]
-==================================================================
 ```

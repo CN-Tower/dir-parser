@@ -42,9 +42,9 @@ Read this in other languages: English | [简体中文](./README_zh-CN.md)
     - [3.1 Interface](#31-interface)
       - [3.1.1 Main function](#311-main-function)
       - [3.1.2 Options](#312-options)
-      - [3.1.3 Parsed result](#313-parsed-result)
-      - [3.1.4 Directory info](#314-directory-info)
-      - [3.1.5 File info](#315-file-info)
+      - [3.1.3 Parsed](#313-parsed)
+      - [3.1.4 DirInfo](#314-dirinfo)
+      - [3.1.5 FileInfo](#315-fileinfo)
     - [3.2 Get dir-tree](#32-get-dir-tree)
       - [3.2.1 Make dir-tree example](#32-make-dir-tree-example)
       - [3.2.2 Run dir-tree example](#32-run-dir-tree-example)
@@ -423,7 +423,7 @@ parser(dirPath: string, options: Options): Promise<Parsed>
 
 #### 3.1.2 Options
 ```ts
-interface options {             
+interface Options {             
   depth?: number;
   reverse?: boolean;
   fileFirst?: boolean;
@@ -443,7 +443,7 @@ interface options {
   patterns?: Array<string>;      // eg: [ '*.js ]';
 }
 ```
-#### 3.1.3 Parsed result
+#### 3.1.3 Parsed
 ```ts
 interface Parsed extends DirInfo {
   dirTree: string;
@@ -452,7 +452,7 @@ interface Parsed extends DirInfo {
 }
 ```
 
-#### 3.1.4 Directory Info
+#### 3.1.4 DirInfo
 ```ts
 interface DirInfo {
   name: string;
@@ -469,7 +469,7 @@ interface DirInfo {
 }
 ```
 
-#### 3.1.5 File info
+#### 3.1.5 FileInfo
 ```ts
 interface FileInfo {
   name: string;
