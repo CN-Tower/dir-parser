@@ -9,15 +9,16 @@
 
 Read this in other languages: English | [简体中文](./README_zh-CN.md)
 
+![Dir Parser Demo](images/demo.png)
+
 - [dir-parser](#dir-parser)
   - [1. What Is dir-parser](#1-what-is-dir-parser)
     - [1.1 Brief introduce](#11-brief-introduce)
     - [1.2 Installation](#12-installation)
   - [2. Command Line](#2-command-line)
-    - [2.1 Example image](#21-example-image)
-    - [2.2 Print help info](#22-print-help-info)
-    - [2.3 Generate dir-tree](#23-generate-dir-tree)
-    - [2.4 With parameters](#24-with-parameters)
+    - [2.1 Print help info](#21-print-help-info)
+    - [2.2 Generate dir-tree](#22-generate-dir-tree)
+    - [2.3 With parameters](#23-with-parameters)
   - [3. In JavaScript](#3-in-javascript)
     - [3.1 Interface](#31-interface)
     - [3.2 Get dir-tree](#32-get-dir-tree)
@@ -41,10 +42,8 @@ To run demos, you need to install `funclib` and `express-generator`:<br>
 - yarn: `$ yarn global add express-generator`
 
 ## 2. Command Line
-### 2,1 Example image
-![Dir Parser Demo](images/demo.png)
 
-### 2,2 Print help info
+### 2,1 Print help info
 `$ parser -h`
 ```
 Usage: parser [options]
@@ -74,7 +73,7 @@ Options:
   -h, --help                      output usage information
 ```
 
-### 2.3 Generate dir tree
+### 2.2 Generate dir tree
 `$ express myapp`<br>
 `$ cd myapp`<br>
 `$ parser`
@@ -98,7 +97,7 @@ myapp ( directories: 7, Files: 9 )
  └─ package.json
 ```
 
-### 2.4 With parameters
+### 2.3 With parameters
 
 `$ parser -d 1`
 ```
