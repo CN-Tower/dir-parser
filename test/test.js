@@ -26,9 +26,9 @@ const parser = require('../index');
  excludes = ['.git', 'node_modules', 'dir-info.txt', 'package-lock.json'];
  parser('./', {
    excludes: excludes,
-   files: true,       // Default is false, If true, returns will conatins an array of all subfiles's info;
-   children: true,    // Default is false, If true, returns will conatins an object of all children's info;
-   dirTree: false     // Default is true, returns will conatins a tree of the directory;
+   getFiles: true,     // Default is false, If true, returns will conatins an array of all subfiles's info;
+   getChildren: true,  // Default is false, If true, returns will conatins an object of all children's info;
+   dirTree: false      // Default is true, returns will conatins a tree of the directory;
  }).then(parsed => {
    fn.log(parsed.children, '# parsed.children');
    fn.log(parsed.files, '# parsed.files');

@@ -15,18 +15,19 @@ program.version(package.version)
   .option('-d, --depth <depth>', 'depth of a parse process, 0 means no limit', 0)
   .option('-l, --lineType <lineType>', 'line type of tree, "dashed" or "solid"', 'solid')
   .option('-e, --excludes <excludes..>', 'exclude some directories or files by name.')
+  .option('-x, --excPaths <excPaths..>', 'exclude directories or files by path.')
+  .option('-p, --patterns <patterns...>', 'filter directories or files by RegExp.')
   .option('-g, --generate [fileName]', 'generate a dir-info file to the output path, "dir-info.txt" is default.')
   .option('-r, --reverse', 'reverse the parsed result.')
   .option('-s, --silent', 'not print the parsed result in terminal.')
-  .option('--includes <includes..>', 'filter directories or files by name.')
+  .option('-f, --fileFirst', 'print files first, before directories.')
+  .option('-F, --fileOnly', 'Pase files only.')
+  .option('-D, --dirOnly', 'Pase directories only, and it only takes effect when fileOnly is false.')
+  .option('-I, --ignores <ignores..>', 'ignore some directories or files by name.')
+  .option('-N, --no-dirInfo', 'not show file and directory number info on the result top.')
   .option('--paths <paths..>', 'filter directories or files by path.')
-  .option('--patterns <patterns...>', 'filter directories or files by RegExp.')
-  .option('--excPaths <excPaths..>', 'exclude directories or files by path.')
+  .option('--includes <includes..>', 'filter directories or files by name.')
   .option('--excPatterns <excPatterns...>', 'exclude directories or files by RegExp.')
-  .option('--dirOnly', 'only pase the directories.')
-  .option('--fileOnly', 'only pase the files.')
-  .option('--fileFirst', 'print files first, before directories.')
-  .option('--no-info', 'hide file and directory number on the result top.')
   .parse(process.argv);
 
 let config = {};
@@ -41,17 +42,18 @@ const depth       = parseInt(program.depth) || parseInt(fn.get(config, 'depth', 
 const excludes    = matchHandler(program.excludes || fn.get(config, 'excludes', 'arr') || [], 'excludes');
 const excPaths    = matchHandler(program.excPaths || fn.get(config, 'excPaths', 'arr') || [], 'excPaths');
 const excPatterns = matchHandler(program.excPatterns || fn.get(config, 'excPatterns', 'arr') || [], 'excPatterns');
+const ignores     = matchHandler(program.ignores || fn.get(config, 'ignores', 'arr') || [], 'ignores');
 const includes    = matchHandler(program.includes || fn.get(config, 'includes', 'arr') || [], 'includes');
 const paths       = matchHandler(program.paths || fn.get(config, 'paths', 'arr') || [], 'paths');
 const patterns    = matchHandler(program.patterns || fn.get(config, 'patterns', 'arr') || [], 'patterns');
 const generate    = program.generate || fn.get(config, 'generate');
 const reverse     = program.reverse || fn.get(config, 'reverse', 'bol');
 const silent      = program.silent || fn.get(config, 'silent', 'bol');
-const dirOnly     = program.dirOnly || fn.get(config, 'dirOnly', 'bol');
-const fileOnly    = program.fileOnly || fn.get(config, 'fileOnly', 'bol');
 const fileFirst   = program.fileFirst || fn.get(config, 'fileFirst', 'bol');
-const info        = program.info || fn.get(config, 'info', 'bol');
-const needInfo    = fn.isBol(info) ? info : true;
+const fileOnly    = program.fileOnly || fn.get(config, 'fileOnly', 'bol');
+const dirOnly     = program.dirOnly || fn.get(config, 'dirOnly', 'bol');
+const dInfo       = program.dirInfo || fn.get(config, 'dirInfo', 'bol');
+const dirInfo     = fn.isBol(dInfo) ? dInfo : true;
 const outputName = fn.isStr(generate) && generate || 'dir-info.txt';
 
 if (!fs.statSync(target).isDirectory()) {
@@ -96,16 +98,16 @@ function matchHandler(match, type_) {
  * Log the parameters
  */
 // fn.log({
-//   target, output, depth, lineType, excludes, excPaths, excPatterns, includes,
-//   paths, patterns, reverse, silent, generate, needInfo, dirOnly, fileOnly, fileFirst
+//   target, output, depth, lineType, excludes, excPaths, excPatterns, ignores, includes,
+//   paths, patterns, reverse, silent, generate, dirInfo, fileFirst, fileOnly, dirOnly,
 // }, '#Cmd Params');
 
 /**
  * Parse target dir by options
  */
 parser(target, {
-  depth, reverse, lineType, excludes, excPaths, excPatterns,
-  includes, paths, patterns, needInfo, dirOnly, fileOnly, fileFirst
+  depth, reverse, lineType, excludes, excPaths, excPatterns, ignores,
+  includes, paths, patterns, dirInfo, fileFirst, fileOnly, dirOnly,
 }).then(
   parsed => {
     if (!silent) console.log(parsed.dirTree);

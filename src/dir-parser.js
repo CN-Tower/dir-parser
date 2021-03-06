@@ -68,18 +68,19 @@ function dirParser(target, options = {}) {
   let depth = fn.get(options, 'depth', 'num');
   if (!fn.isNum(depth)) depth = 0;
 
-  const isGetDirTree = fn.typeOf(options.dirTree, 'bol') ? options.dirTree : true;
   const isReverse = fn.get(options, 'reverse', 'bol');
-  const isNeedInfo = fn.get(options, 'needInfo', 'bol');
-  const isDirOnly = fn.get(options, 'dirOnly', 'bol');
-  const isFileOnly = isDirOnly ? false : fn.get(options, 'fileOnly', 'bol');
   const isFileFirst = fn.get(options, 'fileFirst', 'bol');
-  const isGetFiles = fn.get(options, 'files', 'bol');
-  const isGetChildren = fn.get(options, 'children', 'bol');
+  const isFileOnly = fn.get(options, 'fileOnly', 'bol');
+  const isDirOnly = isFileOnly ? false : fn.get(options, 'dirOnly', 'bol');
+  const isHideDirInfo = !fn.get(options, 'dirInfo', 'bol');
+  const isGetFiles = fn.get(options, 'getFiles', 'bol');
+  const isGetChildren = fn.get(options, 'getChildren', 'bol');
+  const isGetDirTree = fn.typeOf(options.dirTree, 'bol') ? options.dirTree : true;
   const lineType = fn.get(options, 'lineType', 'str') || 'solid';
   const excludes = fmtMatchs(fn.get(options, 'excludes', 'arr') || []);
   const excPaths = fmtPaths(fn.get(options, 'excPaths', 'arr') || []);
   const excPatterns = fmtPatterns(fn.get(options, 'excPatterns', 'arr') || []);
+  const ignores = fmtMatchs(fn.get(options, 'ignores', 'arr') || []);
   const includes = fmtMatchs(fn.get(options, 'includes', 'arr') || []);
   const paths = fmtPaths(fn.get(options, 'paths', 'arr') || []);
   const patterns = fmtPatterns(fn.get(options, 'patterns', 'arr') || []);
@@ -147,8 +148,8 @@ function dirParser(target, options = {}) {
           }
           if (isGetDirTree) {
             const isMiddleDir = i < subDirs.length - 1 || (!isDirOnly && !isFileFirst && subFiles.length > 0);
-            const isShowDMark = !dir.hasSubs || depth && deep === depth;
-            const dirEndMark = isShowDMark ? (dir.hasSubs ? '/*' : '/') : '';
+            const isShowDMark = !dir.hasSubs || dir.ignored || depth && deep === depth;
+            const dirEndMark = isShowDMark ? (dir.hasSubs && !dir.ignored ? '/*' : '/') : '';
             if (lineType === 'dashed') {
               if (isMiddleDir) {
                 dirTree += `${prev} +-- ${dir.name}${dirEndMark}\r\n`;
@@ -167,7 +168,7 @@ function dirParser(target, options = {}) {
               }
             }
           }
-          if (!depth || deep < depth) {
+          if (!dir.ignored && (!depth || deep < depth)) {
             const nextPath = path.join(dirPath, dir.name);
             const nextMemb = isGetChildren ? dirInfo.children : children;
             const nextDeep = deep + 1;
@@ -241,6 +242,7 @@ function dirParser(target, options = {}) {
         || excPaths.some(pth => iPath === pth)
         || excPatterns.some(ptn => iPath.match(ptn) || sPath.match(ptn));
       if (!isExclude) {
+        const isIgnore = ignores.length && ignores.includes(sub);
         const isInclude = (!includes.length || includes.includes(sub))
           && (!paths.length || paths.some(pth => iPath.includes(pth)))
           && (!patterns.length || patterns.some(ptn => iPath.match(ptn) || sPath.match(ptn)));
@@ -250,13 +252,13 @@ function dirParser(target, options = {}) {
           if (getOrCheckValidSubs(iPath, fs.readdirSync(iPath), deep + 1, true)) {
             if (!isFileOnly || (!depth || deep < depth)) {
               if (isCheck) return true;
-              subDirs.push({...iDir, hasSubs: true});
+              subDirs.push({...iDir, hasSubs: true, ignored: isIgnore});
             }
           } else if (isInclude && !isFileOnly) {
             if (isCheck && isDirOnly) return true;
-            subDirs.push({...iDir, hasSubs: false});
+            subDirs.push({...iDir, hasSubs: false, ignored: isIgnore});
           }
-        } else if (stat.isFile() && isInclude) {
+        } else if (stat.isFile() && !isIgnore && isInclude) {
           if (isCheck && isFileOnly) return true;
           subFiles.push(iDir);
         }
@@ -286,7 +288,7 @@ function dirParser(target, options = {}) {
     tarInfo.size_kb = calcSizekb(tarInfo.size);
   }
   if (isGetDirTree) {
-    if (isNeedInfo) {
+    if (isHideDirInfo) {
       dirTree = `${tarName}\r\n${dirTree}`;
     } else if (isDirOnly) {
       dirTree = `${tarName} ( directories: ${tarInfo.dirNum} )\r\n${dirTree}`;

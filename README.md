@@ -21,22 +21,28 @@ Parse a directory and generate it's structure tree.
 Usage: parser [options]
 
 Options:
-  -V, --version              output the version number
-  -v, --version
-  -i, --input [input]        Target directory, default: "./"
-  -o, --output [output]      Output path, default: "./"
-  -d, --depth [depth]        Depth of the directory (int, 0 means no limit), default: 0.
-  -l, --lineType [lineType]  Line type of tree (dashed | solid), default: solid.
-  -e, --excludes [excludes]  Exclude some directories or files by name.
-  -x, --excPaths [excPaths]  Exclude some directories or files by path.
-  -r, --patterns [patterns]  Exclude some directories or files by RegExp.
-  -c, --config [config]      Parser config file.
-  -S, --silent               Not print the parse-result in terminal.
-  -G, --generate             Generate dir-info file under the output path.
-  -N, --noNum                Not show file and directory number.
-  -D, --dirOnly              Only pase the directories.
-  -F, --fileFirst            Print files first, before than directories.
-  -h, --help                 output usage information
+  -V, --version                   output the version number
+  -v, --version                   output the version number
+  -c, --config [config]           config file, Optional.
+  -i, --input <input>             target directory (default: "./")
+  -o, --output <output>           output path (default: "./")
+  -d, --depth <depth>             depth of a parse process, 0 means no limit (default: 0)
+  -l, --lineType <lineType>       line type of tree, "dashed" or "solid" (default: "solid")
+  -e, --excludes <excludes..>     exclude some directories or files by name.
+  -x, --excPaths <excPaths..>     exclude directories or files by path.
+  -p, --patterns <patterns...>    filter directories or files by RegExp.
+  -g, --generate [fileName]       generate a dir-info file to the output path, "dir-info.txt" is default.
+  -r, --reverse                   reverse the parsed result.
+  -s, --silent                    not print the parsed result in terminal.
+  -f, --fileFirst                 print files first, before directories.
+  -F, --fileOnly                  Pase files only.
+  -D, --dirOnly                   Pase directories only, and it only takes effect when fileOnly is false.
+  -I, --ignores <ignores..>       ignore some directories or files by name.
+  -N, --no-dirInfo                not show file and directory number info on the result top.
+  --paths <paths..>               filter directories or files by path.
+  --includes <includes..>         filter directories or files by name.
+  --excPatterns <excPatterns...>  exclude directories or files by RegExp.
+  -h, --help                      output usage information
 ```
 
 ### Parse your dir
@@ -76,7 +82,7 @@ app ( directories: 4, Files: 2 )
  └─ package.json
 ```
 
-`$ parser -l dashed -F`
+`$ parser -l dashed -f`
 ```
 app ( directories: 7, Files: 9 )
  +-- app.js
@@ -97,7 +103,7 @@ app ( directories: 7, Files: 9 )
      +-- layout.pug
 ```
 
-`$ parser -e bin,public -N -G`<br>
+`$ parser -e bin,public -Ng`<br>
 `$ cat dir-info.txt`
 ```
 app
@@ -149,19 +155,24 @@ parser(dirPath: string, options: Options): Promise<Parsed>
 /**
  *Options
  */
-interface options {
-  output?: string;
-  lineType?: 'solid' | 'dashed';
+interface options {             
   depth?: number;
-  noNum?: boolean;
-  dirOnly?: boolean;
+  reverse?: boolean;
   fileFirst?: boolean;
-  files?: boolean;
-  children?: boolean;
-  dirTree?: boolean;
+  fileOnly?: boolean;
+  dirOnly?: boolean;
+  getFiles?: boolean;
+  getChildren?: boolean;
+  dirTree?: boolean;             // default: true
+  dirInfo?: boolean;             // default: true
+  lineType?: 'solid' | 'dashed'; // default: 'solid'
   excludes?: Array<string>;      // eg: [ '.git', 'node_modules', '.idea' ];
   excPaths?: Array<string>;      // eg: [ 'src/app' ];
-  patterns?: Array<string>;      // eg: [ 'src/*.js ]';
+  excPatterns?: Array<string>;   // eg: [ 'src/*.js ]';
+  ignores: Array<string>;        // eg: [ 'public' ];
+  includes: Array<string>;       // eg: [ 'app.js' ];
+  paths?: Array<string>;         // eg: [ 'src/public' ];
+  patterns?: Array<string>;      // eg: [ '*.js ]';
 }
 
 /**
@@ -316,8 +327,8 @@ parser('./', {
 ```
 parser('./', {
   excludes: excludes,
-  files: true,       // Default is false, If true, returns will conatins an array of all subfiles's info;
-  children: true,    // Default is false, If true, returns will conatins an object of all children's info;
+  getFiles: true,    // Default is false, If true, returns will conatins an array of all subfiles's info;
+  getChildren: true, // Default is false, If true, returns will conatins an object of all children's info;
   dirTree: false     // Default is true, returns will conatins a tree of the directory;
 }).then(parsed => {
   fn.log(parsed.children, '# parsed.children');
@@ -486,8 +497,8 @@ parser('./', {
 ```
 parser('./', {
   excludes: excludes,
-  files: true,
-  children: true,
+  getFiles: true,
+  getChildren: true,
   dirTree: false
 }).then(parsed => {
   // fn.log(parsed.children, '# parsed.children');

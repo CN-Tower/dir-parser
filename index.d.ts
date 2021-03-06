@@ -16,19 +16,24 @@ declare namespace parser {
   /**
    * options of dirparse 
    */
-  interface Options {
-    output?: string;
-    lineType?: 'solid' | 'dashed';
+  interface options {             
     depth?: number;
-    noNum?: boolean;
-    dirOnly?: boolean;
+    reverse?: boolean;
     fileFirst?: boolean;
-    files?: boolean;
-    children?: boolean;
-    dirTree?: boolean;
+    fileOnly?: boolean;
+    dirOnly?: boolean;
+    getFiles?: boolean;
+    getChildren?: boolean;
+    dirTree?: boolean;             // default: true
+    dirInfo?: boolean;             // default: true
+    lineType?: 'solid' | 'dashed'; // default: 'solid'
     excludes?: Array<string>;      // eg: [ '.git', 'node_modules', '.idea' ];
     excPaths?: Array<string>;      // eg: [ 'src/app' ];
-    patterns?: Array<string>;      // eg: [ 'src/*.js ]';
+    excPatterns?: Array<string>;   // eg: [ 'src/*.js ]';
+    ignores: Array<string>;        // eg: [ 'public' ];
+    includes: Array<string>;       // eg: [ 'app.js' ];
+    paths?: Array<string>;         // eg: [ 'src/public' ];
+    patterns?: Array<string>;      // eg: [ '*.js ]';
   }
 
   /**
