@@ -32,13 +32,13 @@ Options:
   -x, --excPaths <excPaths..>     exclude directories or files by path.
   -p, --patterns <patterns...>    filter directories or files by RegExp.
   -g, --generate [fileName]       generate a dir-info file to the output path, "dir-info.txt" is default.
-  -r, --reverse                   reverse the parsed result.
-  -s, --silent                    not print the parsed result in terminal.
+  -r, --reverse                   reverse the parsed dir-tree nodes.
+  -s, --silent                    not show the parsed dir-tree in terminal.
   -f, --fileFirst                 print files first, before directories.
   -F, --fileOnly                  Pase files only.
   -D, --dirOnly                   Pase directories only, and it only takes effect when fileOnly is false.
   -I, --ignores <ignores..>       ignore some directories or files by name.
-  -N, --no-dirInfo                not show file and directory number info on the result top.
+  -N, --no-dirInfo                hide file and directory number info on the result top.
   --paths <paths..>               filter directories or files by path.
   --includes <includes..>         filter directories or files by name.
   --excPatterns <excPatterns...>  exclude directories or files by RegExp.
