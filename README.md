@@ -4,11 +4,13 @@
 
 > Parse a directory and generate it's structure tree.
 
+Read this in other languages: English | [简体中文](./README_zh-CN.md)
+
 ## Quick Start
 
 ### Demo Image
 
-![Dir Parser Demo](images/dir-parser.jpg)
+![Dir Parser Demo](../images/dir-parser.jpg)
 
 ### Install dir-parser
 
