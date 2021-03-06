@@ -39,7 +39,7 @@ To run demos, you need to install `funclib` and `express-generator`:<br>
 
 ## 2. Command Line
 ### 2,1 Example image
-![Dir Parser Demo](images/demo.jpg)
+![Dir Parser Demo](images/demo.png)
 
 ### 2,2 Print help info
 `$ parser -h`
