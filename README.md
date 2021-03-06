@@ -1,3 +1,7 @@
+<p align="center">
+  <img width="80%;" src="images/demo.png">
+</p>
+
 # dir-parser
 
 [![npm](https://img.shields.io/npm/v/dir-parser.svg)](https://www.npmjs.com/package/dir-parser)
@@ -23,10 +27,6 @@ Read this in other languages: English | [简体中文](./README_zh-CN.md)
     - [3.3 Get dir-info](#33-get-dir-info)
 
 ## 1. What is dir-parser
-
-<p align="center"><br>
-  <img width="80%;" src="images/demo.png">
-</p>
 
 ### 1.1 Brief introduce
 Dir parser is a powerful folder analysis tool based on nodejs, which can be used in command line or JavaScript code. There are many practical parameters that can be set to help you get the formatted folder tree and internal information.
