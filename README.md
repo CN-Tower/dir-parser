@@ -73,7 +73,7 @@ Read this in other languages: English | [简体中文](./README_zh-CN.md)
 
 ## 2. Command Line
 
-### 2,1 Print help info
+### 2.1 Print help info
 `$ parser -h` (or: `$ parser --help`)
 ```
 Usage: parser [options]
