@@ -1,9 +1,9 @@
-<h1 align="center">😎 Dir Parser(文件夹解析器) v2 😎</h1>
+<h1 align="center">😎 文件夹解析器[Dir Parser v2] 😎</h1>
 <p align="center">
   <img width="80%;" src="images/demo.png">
 </p>
 
-# dir-parser 文件夹解析器
+# 文件夹解析器 dir-parser
 
 [![npm](https://img.shields.io/npm/v/dir-parser.svg)](https://www.npmjs.com/package/dir-parser)
 [![LICENSE MIT](https://img.shields.io/npm/l/dir-parser.svg)](https://www.npmjs.com/package/dir-parser) 
@@ -14,98 +14,99 @@
 
 使用其它语言阅读: [English](https://github.com/CN-Tower/dir-parser) | 简体中文
 
-- [dir-parser](#dir-parser-文件夹解析器)
-  - [一、什么是dir-parser](#一、什么是dir-parser)
+- [dir-parser 文件夹解析器](#文件夹解析器-dir-parser)
+  - [一、什么是文件夹解析器dir-parser](#一、什么是dir-parser文件夹解析器)
     - [1.1 工具简介](#11-工具简介)
     - [1.2 安装使用](#12-安装使用)
-  - [二、命令行](#二、命令行e)
+  - [二、在命令行中使用](#二、在命令行中使用)
     - [2.1 打印帮助信息](#21-打印帮助信息)
-    - [2.2 生成文件树](#22-generate-dir-tree)
-    - [2.3 使用解析参数](#23-with-parameters)
-      - [2.3.1 excludes排除项](#231-excludes)
-      - [2.3.2 ignores忽略项](#232-ignores)
-      - [2.3.3 patterns正则匹配](#233-patterns)
-      - [2.3.4 lineType结构线型](#234-lineType)
-      - [2.3.5 depth解析深度](#235-depth)
-      - [2.3.6 reverse节点逆序](#236-reverse)
-      - [2.3.7 fileFirst文件优先](#237-fileFirst)
-      - [2.3.8 fileOnly仅文件](#238-fileOnly)
-      - [2.3.9 dirOnly仅文件夹](#239-dirOnly)
-      - [2.3.10 dirInfo解析信息](#2310-dirInfo)
-      - [2.3.11 excPaths路径排除](#2311-excPaths)
-      - [2.3.12 excPatterns正则排除](#2312-excPatterns)
-      - [2.3.13 silent静默](#2313-silent)
-      - [2.3.14 generate生成结果](#2314-generate)
-      - [2.3.15 config配置文件](#2315-config)
-    - [2.4 多个命令混合使用](#24-use-multiple-commands-together)
-  - [三、JavaScript](#三、in-javascript)
-    - [3.1 Interface](#31-interface)
-      - [3.1.1 Main function](#311-main-function)
-      - [3.1.2 Options](#312-options)
-      - [3.1.3 Parsed](#313-parsed)
-      - [3.1.4 DirInfo](#314-dirinfo)
-      - [3.1.5 FileInfo](#315-fileinfo)
-    - [3.2 Get dir-tree](#32-get-dir-tree)
-      - [3.2.1 Make dir-tree example](#32-make-dir-tree-example)
-      - [3.2.2 Run dir-tree example](#32-run-dir-tree-example)
-    - [3.3 Get dir-info](#33-get-dir-info)
-      - [3.3.1 Make dir-info example](#331-make-dir-info-example)
-      - [3.3.2 Run dir-info example](#332-run-dir-info-example)
-      - [3.3.3 Make dir-children example](#333-make-dir-children-example)
-      - [3.3.4 Run dir-children example](#334-run-dir-children-example)
-      - [3.3.5 Make dir-files example](#335-make-dir-files-example)
-      - [3.3.6 Run dir-files example](#336-run-dir-files-example)
+    - [2.2 生成文件树](#22-生成文件树)
+    - [2.3 使用解析参数](#23-使用解析参数)
+      - [2.3.1 排除项-excludes](#231-排除项-excludes)
+      - [2.3.2 忽略项-ignores](#232-忽略项-ignores)
+      - [2.3.3 正则匹配-patterns](#233-正则匹配-patterns)
+      - [2.3.4 结构线型-lineType](#234-结构线型-lineType)
+      - [2.3.5 解析深度-depth](#235-解析深度-depth)
+      - [2.3.6 节点逆序-reverse](#236-节点逆序-reverse)
+      - [2.3.7 文件优先-fileFirst](#237-文件优先-fileFirst)
+      - [2.3.8 仅文件-fileOnly](#238-仅文件-fileOnly)
+      - [2.3.9 仅文件夹-dirOnly](#239-仅文件夹-dirOnly)
+      - [2.3.10 解析信息-dirInfo](#2310-解析信息-dirInfo)
+      - [2.3.11 路径排除-excPaths](#2311-路径排除-excPaths)
+      - [2.3.12 正则排除-excPatterns](#2312-正则排除-excPatterns)
+      - [2.3.13 静默解析-silent](#2313-静默解析-silent)
+      - [2.3.14 生成结果-generate](#2314-生成结果-generate)
+      - [2.3.15 配置文件-config](#2315-配置文件-config)
+    - [2.4 多个命令混合使用](#24-多个命令混合使用)
+  - [三、在Js代码中使用](#三、在Js代码中使用)
+    - [3.1 方法接口](#31-方法接口)
+      - [3.1.1 主函数-parser](#311-主函数-parser)
+      - [3.1.2 参数选项-Options](#312-参数选项-options)
+      - [3.1.3 解析结果-Parsed](#313-解析结果-parsed)
+      - [3.1.4 文件夹信息-DirInfo](#314-文件夹信息-dirinfo)
+      - [3.1.5 文件信息-FileInfo](#315-文件信息-fileinfo)
+    - [3.2 获取文件树](#32-获取文件树)
+      - [3.2.1 构建文件树案例](#321-构建文件树案例)
+      - [3.2.2 执行文件树案例](#322-执行文件树案例)
+    - [3.3 获取文件信息](#33-获取文件信息)
+      - [3.3.1 构建文件夹信息案例](#331-构建文件夹信息案例)
+      - [3.3.2 执行文件夹信息案例](#332-执行文件夹信息案例)
+      - [3.3.3 构建子文件信息案例](#333-构建子文件信息案例)
+      - [3.3.4 执行子文件信息案例](#334-执行子文件信息案例)
+      - [3.3.5 构建纯文件信息案例](#335-构建纯文件信息案例)
+      - [3.3.6 执行纯文件信息案例](#336-执行纯文件信息案例)
 
-## 1. What is dir-parser
+## 一、什么是dir-parser文件夹解析器
 
-### 1.1 Brief introduce
+### 1.1 工具简介
 👍👍👍dir-parser是一个基于nodejs的强大的文件夹分析工具，可以在命令行中使用也可以在javascript代码中应用。有很多实用的参数可以设置，可以帮助你获取格式化的文件夹树和内部信息。
 
-### 1.2 Installation
+### 1.2 安装使用
 
-#### 1.2.1 Global install
+#### 1.2.1 全局安装
 - yarn: `$ yarn global add dir-parser`
 - npm: `$ npm install -g dir-parser`
 
-#### 1.2.2 Local install
+#### 1.2.2 局部安装
 - yarn: `$ yarn add dir-parser` or `$ yarn add dir-parser -D`
 - npm: `$ npm install dir-parser` or `$ npm install dir-parser -D`
 
-## 2. Command Line
+## 二、在命令行中使用
 
-### 2,1 Print help info
-`$ parser -h` (or: `$ parser --help`)
+### 2,1 打印帮助信息
+`$ parser -H` (或: `$ parser --Help`)
 ```
-Usage: parser [options]
+用例: parser [参数options]
 
-Options:
-  -V, --version                   output the version number
-  -v, --version                   output the version number
-  -c, --config [config]           config file, Optional.
-  -i, --input <input>             target directory (default: "./")
-  -o, --output <output>           output path (default: "./")
-  -d, --depth <depth>             depth of a parse process, 0 means no limit (default: 0)
-  -l, --lineType <lineType>       line type of tree, "dashed" or "solid" (default: "solid")
-  -e, --excludes <excludes..>     exclude some directories or files by name.
-  -x, --excPaths <excPaths..>     exclude directories or files by path.
-  -p, --patterns <patterns...>    filter directories or files by RegExp.
-  -g, --generate [fileName]       generate a dir-info file to the output path, "dir-info.txt" is default.
-  -r, --reverse                   reverse the parsed dir-tree nodes.
-  -s, --silent                    not show the parsed dir-tree in terminal.
-  -f, --fileFirst                 print files first, before directories.
-  -F, --fileOnly                  Pase files only.
-  -D, --dirOnly                   Pase directories only, and it only takes effect when fileOnly is false.
-  -I, --ignores <ignores..>       ignore some directories or files by name.
-  -N, --no-dirInfo                hide file and directory number info on the result top.
-  --paths <paths..>               filter directories or files by path.
-  --includes <includes..>         filter directories or files by name.
-  --excPatterns <excPatterns...>  exclude directories or files by RegExp.
-  -h, --help                      output usage information
+参数 Options:
+  -V, --version                   打印输出版本号。
+  -v, --version                   打印输出版本号。
+  -c, --config [config]           根据配置文件解析，可选。
+  -i, --input <input>             指定个目标文件夹，(默认: "./")。
+  -o, --output <output>           解析结果输出目录，(默认: "./")。
+  -d, --depth <depth>             解析深度，0表示不限制。(默认: 0)。
+  -l, --lineType <lineType>       生成的文件树线型, "dashed" 或 "solid"，(默认: "solid")。
+  -e, --excludes <excludes..>     根据名称排除文件夹或文件。
+  -x, --excPaths <excPaths..>     根据路径排除文件夹或文件。
+  -p, --patterns <patterns...>    根据正则解析文件夹或文件。
+  -g, --generate [fileName]       生成一个解析结果的文件，默认文件名为"dir-info.txt"。
+  -r, --reverse                   生成节点逆序的文件树。
+  -s, --silent                    静默解析，不在控制台输出解析结果。
+  -f, --fileFirst                 先输出文件节点，先于文件夹节点。
+  -F, --fileOnly                  只解析文件。
+  -D, --dirOnly                   只解析文件夹，只有当fileOnly为false时才生效。
+  -I, --ignores <ignores..>       根据名称忽略一些文件夹或文件。
+  -N, --no-dirInfo                不在解析结果中显示文件夹和文件的数量信息。
+  --paths <paths..>               根据路径解析文件夹或文件。
+  --includes <includes..>         根据名称解析文件夹或文件。
+  --excPatterns <excPatterns...>  根据正则排队文件夹或文件。
+  -H, --Help                      打印中文帮助信息。
+  -h, --help                      打印英语帮助信息。(output usage information)
 ```
 
-### 2.2 Generate dir-tree
-To run demo, you need to install `express-generator`:<br>
-Run: <br>
+### 2.2 生成文件树
+如果需要跑例子的话，你可能需要安装 `express-generator`，但这也不是必需的:<br>
+运行: <br>
 `$ npm install -g express-generator`<br>
 `$ express myapp`<br>
 `$ cd myapp`<br>
@@ -130,14 +131,14 @@ myapp ( directories: 7, Files: 9 )
  └─ package.json
 ```
 
-### 2.3 With parameters
+### 2.3 使用解析参数
 
-#### 2.3.1 excludes
-👉 Exclude some directories or files by name.<br>
+#### 2.3.1 排除项-excludes
+👉 根据名称排除文件夹或文件。<br>
 `$ # git init`<br>
 `$ npm install`<br>
 `$ parser -e .git,node_modules,public`<br>
-or: `$ parser --excludes .git,node_modules,public`)
+或: `$ parser --excludes .git,node_modules,public`
 ```
 myapp ( directories: 3, Files: 8 )
  ├─ bin
@@ -153,10 +154,10 @@ myapp ( directories: 3, Files: 8 )
  └─ package.json
 ```
 
-#### 2.3.2 ignores
-👉 Ignore some directories or files by name.<br>
+#### 2.3.2 忽略项-ignores
+👉 根据名称忽略一些文件夹或文件。<br>
 `$ parser -e node_modules -I bin,public`<br>
-or: `$ parser -e node_modules --ignores bin,public`
+或: `$ parser -e node_modules --ignores bin,public`
 ```
 myapp ( directories: 4, Files: 7 )
  ├─ bin/
@@ -172,10 +173,10 @@ myapp ( directories: 4, Files: 7 )
  └─ package.json
 ```
 
-#### 2.3.3 patterns
-👉 Filter directories or files by RegExp.<br>
+#### 2.3.3 正则匹配-patterns
+👉 根据正则解析文件夹或文件。<br>
 `$ parser -e node_modules -p .js$`<br>
-or: `$ parser -e node_modules --patterns .js$`
+或: `$ parser -e node_modules --patterns .js$`
 ```
 myapp ( directories: 1, Files: 3 )
  ├─ routes
@@ -184,10 +185,10 @@ myapp ( directories: 1, Files: 3 )
  └─ app.js
 ```
 
-#### 2.3.4 lineType
-👉 Line type of tree, "dashed" or "solid" (default: "solid")<br>
+#### 2.3.4 结构线型-lineType
+👉 生成的文件树线型, "dashed" 或 "solid"，(默认: "solid")。<br>
 `$ parser -e bin,node_modules -l dashed`<br>
-or: `$ parser -e bin,node_modules --lineType dashed`
+或: `$ parser -e bin,node_modules --lineType dashed`
 ```
 myapp ( directories: 6, Files: 8 )
  +-- public
@@ -206,10 +207,10 @@ myapp ( directories: 6, Files: 8 )
  +-- package.json
 ```
 
-#### 2.3.5 depth
-👉 Depth of a parse process, 0 means no limit (default: 0)<br>
+#### 2.3.5 解析深度-depth
+👉 解析深度，0表示不限制。(默认: 0)<br>
 `$ parser -e node_modules,views -d 2`<br>
-or: `$ parser -e node_modules,views --depth 2`
+或: `$ parser -e node_modules,views --depth 2`
 ```
 myapp ( directories: 6, Files: 5 )
  ├─ bin
@@ -225,10 +226,10 @@ myapp ( directories: 6, Files: 5 )
  └─ package.json
 ```
 
-#### 2.3.6 reverse
-👉 Reverse the parsed dir-tree nodes.<br>
+#### 2.3.6 节点逆序-reverse
+👉 生成节点逆序的文件树。<br>
 `$ parser -e node_modules,views -d 2 -r`<br>
-or: `$ parser -e node_modules,views -d 2 --reverse`
+或: `$ parser -e node_modules,views -d 2 --reverse`
 ```
 myapp ( directories: 6, Files: 5 )
  ├─ routes
@@ -244,10 +245,10 @@ myapp ( directories: 6, Files: 5 )
  └─ app.js
 ```
 
-#### 2.3.7 fileFirst
-👉 Print files first, before directories.<br>
+#### 2.3.7 文件优先-fileFirst
+👉 先输出文件节点，先于文件夹节点。<br>
 `$ parser -e node_modules,bin,views -f`<br>
-or: `$ parser -e node_modules,bin,views --fileFirst`
+或: `$ parser -e node_modules,bin,views --fileFirst`
 ```
 myapp ( directories: 5, Files: 6 )
  ├─ app.js
@@ -263,10 +264,10 @@ myapp ( directories: 5, Files: 6 )
    └─ users.js
 ```
 
-#### 2.3.8 fileOnly
-👉 Pase files only.<br>
+#### 2.3.8 仅文件-fileOnly
+👉 只解析文件。<br>
 `$ parser -e node_modules,bin,views -F`<br>
-or: `$ parser -e node_modules,bin,views --fileOnly`
+或: `$ parser -e node_modules,bin,views --fileOnly`
 ```
 myapp ( directories: 3, Files: 6 )
  ├─ public
@@ -280,10 +281,10 @@ myapp ( directories: 3, Files: 6 )
  └─ package.json
 ```
 
-#### 2.3.9 dirOnly
-👉 Pase directories only, and it only takes effect when fileOnly is false.<br>
+#### 2.3.9 仅文件夹-dirOnly
+👉 只解析文件夹，只有当fileOnly为false时才生效。<br>
 `$ parser -e node_modules,bin,views -D`<br>
-or: `$ parser -e node_modules,bin,views --dirOnly`
+或: `$ parser -e node_modules,bin,views --dirOnly`
 ```
 myapp ( directories: 5 )
  ├─ public
@@ -293,10 +294,10 @@ myapp ( directories: 5 )
  └─ routes/
 ```
 
-#### 2.3.10 dirInfo
-👉 Hide file and directory number info on the result top.<br>
+#### 2.3.10 解析信息-dirInfo
+👉 不在解析结果中显示文件夹和文件的数量信息。<br>
 `$ parser -e node_modules,bin,public -N`<br>
-or: `$ parser -e node_modules,bin,public --no-dirInfo`
+或: `$ parser -e node_modules,bin,public --no-dirInfo`
 ```
 myapp
  ├─ routes
@@ -311,10 +312,10 @@ myapp
  └─ package.json
 ```
 
-#### 2.3.11 excPaths
-👉 Exclude directories or files by path.<br>
+#### 2.3.11 路径排除-excPaths
+👉 根据路径排除文件夹或文件。<br>
 `$ parser -e node_modules,bin -x myapp/public`<br>
-or: `$ parser -e node_modules,bin -excPath myapp/public`
+或: `$ parser -e node_modules,bin -excPath myapp/public`
 ```
 myapp ( directories: 2, Files: 7 )
  ├─ routes
@@ -328,8 +329,8 @@ myapp ( directories: 2, Files: 7 )
  └─ package.json
 ```
 
-#### 2.3.12 excPatterns
-👉 Exclude directories or files by RegExp.<br>
+#### 2.3.12 正则排除-excPatterns
+👉 根据正则排队文件夹或文件。<br>
 `$ parser -e node_modules,bin --excPatterns .jade$,.css$`
 ```
 myapp ( directories: 6, Files: 4 )
@@ -345,15 +346,15 @@ myapp ( directories: 6, Files: 4 )
  └─ package.json
 ```
 
-#### 2.3.13 silent
-👉 Not show the parsed dir-tree in terminal.<br>
+#### 2.3.13 静默解析-silent
+👉 静默解析，不在控制台输出解析结果。<br>
 `$ parser -e node_modules,bin,public -s`<br>
-or: `$ parser -e node_modules,bin,public --silent`
+或: `$ parser -e node_modules,bin,public --silent`
 
-#### 2.3.14 generate
-👉 Generate a dir-info file to the output path, "dir-info.txt" is default.<br>
+#### 2.3.14 生成结果-generate
+👉 生成一个解析结果的文件，默认文件名为"dir-info.txt"。<br>
 `$ parser -e node_modules,bin,public -sg`<br>
-or: `$ parser -e node_modules,bin,public -s --generate`<br>
+或: `$ parser -e node_modules,bin,public -s --generate`<br>
 `$ cat dir-info.txt`
 ```
 myapp ( directories: 2, Files: 7 )
@@ -368,8 +369,8 @@ myapp ( directories: 2, Files: 7 )
  └─ package.json
 ```
 
-#### 2.3.15 config
-👉 Config file, Optional.<br>
+#### 2.3.15 配置文件-config
+👉 根据配置文件解析，可选。<br>
 `$ touch parser.conf.json`<br>
 `$ vi parser.conf.json`
 ```json
@@ -395,7 +396,7 @@ myapp ( directories: 2, Files: 8 )
  └─ package.json
 ```
 
-### 2.4 Use multiple commands together
+### 2.4 多个命令混合使用
 `parser -e node_modules,bin -I views -d 2 -Nr`
 ```
 myapp
@@ -412,16 +413,16 @@ myapp
  └─ app.js
 ```
 
-## 3. In JavaScript
+## 三、在Js代码中使用
 
-### 3.1 Interface
+### 3.1 方法接口
 
-#### 3.1.1 Main Function
+#### 3.1.1 主函数-parser
 ```ts
 parser(dirPath: string, options: Options): Promise<Parsed>
 ```
 
-#### 3.1.2 Options
+#### 3.1.2 参数选项-Options
 ```ts
 interface Options {             
   depth?: number;
@@ -443,7 +444,7 @@ interface Options {
   patterns?: Array<string>;      // eg: [ '*.js ]';
 }
 ```
-#### 3.1.3 Parsed
+#### 3.1.3 解析结果-Parsed
 ```ts
 interface Parsed extends DirInfo {
   dirTree: string;
@@ -452,7 +453,7 @@ interface Parsed extends DirInfo {
 }
 ```
 
-#### 3.1.4 DirInfo
+#### 3.1.4 文件夹信息-DirInfo
 ```ts
 interface DirInfo {
   name: string;
@@ -469,7 +470,7 @@ interface DirInfo {
 }
 ```
 
-#### 3.1.5 FileInfo
+#### 3.1.5 文件信息-FileInfo
 ```ts
 interface FileInfo {
   name: string;
@@ -485,9 +486,9 @@ interface FileInfo {
 }
 ```
 
-### 3.2 Get dir-tree
+### 3.2 获取文件树
 
-#### 3.2.1 Make dir-tree example
+#### 3.2.1 构建文件树案例
 `$ npm install funclib`<br>
 `$ touch test.js`<br>
 `$ vi test.js`<br>
@@ -508,7 +509,7 @@ parser('./', {
 });
 ```
 
-#### 3.2.2 Run dir-tree example
+#### 3.2.2 执行文件树案例
 `$ node test.js`
 ```
 ==================================================================
@@ -556,9 +557,9 @@ dir-parser ( directories: 8, Files: 30 )
 ==================================================================
 ```
 
-### 3.3 Get dir-info
+### 3.3 获取文件信息
 
-#### 3.3.1 Make dir-info example 
+#### 3.3.1 构建文件夹信息案例
 `$ vi test.js`
 ```js
 parser('./', {
@@ -573,7 +574,7 @@ parser('./', {
   // fn.log(parsed.files, '# parsed.files');
 });
 ```
-#### 3.3.2 Run dir-info example 
+#### 3.3.2 执行文件夹信息案例
 `$ node test.js`
 ```json
 {
@@ -588,21 +589,21 @@ parser('./', {
 }
 ```
 
-#### 3.3.3 Make dir-children example 
+#### 3.3.3 构建子文件信息案例
 `$ vi test.js`
 ```js
 parser('./', {
   excludes: excludes,
-  getFiles: true,    // Default is false, If true, returns will conatins an array of all subfiles's info;
-  getChildren: true, // Default is false, If true, returns will conatins an object of all children's info;
-  dirTree: false     // Default is true, returns will conatins a tree of the directory;
+  getFiles: true,    // 默认为false，返回结果是否包含一个包含所有子文件信息的数组。
+  getChildren: true, // 默认为false，返回结果是否包含一个所有子文件夹和子文件信息的数组。
+  dirTree: false     // 默认为true，返回结果是否包含生成的文件树信息
 }).then(parsed => {
   console.log(fn.pretty(parsed.children));
   // fn.log(parsed.files, '# parsed.files');
 });
 ```
 
-#### 3.3.4 Run dir-children example 
+#### 3.3.4 执行子文件信息案例
 `$ node test.js`
 ```json
 [
@@ -757,7 +758,7 @@ parser('./', {
 ]
 ```
 
-#### 3.3.5 Make dir-files example 
+#### 3.3.5 构建纯文件信息案例
 `$ vi test.js`
 ```js
 parser('./', {
@@ -771,7 +772,7 @@ parser('./', {
 });
 ```
 
-#### 3.3.6 Run dir-files example 
+#### 3.3.6 执行纯文件信息案例
 `$ node test.js`
 ```json
 [

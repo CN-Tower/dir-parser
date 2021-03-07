@@ -31,6 +31,38 @@ program.version(package.version)
   .option('-H, --Help', 'output chinese usage information.(打印中文帮助信息.)')
   .parse(process.argv);
 
+if (program.Help) {
+  console.log(`
+用例: parser [参数options]
+
+参数 Options:
+  -V, --version                   打印输出版本号。
+  -v, --version                   打印输出版本号。
+  -c, --config [config]           根据配置文件解析，可选。
+  -i, --input <input>             指定个目标文件夹，(默认: "./")。
+  -o, --output <output>           解析结果输出目录，(默认: "./")。
+  -d, --depth <depth>             解析深度，0表示不限制。(默认: 0)。
+  -l, --lineType <lineType>       生成的文件树线型, "dashed" 或 "solid"，(默认: "solid")。
+  -e, --excludes <excludes..>     根据名称排除文件夹或文件。
+  -x, --excPaths <excPaths..>     根据路径排除文件夹或文件。
+  -p, --patterns <patterns...>    根据正则解析文件夹或文件。
+  -g, --generate [fileName]       生成一个解析结果的文件，默认文件名为"dir-info.txt"。
+  -r, --reverse                   生成节点逆序的文件树。
+  -s, --silent                    静默解析，不在控制台输出解析结果。
+  -f, --fileFirst                 先输出文件节点，先于文件夹节点。
+  -F, --fileOnly                  只解析文件。
+  -D, --dirOnly                   只解析文件夹，只有当fileOnly为false时才生效。
+  -I, --ignores <ignores..>       根据名称忽略一些文件夹或文件。
+  -N, --no-dirInfo                不在解析结果中显示文件夹和文件的数量信息。
+  --paths <paths..>               根据路径解析文件夹或文件。
+  --includes <includes..>         根据名称解析文件夹或文件。
+  --excPatterns <excPatterns...>  根据正则排队文件夹或文件。
+  -H, --Help                      打印中文帮助信息。
+  -h, --help                      打印英语帮助信息。(output usage information)
+`);
+  return process.exit(0);
+}
+
 let config = {};
 if (program.config) {
   config = require(path.resolve(program.config));

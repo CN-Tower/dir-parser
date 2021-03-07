@@ -40,14 +40,14 @@ Read this in other languages: English | [简体中文](./README_zh-CN.md)
     - [2.4 Use multiple commands together](#24-use-multiple-commands-together)
   - [3. In JavaScript](#3-in-javascript)
     - [3.1 Interface](#31-interface)
-      - [3.1.1 Main function](#311-main-function)
+      - [3.1.1 Main Function-parser](#311-main-function-parser)
       - [3.1.2 Options](#312-options)
       - [3.1.3 Parsed](#313-parsed)
       - [3.1.4 DirInfo](#314-dirinfo)
       - [3.1.5 FileInfo](#315-fileinfo)
     - [3.2 Get dir-tree](#32-get-dir-tree)
-      - [3.2.1 Make dir-tree example](#32-make-dir-tree-example)
-      - [3.2.2 Run dir-tree example](#32-run-dir-tree-example)
+      - [3.2.1 Make dir-tree example](#321-make-dir-tree-example)
+      - [3.2.2 Run dir-tree example](#322-run-dir-tree-example)
     - [3.3 Get dir-info](#33-get-dir-info)
       - [3.3.1 Make dir-info example](#331-make-dir-info-example)
       - [3.3.2 Run dir-info example](#332-run-dir-info-example)
@@ -93,13 +93,14 @@ Options:
   -r, --reverse                   reverse the parsed dir-tree nodes.
   -s, --silent                    not show the parsed dir-tree in terminal.
   -f, --fileFirst                 print files first, before directories.
-  -F, --fileOnly                  Pase files only.
-  -D, --dirOnly                   Pase directories only, and it only takes effect when fileOnly is false.
+  -F, --fileOnly                  pase files only.
+  -D, --dirOnly                   pase directories only, and it only takes effect when fileOnly is false.
   -I, --ignores <ignores..>       ignore some directories or files by name.
   -N, --no-dirInfo                hide file and directory number info on the result top.
   --paths <paths..>               filter directories or files by path.
   --includes <includes..>         filter directories or files by name.
   --excPatterns <excPatterns...>  exclude directories or files by RegExp.
+  -H, --Help                      output chinese usage information.(打印中文帮助信息.)
   -h, --help                      output usage information
 ```
 
@@ -137,7 +138,7 @@ myapp ( directories: 7, Files: 9 )
 `$ # git init`<br>
 `$ npm install`<br>
 `$ parser -e .git,node_modules,public`<br>
-or: `$ parser --excludes .git,node_modules,public`)
+or: `$ parser --excludes .git,node_modules,public`
 ```
 myapp ( directories: 3, Files: 8 )
  ├─ bin
@@ -416,7 +417,7 @@ myapp
 
 ### 3.1 Interface
 
-#### 3.1.1 Main Function
+#### 3.1.1 Main Function-parser
 ```ts
 parser(dirPath: string, options: Options): Promise<Parsed>
 ```
