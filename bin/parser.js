@@ -32,8 +32,7 @@ program.version(package.version)
   .parse(process.argv);
 
 if (program.Help) {
-  console.log(`
-用例: parser [参数options]
+  console.log(`用例: parser [参数options]
 
 参数 Options:
   -V, --version                   打印输出版本号。
@@ -58,8 +57,7 @@ if (program.Help) {
   --includes <includes..>         根据名称解析文件夹或文件。
   --excPatterns <excPatterns...>  根据正则排队文件夹或文件。
   -H, --Help                      打印中文帮助信息。
-  -h, --help                      打印英语帮助信息。(output usage information)
-`);
+  -h, --help                      打印英语帮助信息。(output usage information)`);
   return process.exit(0);
 }
 
@@ -121,7 +119,7 @@ function matchHandler(match, type_) {
         match = fn.get(config, type_, 'arr') || [];
       }
     } else {
-      match = match.split(',');
+      match = match.replace(',', ' ').split(' ');
     }
   }
   return fn.toArr(match);

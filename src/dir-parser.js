@@ -48,7 +48,7 @@ function fmtPatterns(ptns) {
     if (fn.typeOf(ptn, 'ptn')) {
       return ptn;
     } else if (fn.typeVal(ptn, 'str')) {
-      return new RegExp(ptn.replace('.', '\\.').replace('*', '.*'));
+      return new RegExp(ptn.replace('.', '\\.').replace(/\*/mg, '.*'));
     } else {
       return '';
     }
