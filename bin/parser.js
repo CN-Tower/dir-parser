@@ -119,7 +119,7 @@ function matchHandler(match, type_) {
         match = fn.get(config, type_, 'arr') || [];
       }
     } else {
-      match = match.replace(',', ' ').split(' ');
+      match = match.replace(/,/mg, ' ').split(' ');
     }
   }
   return fn.toArr(match);

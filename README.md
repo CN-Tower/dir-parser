@@ -37,7 +37,8 @@ Read this in other languages: English | [简体中文](./README_zh-CN.md)
       - [2.3.13 silent](#2313-silent)
       - [2.3.14 generate](#2314-generate)
       - [2.3.15 config](#2315-config)
-    - [2.4 Use multiple commands together](#24-use-multiple-commands-together)
+    - [2.4 Name has white space](#24-name-has-white-space)
+    - [2.5 Use multiple commands together](#25-use-multiple-commands-together)
   - [3. In JavaScript](#3-in-javascript)
     - [3.1 Interface](#31-interface)
       - [3.1.1 Main Function-parser](#311-main-function-parser)
@@ -396,7 +397,31 @@ myapp ( directories: 2, Files: 8 )
  └─ package.json
 ```
 
-### 2.4 Use multiple commands together
+### 2.4 Name has white space
+`touch 'white space.txt'`<br>
+`parser -e '["node_modules", "white space.txt"]'`
+```
+myapp ( directories: 7, Files: 10 )
+ ├─ bin
+ │ └─ www
+ ├─ public
+ │ ├─ images/
+ │ ├─ javascripts/
+ │ └─ stylesheets
+ │   └─ style.css
+ ├─ routes
+ │ ├─ index.js
+ │ └─ users.js
+ ├─ views
+ │ ├─ error.jade
+ │ ├─ index.jade
+ │ └─ layout.jade
+ ├─ app.js
+ ├─ package.json
+ └─ parser.conf.json
+```
+
+### 2.5 Use multiple commands together
 `parser -e node_modules,bin -I views -d 2 -Nr`
 ```
 myapp

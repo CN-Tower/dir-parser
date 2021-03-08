@@ -37,7 +37,8 @@
       - [2.3.13 静默解析-silent](#2313-静默解析-silent)
       - [2.3.14 生成结果-generate](#2314-生成结果-generate)
       - [2.3.15 配置文件-config](#2315-配置文件-config)
-    - [2.4 多个命令混合使用](#24-多个命令混合使用)
+    - [2.4 文件名称包含空格](#24-文件名称包含空格)
+    - [2.5 多个命令混合使用](#25-多个命令混合使用)
   - [三、在Js代码中使用](#三在Js代码中使用)
     - [3.1 方法接口](#31-方法接口)
       - [3.1.1 主函数-parser](#311-主函数-parser)
@@ -396,7 +397,31 @@ myapp ( directories: 2, Files: 8 )
  └─ package.json
 ```
 
-### 2.4 多个命令混合使用
+### 2.4 文件名称包含空格
+`touch 'white space.txt'`<br>
+`parser -e '["node_modules", "white space.txt"]'`
+```
+myapp ( directories: 7, Files: 10 )
+ ├─ bin
+ │ └─ www
+ ├─ public
+ │ ├─ images/
+ │ ├─ javascripts/
+ │ └─ stylesheets
+ │   └─ style.css
+ ├─ routes
+ │ ├─ index.js
+ │ └─ users.js
+ ├─ views
+ │ ├─ error.jade
+ │ ├─ index.jade
+ │ └─ layout.jade
+ ├─ app.js
+ ├─ package.json
+ └─ parser.conf.json
+```
+
+### 2.5 多个命令混合使用
 `parser -e node_modules,bin -I views -d 2 -Nr`
 ```
 myapp

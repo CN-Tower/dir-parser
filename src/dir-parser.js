@@ -48,7 +48,7 @@ function fmtPatterns(ptns) {
     if (fn.typeOf(ptn, 'ptn')) {
       return ptn;
     } else if (fn.typeVal(ptn, 'str')) {
-      return new RegExp(ptn.replace('.', '\\.').replace(/\*/mg, '.*'));
+      return new RegExp(ptn.replace(/(\*?)\.([\w\d]*\$+)$/, () => `${RegExp.$1 && '\.*' || ''}\.${RegExp.$2}`));
     } else {
       return '';
     }
