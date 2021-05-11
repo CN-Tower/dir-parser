@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const fn = require('funclib');
+const { drop, typeVal, typeOf, get, isNum } = require('funclib/lib');
 const { DirInfo, FileInfo, calcSizekb } = require('./base');
 
 /**
@@ -28,7 +28,7 @@ module.exports = (target, options) => {
  * @param {*} exs 
  */
 function fmtMatchs(exs) {
-  return fn.drop(exs.map(ex => fn.typeVal(ex, 'str')));
+  return drop(exs.map(ex => typeVal(ex, 'str')));
 }
 
 /**
@@ -36,7 +36,7 @@ function fmtMatchs(exs) {
  * @param {*} pts 
  */
 function fmtPaths(pts) {
-  return fn.drop(pts.map(ex => fn.typeVal(ex, 'str') ? path.resolve(ex) : ''));
+  return drop(pts.map(ex => typeVal(ex, 'str') ? path.resolve(ex) : ''));
 }
 
 /**
@@ -44,10 +44,10 @@ function fmtPaths(pts) {
  * @param {*} ptns 
  */
 function fmtPatterns(ptns) {
-  return fn.drop(ptns.map(ptn => {
-    if (fn.typeOf(ptn, 'ptn')) {
+  return drop(ptns.map(ptn => {
+    if (typeOf(ptn, 'ptn')) {
       return ptn;
-    } else if (fn.typeVal(ptn, 'str')) {
+    } else if (typeVal(ptn, 'str')) {
       return new RegExp(ptn.replace(/(\*?)\.([\w\d]*\$+)$/, () => `${RegExp.$1 && '\.*' || ''}\.${RegExp.$2}`));
     } else {
       return '';
@@ -65,25 +65,25 @@ function dirParser(target, options = {}) {
     throw new Error('Target must be a directory!');
   }
 
-  let depth = fn.get(options, 'depth', 'num');
-  if (!fn.isNum(depth)) depth = 0;
+  let depth = get(options, 'depth', 'num');
+  if (!isNum(depth)) depth = 0;
 
-  const isReverse = fn.get(options, 'reverse', 'bol');
-  const isFileFirst = fn.get(options, 'fileFirst', 'bol');
-  const isFileOnly = fn.get(options, 'fileOnly', 'bol');
-  const isDirOnly = isFileOnly ? false : fn.get(options, 'dirOnly', 'bol');
-  const isHideDirInfo = !fn.get(options, 'dirInfo', 'bol');
-  const isGetFiles = fn.get(options, 'getFiles', 'bol');
-  const isGetChildren = fn.get(options, 'getChildren', 'bol');
-  const isGetDirTree = fn.typeOf(options.dirTree, 'bol') ? options.dirTree : true;
-  const lineType = fn.get(options, 'lineType', 'str') || 'solid';
-  const excludes = fmtMatchs(fn.get(options, 'excludes', 'arr') || []);
-  const excPaths = fmtPaths(fn.get(options, 'excPaths', 'arr') || []);
-  const excPatterns = fmtPatterns(fn.get(options, 'excPatterns', 'arr') || []);
-  const ignores = fmtMatchs(fn.get(options, 'ignores', 'arr') || []);
-  const includes = fmtMatchs(fn.get(options, 'includes', 'arr') || []);
-  const paths = fmtPaths(fn.get(options, 'paths', 'arr') || []);
-  const patterns = fmtPatterns(fn.get(options, 'patterns', 'arr') || []);
+  const isReverse = get(options, 'reverse', 'bol');
+  const isFileFirst = get(options, 'fileFirst', 'bol');
+  const isFileOnly = get(options, 'fileOnly', 'bol');
+  const isDirOnly = isFileOnly ? false : get(options, 'dirOnly', 'bol');
+  const isHideDirInfo = !get(options, 'dirInfo', 'bol');
+  const isGetFiles = get(options, 'getFiles', 'bol');
+  const isGetChildren = get(options, 'getChildren', 'bol');
+  const isGetDirTree = typeOf(options.dirTree, 'bol') ? options.dirTree : true;
+  const lineType = get(options, 'lineType', 'str') || 'solid';
+  const excludes = fmtMatchs(get(options, 'excludes', 'arr') || []);
+  const excPaths = fmtPaths(get(options, 'excPaths', 'arr') || []);
+  const excPatterns = fmtPatterns(get(options, 'excPatterns', 'arr') || []);
+  const ignores = fmtMatchs(get(options, 'ignores', 'arr') || []);
+  const includes = fmtMatchs(get(options, 'includes', 'arr') || []);
+  const paths = fmtPaths(get(options, 'paths', 'arr') || []);
+  const patterns = fmtPatterns(get(options, 'patterns', 'arr') || []);
 
   let dirTree = '';
   const dirs = [];
