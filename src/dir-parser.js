@@ -291,9 +291,9 @@ function dirParser(target, options = {}) {
     if (isHideDirInfo) {
       dirTree = `${tarName}\r\n${dirTree}`;
     } else if (isDirOnly) {
-      dirTree = `${tarName} ( directories: ${tarInfo.dirNum} )\r\n${dirTree}`;
+      dirTree = `${tarName} ( Directories: ${tarInfo.dirNum} )\r\n${dirTree}`;
     } else {
-      dirTree = `${tarName} ( directories: ${tarInfo.dirNum}, Files: ${tarInfo.fileNum} )\r\n${dirTree}`;
+      dirTree = `${tarName} ( Directories: ${tarInfo.dirNum}, Files: ${tarInfo.fileNum} )\r\n${dirTree}`;
     }
     tarInfo.dirTree = dirTree.replace(/\r\n$/, '');
   }
