@@ -24,19 +24,20 @@
     - [2.3 使用解析参数](#23-使用解析参数)
       - [2.3.1 排除项-excludes](#231-排除项-excludes)
       - [2.3.2 忽略项-ignores](#232-忽略项-ignores)
-      - [2.3.3 正则匹配-patterns](#233-正则匹配-patterns)
-      - [2.3.4 结构线型-lineType](#234-结构线型-lineType)
-      - [2.3.5 解析深度-depth](#235-解析深度-depth)
-      - [2.3.6 节点逆序-reverse](#236-节点逆序-reverse)
-      - [2.3.7 文件优先-fileFirst](#237-文件优先-fileFirst)
-      - [2.3.8 仅文件-fileOnly](#238-仅文件-fileOnly)
-      - [2.3.9 仅文件夹-dirOnly](#239-仅文件夹-dirOnly)
-      - [2.3.10 解析信息-dirInfo](#2310-解析信息-dirInfo)
-      - [2.3.11 路径排除-excPaths](#2311-路径排除-excPaths)
-      - [2.3.12 正则排除-excPatterns](#2312-正则排除-excPatterns)
-      - [2.3.13 静默解析-silent](#2313-静默解析-silent)
-      - [2.3.14 生成结果-generate](#2314-生成结果-generate)
-      - [2.3.15 配置文件-config](#2315-配置文件-config)
+      - [2.3.3 Glob过滤](#233-Glob过滤-glob)
+      - [2.3.4 正则匹配-patterns](#234-正则匹配-patterns)
+      - [2.3.5 结构线型-lineType](#235-结构线型-lineType)
+      - [2.3.6 解析深度-depth](#236-解析深度-depth)
+      - [2.3.7 节点逆序-reverse](#237-节点逆序-reverse)
+      - [2.3.8 文件优先-fileFirst](#238-文件优先-fileFirst)
+      - [2.3.9 仅文件-fileOnly](#239-仅文件-fileOnly)
+      - [2.3.10 仅文件夹-dirOnly](#2310-仅文件夹-dirOnly)
+      - [2.3.11 解析信息-dirInfo](#2311-解析信息-dirInfo)
+      - [2.3.12 路径排除-excPaths](#2312-路径排除-excPaths)
+      - [2.3.13 正则排除-excPatterns](#2313-正则排除-excPatterns)
+      - [2.3.14 静默解析-silent](#2314-静默解析-silent)
+      - [2.3.15 生成结果-generate](#2315-生成结果-generate)
+      - [2.3.16 配置文件-config](#2316-配置文件-config)
     - [2.4 多个命令混合使用](#24-多个命令混合使用)
   - [三、在Js代码中使用](#三在Js代码中使用)
     - [3.1 方法接口](#31-方法接口)
@@ -190,7 +191,19 @@ myapp ( directories: 4, Files: 7 )
  └─ package.json
 ```
 
-#### 2.3.3 正则匹配-patterns
+#### 2.3.3 Glob过滤-glob
+👉 使用glob规则过滤，注意：glob规则必需要有引号！<br>
+`$ parser -e node_modules -G '**/*.js'`<br>
+或: `$ parser -e node_modules --glob '**/*.js'`
+```
+myapp ( Directories: 1, Files: 3 )
+ ├── routes
+ │   ├── index.js
+ │   └── users.js
+ └── app.js
+```
+
+#### 2.3.4 正则匹配-patterns
 👉 根据正则解析文件夹或文件。<br>
 `$ parser -e node_modules -p .js$`<br>
 或: `$ parser -e node_modules --patterns .js$`
@@ -202,7 +215,7 @@ myapp ( directories: 1, Files: 3 )
  └─ app.js
 ```
 
-#### 2.3.4 结构线型-lineType
+#### 2.3.5 结构线型-lineType
 👉 生成的文件树线型, "dashed" 或 "solid"，(默认: "solid")。<br>
 `$ parser -e bin,node_modules -l dashed`<br>
 或: `$ parser -e bin,node_modules --lineType dashed`
@@ -224,7 +237,7 @@ myapp ( directories: 6, Files: 8 )
  +-- package.json
 ```
 
-#### 2.3.5 解析深度-depth
+#### 2.3.6 解析深度-depth
 👉 解析深度，0表示不限制。(默认: 0)<br>
 `$ parser -e node_modules,views -d 2`<br>
 或: `$ parser -e node_modules,views --depth 2`
@@ -243,7 +256,7 @@ myapp ( directories: 6, Files: 5 )
  └─ package.json
 ```
 
-#### 2.3.6 节点逆序-reverse
+#### 2.3.7 节点逆序-reverse
 👉 生成节点逆序的文件树。<br>
 `$ parser -e node_modules,views -d 2 -r`<br>
 或: `$ parser -e node_modules,views -d 2 --reverse`
@@ -262,7 +275,7 @@ myapp ( directories: 6, Files: 5 )
  └─ app.js
 ```
 
-#### 2.3.7 文件优先-fileFirst
+#### 2.3.8 文件优先-fileFirst
 👉 先输出文件节点，先于文件夹节点。<br>
 `$ parser -e node_modules,bin,views -f`<br>
 或: `$ parser -e node_modules,bin,views --fileFirst`
@@ -281,7 +294,7 @@ myapp ( directories: 5, Files: 6 )
    └─ users.js
 ```
 
-#### 2.3.8 仅文件-fileOnly
+#### 2.3.9 仅文件-fileOnly
 👉 只解析文件。<br>
 `$ parser -e node_modules,bin,views -F`<br>
 或: `$ parser -e node_modules,bin,views --fileOnly`
@@ -298,7 +311,7 @@ myapp ( directories: 3, Files: 6 )
  └─ package.json
 ```
 
-#### 2.3.9 仅文件夹-dirOnly
+#### 2.3.10 仅文件夹-dirOnly
 👉 只解析文件夹，只有当fileOnly为false时才生效。<br>
 `$ parser -e node_modules,bin,views -D`<br>
 或: `$ parser -e node_modules,bin,views --dirOnly`
@@ -311,7 +324,7 @@ myapp ( directories: 5 )
  └─ routes/
 ```
 
-#### 2.3.10 解析信息-dirInfo
+#### 2.3.11 解析信息-dirInfo
 👉 不在解析结果中显示文件夹和文件的数量信息。<br>
 `$ parser -e node_modules,bin,public -N`<br>
 或: `$ parser -e node_modules,bin,public --no-dirInfo`
@@ -329,7 +342,7 @@ myapp
  └─ package.json
 ```
 
-#### 2.3.11 路径排除-excPaths
+#### 2.3.12 路径排除-excPaths
 👉 根据路径排除文件夹或文件。<br>
 `$ parser -e node_modules,bin -x myapp/public`<br>
 或: `$ parser -e node_modules,bin -excPath myapp/public`
@@ -346,7 +359,7 @@ myapp ( directories: 2, Files: 7 )
  └─ package.json
 ```
 
-#### 2.3.12 正则排除-excPatterns
+#### 2.3.13 正则排除-excPatterns
 👉 根据正则排队文件夹或文件。<br>
 `$ parser -e node_modules,bin --excPatterns .jade$,.css$`
 ```
@@ -363,12 +376,12 @@ myapp ( directories: 6, Files: 4 )
  └─ package.json
 ```
 
-#### 2.3.13 静默解析-silent
+#### 2.3.14 静默解析-silent
 👉 静默解析，不在控制台输出解析结果。<br>
 `$ parser -e node_modules,bin,public -s`<br>
 或: `$ parser -e node_modules,bin,public --silent`
 
-#### 2.3.14 生成结果-generate
+#### 2.3.15 生成结果-generate
 👉 生成一个解析结果的文件，默认文件名为"dir-info.txt"。<br>
 `$ parser -e node_modules,bin,public -sg`<br>
 或: `$ parser -e node_modules,bin,public -s --generate`<br>
@@ -386,7 +399,7 @@ myapp ( directories: 2, Files: 7 )
  └─ package.json
 ```
 
-#### 2.3.15 配置文件-config
+#### 2.3.16 配置文件-config
 👉 根据配置文件解析，可选。<br>
 `$ touch parser.conf.json`<br>
 `$ vi parser.conf.json`

@@ -13,7 +13,7 @@ program.version(package.version)
   .option('-i, --input <input>', 'target directory', './')
   .option('-o, --output <output>', 'output path', './')
   .option('-d, --depth <depth>', 'depth of a parse process, 0 means no limit', 0)
-  .option('-l, --lineType <lineType>', 'line type of tree, "dashed" or "solid"', 'solid')
+  .option('-l, --lineType <lineType>', 'line type of tree, "dash" or "solid"', 'solid')
   .option('-e, --excludes <excludes..>', 'exclude some directories or files by name.')
   .option('-x, --excPaths <excPaths..>', 'exclude directories or files by path.')
   .option('-p, --patterns <patterns...>', 'filter directories or files by RegExp.')
@@ -25,6 +25,7 @@ program.version(package.version)
   .option('-D, --dirOnly', 'pase directories only, and it only takes effect when fileOnly is false.')
   .option('-I, --ignores <ignores..>', 'ignore some directories or files by name.')
   .option('-N, --no-dirInfo', 'hide file and directory number info on the result top.')
+  .option('-G, --glob <glob>', 'filter files with glob patterns.')
   .option('--paths <paths..>', 'filter directories or files by path.')
   .option('--includes <includes..>', 'filter directories or files by name.')
   .option('--excPatterns <excPatterns...>', 'exclude directories or files by RegExp.')
@@ -41,7 +42,7 @@ if (program.Help) {
   -i, --input <input>             指定个目标文件夹，(默认: "./")。
   -o, --output <output>           解析结果输出目录，(默认: "./")。
   -d, --depth <depth>             解析深度，0表示不限制。(默认: 0)。
-  -l, --lineType <lineType>       生成的文件树线型, "dashed" 或 "solid"，(默认: "solid")。
+  -l, --lineType <lineType>       生成的文件树线型, "dash" 或 "solid"，(默认: "solid")。
   -e, --excludes <excludes..>     根据名称排除文件夹或文件。
   -x, --excPaths <excPaths..>     根据路径排除文件夹或文件。
   -p, --patterns <patterns...>    根据正则解析文件夹或文件。
@@ -53,6 +54,7 @@ if (program.Help) {
   -D, --dirOnly                   只解析文件夹，只有当fileOnly为false时才生效。
   -I, --ignores <ignores..>       根据名称忽略一些文件夹或文件。
   -N, --no-dirInfo                不在解析结果中显示文件夹和文件的数量信息。
+  -G, --glob <glob>               使用glob语法过虑文件.
   --paths <paths..>               根据路径解析文件夹或文件。
   --includes <includes..>         根据名称解析文件夹或文件。
   --excPatterns <excPatterns...>  根据正则排队文件夹或文件。
@@ -77,6 +79,7 @@ const ignores     = matchHandler(program.ignores || fn.get(config, 'ignores', 'a
 const includes    = matchHandler(program.includes || fn.get(config, 'includes', 'arr') || [], 'includes');
 const paths       = matchHandler(program.paths || fn.get(config, 'paths', 'arr') || [], 'paths');
 const patterns    = matchHandler(program.patterns || fn.get(config, 'patterns', 'arr') || [], 'patterns');
+const glob        = program.glob || fn.get(config, 'glob', 'str') || '';
 const generate    = program.generate || fn.get(config, 'generate');
 const reverse     = program.reverse || fn.get(config, 'reverse', 'bol');
 const silent      = program.silent || fn.get(config, 'silent', 'bol');
@@ -97,7 +100,7 @@ if (!outputStat.isDirectory() && !outputStat.isFile()) {
 if (outputStat.isDirectory()) {
   outputFile = path.join(output, outputName)
 }
-excPaths.push(outputFile);
+// excPaths.push(outputFile);
 
 /**
  * Format the target and output
@@ -138,7 +141,7 @@ function matchHandler(match, type_) {
  */
 parser(target, {
   depth, reverse, lineType, excludes, excPaths, excPatterns, ignores,
-  includes, paths, patterns, dirInfo, fileFirst, fileOnly, dirOnly,
+  includes, paths, patterns, dirInfo, fileFirst, fileOnly, dirOnly, glob,
 }).then(
   parsed => {
     if (!silent) console.log(parsed.dirTree);

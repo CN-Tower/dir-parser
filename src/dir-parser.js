@@ -1,12 +1,13 @@
-const fs = require('fs');
-const path = require('path');
-const { drop, typeVal, typeOf, get, isNum } = require('funclib/lib');
-const { DirInfo, FileInfo, calcSizekb } = require('./base');
+const fs = require('fs')
+const path = require('path')
+const glob = require('glob')
+const { drop, typeVal, typeOf, get, isNum } = require('funclib/lib')
+const { DirInfo, FileInfo, calcSizekb } = require('./base')
 
 /**
  * Order of dir name's or file name's special first char.
  */
-const charOrder = ['_', '-', '.', '(', ')', '@', '&', '#', '^', '+', '~', '$'];
+const charOrder = ['_', '-', '.', '(', ')', '@', '&', '#', '^', '+', '~', '$']
 
 /**
  * Export a dir-parser promise
@@ -16,43 +17,45 @@ const charOrder = ['_', '-', '.', '(', ')', '@', '&', '#', '^', '+', '~', '$'];
 module.exports = (target, options) => {
   return new Promise((resolve, reject) => {
     try {
-      resolve(dirParser(target, options));
+      resolve(dirParser(target, options))
     } catch (err) {
-      reject(err);
+      reject(err)
     }
-  });
-};
+  })
+}
 
 /**
  * Format excludes or includes
- * @param {*} exs 
+ * @param {*} exs
  */
 function fmtMatchs(exs) {
-  return drop(exs.map(ex => typeVal(ex, 'str')));
+  return drop(exs.map((ex) => typeVal(ex, 'str')))
 }
 
 /**
  * Format paths
- * @param {*} pts 
+ * @param {*} pts
  */
 function fmtPaths(pts) {
-  return drop(pts.map(ex => typeVal(ex, 'str') ? path.resolve(ex) : ''));
+  return drop(pts.map((ex) => (typeVal(ex, 'str') ? path.resolve(ex) : '')))
 }
 
 /**
  * Format patterns
- * @param {*} ptns 
+ * @param {*} ptns
  */
 function fmtPatterns(ptns) {
-  return drop(ptns.map(ptn => {
-    if (typeOf(ptn, 'ptn')) {
-      return ptn;
-    } else if (typeVal(ptn, 'str')) {
-      return new RegExp(ptn.replace(/(\*?)\.([\w\d]*\$+)$/, () => `${RegExp.$1 && '\.*' || ''}\.${RegExp.$2}`));
-    } else {
-      return '';
-    }
-  }));
+  return drop(
+    ptns.map((ptn) => {
+      if (typeOf(ptn, 'ptn')) {
+        return ptn
+      } else if (typeVal(ptn, 'str')) {
+        return new RegExp(ptn.replace(/(\*?)\.([\w\d]*\$+)$/, () => `${(RegExp.$1 && '.*') || ''}\.${RegExp.$2}`))
+      } else {
+        return ''
+      }
+    })
+  )
 }
 
 /**
@@ -62,121 +65,124 @@ function fmtPatterns(ptns) {
  */
 function dirParser(target, options = {}) {
   if (!fs.statSync(target).isDirectory()) {
-    throw new Error('Target must be a directory!');
+    throw new Error('Target must be a directory!')
   }
 
-  let depth = get(options, 'depth', 'num');
-  if (!isNum(depth)) depth = 0;
+  let depth = get(options, 'depth', 'num')
+  if (!isNum(depth)) depth = 0
 
-  const isReverse = get(options, 'reverse', 'bol');
-  const isFileFirst = get(options, 'fileFirst', 'bol');
-  const isFileOnly = get(options, 'fileOnly', 'bol');
-  const isDirOnly = isFileOnly ? false : get(options, 'dirOnly', 'bol');
-  const isHideDirInfo = !get(options, 'dirInfo', 'bol');
-  const isGetFiles = get(options, 'getFiles', 'bol');
-  const isGetChildren = get(options, 'getChildren', 'bol');
-  const isGetDirTree = typeOf(options.dirTree, 'bol') ? options.dirTree : true;
-  const lineType = get(options, 'lineType', 'str') || 'solid';
-  const excludes = fmtMatchs(get(options, 'excludes', 'arr') || []);
-  const excPaths = fmtPaths(get(options, 'excPaths', 'arr') || []);
-  const excPatterns = fmtPatterns(get(options, 'excPatterns', 'arr') || []);
-  const ignores = fmtMatchs(get(options, 'ignores', 'arr') || []);
-  const includes = fmtMatchs(get(options, 'includes', 'arr') || []);
-  const paths = fmtPaths(get(options, 'paths', 'arr') || []);
-  const patterns = fmtPatterns(get(options, 'patterns', 'arr') || []);
+  const isReverse = get(options, 'reverse', 'bol')
+  const isFileFirst = get(options, 'fileFirst', 'bol')
+  const isFileOnly = get(options, 'fileOnly', 'bol')
+  const isDirOnly = isFileOnly ? false : get(options, 'dirOnly', 'bol')
+  const isHideDirInfo = !get(options, 'dirInfo', 'bol')
+  const isGetFiles = get(options, 'getFiles', 'bol')
+  const isGetChildren = get(options, 'getChildren', 'bol')
+  const isGetDirTree = typeOf(options.dirTree, 'bol') ? options.dirTree : true
+  const lineType = get(options, 'lineType', 'str') || 'solid'
+  const excludes = fmtMatchs(get(options, 'excludes', 'arr') || [])
+  const excPaths = fmtPaths(get(options, 'excPaths', 'arr') || [])
+  const excPatterns = fmtPatterns(get(options, 'excPatterns', 'arr') || [])
+  const ignores = fmtMatchs(get(options, 'ignores', 'arr') || [])
+  const includes = fmtMatchs(get(options, 'includes', 'arr') || [])
+  const paths = fmtPaths(get(options, 'paths', 'arr') || [])
+  const patterns = fmtPatterns(get(options, 'patterns', 'arr') || [])
+  const globStr = get(options, 'glob', 'str') || ''
 
-  let dirTree = '';
-  const dirs = [];
-  const files = [];
-  const absTarget = path.resolve(target);
+  let dirTree = ''
+  const dirs = []
+  const files = []
+  const absTarget = path.resolve(target)
   const tarName = path.basename(absTarget)
-  const tarInfo = new DirInfo(tarName, target);
+  const tarInfo = new DirInfo(tarName, target)
   if (isGetChildren) {
-    dirs.push({ path: target, info: tarInfo });
+    dirs.push({ path: target, info: tarInfo })
+  }
+  let globFiles
+  if (globStr) {
+    globFiles = glob.sync(globStr, { cwd: target }).map((pth) => path.resolve(target, pth))
   }
 
-  parseDir(target, tarInfo.children);
+  parseDir(target, tarInfo.children)
 
   /**
    * Parser The target directory
-   * @param dirPath  string
-   * @param deep     deep = 1
-   * @param prev     prev = ''
    */
   function parseDir(dirPath, children, deep = 1, prev = '') {
-    let filesSize = 0;
-    const subDirs = [];
-    const subFiles = [];
-    const dirSubArr = fs.readdirSync(dirPath);
+    let filesSize = 0
+    const subDirs = []
+    const subFiles = []
+    const dirSubArr = fs.readdirSync(dirPath)
 
-    let dirSubs = [], i = -1;
-    charOrder.forEach(char => {
+    let dirSubs = [],
+      i = -1
+    charOrder.forEach((char) => {
       while (++i < dirSubArr.length) {
         if (dirSubArr[i] && dirSubArr[i].startsWith(char)) {
-          dirSubs = dirSubs.concat(dirSubArr.splice(i, 1));
-          i --;
+          dirSubs = dirSubs.concat(dirSubArr.splice(i, 1))
+          i--
         }
       }
-    });
-    dirSubs = dirSubs.concat(dirSubArr);
-    if (isReverse) dirSubs.reverse();
+    })
+    dirSubs = dirSubs.concat(dirSubArr)
+    if (isReverse) dirSubs.reverse()
 
-    getOrCheckValidSubs(dirPath, dirSubs, deep, false, subDirs, subFiles);
+    getOrCheckValidSubs(dirPath, dirSubs, deep, false, subDirs, subFiles)
 
     if (isDirOnly) {
-      directoriesHandler();
+      directoriesHandler()
     } else if (isFileFirst) {
-      filesHandler();
-      directoriesHandler();
+      filesHandler()
+      directoriesHandler()
     } else {
-      directoriesHandler();
-      filesHandler();
+      directoriesHandler()
+      filesHandler()
     }
 
     /**
      * handle directories
      */
     function directoriesHandler() {
-      let split = '';
-      let dirInfo = {};
+      let split = ''
+      let dirInfo = {}
       subDirs.forEach((dir, i) => {
         if (!isFileOnly || dir.hasSubs) {
           if (isGetChildren) {
-            dirInfo = new DirInfo(dir.name, dir.path);
-            dirs.push({ path: dirInfo.path, info: dirInfo });
-            children.push(dirInfo);
+            dirInfo = new DirInfo(dir.name, dir.path)
+            dirs.push({ path: dirInfo.path, info: dirInfo })
+            children.push(dirInfo)
           }
           if (isGetDirTree) {
-            const isMiddleDir = i < subDirs.length - 1 || (!isDirOnly && !isFileFirst && subFiles.length > 0);
-            const isShowDMark = !dir.hasSubs || dir.ignored || depth && deep === depth;
-            const dirEndMark = isShowDMark ? (dir.hasSubs && !dir.ignored ? '/*' : '/') : '';
-            if (lineType === 'dashed') {
+            const isMiddleDir = i < subDirs.length - 1 || (!isDirOnly && !isFileFirst && subFiles.length > 0)
+            const isShowDMark = !dir.hasSubs || dir.ignored || (depth && deep === depth)
+            const dirEndMark = isShowDMark ? (dir.hasSubs && !dir.ignored ? '/*' : '/') : ''
+            if (lineType === 'dash' || lineType === 'dashed') {
               if (isMiddleDir) {
-                dirTree += `${prev} +-- ${dir.name}${dirEndMark}\r\n`;
-                split = ' ¦  ';
+                dirTree += `${prev} +-- ${dir.name}${dirEndMark}\r\n`
+                split = ' ¦  '
               } else {
-                dirTree += `${prev} +-- ${dir.name}${dirEndMark}\r\n`;
-                split = '    ';
+                dirTree += `${prev} +-- ${dir.name}${dirEndMark}\r\n`
+                split = '    '
               }
             } else {
               if (isMiddleDir) {
-                dirTree += `${prev} ├─ ${dir.name}${dirEndMark}\r\n`;
-                split = ' │';
+                dirTree += `${prev} ├── ${dir.name}${dirEndMark}\r\n`
+                split = ' │  '
               } else {
-                dirTree += `${prev} └─ ${dir.name}${dirEndMark}\r\n`;
-                split = '  ';
+                dirTree += `${prev} └── ${dir.name}${dirEndMark}\r\n`
+                split = '    '
               }
             }
           }
           if (!dir.ignored && (!depth || deep < depth)) {
-            const nextPath = path.join(dirPath, dir.name);
-            const nextMemb = isGetChildren ? dirInfo.children : children;
-            const nextDeep = deep + 1;
-            const nextSplit = prev + split;
-            parseDir(nextPath, nextMemb, nextDeep, nextSplit);
+            const nextPath = path.join(dirPath, dir.name)
+            const nextMemb = isGetChildren ? dirInfo.children : children
+            const nextDeep = deep + 1
+            const nextSplit = prev + split
+            parseDir(nextPath, nextMemb, nextDeep, nextSplit)
           }
         }
-      });
+      })
     }
 
     /**
@@ -185,118 +191,130 @@ function dirParser(target, options = {}) {
     function filesHandler() {
       subFiles.forEach((file, i) => {
         if (isGetChildren || isGetFiles) {
-          const fileInfo = new FileInfo(file.name, file.path);
+          const fileInfo = new FileInfo(file.name, file.path)
           if (isGetFiles) {
-            files.push(fileInfo);
+            files.push(fileInfo)
           }
           if (isGetChildren) {
-            children.push(fileInfo);
+            children.push(fileInfo)
           }
-          filesSize += fileInfo.size;
+          filesSize += fileInfo.size
         }
         if (isGetDirTree) {
-          if (lineType === 'dashed') {
+          if (lineType === 'dash' || lineType === 'dashed') {
             if (i < subFiles.length - 1 || (isFileFirst && subDirs.length > 0)) {
-              dirTree += `${prev} +-- ${file.name}\r\n`;
+              dirTree += `${prev} +-- ${file.name}\r\n`
             } else {
-              dirTree += `${prev} +-- ${file.name}\r\n`;
+              dirTree += `${prev} +-- ${file.name}\r\n`
             }
           } else {
             if (i < subFiles.length - 1 || (isFileFirst && subDirs.length > 0)) {
-              dirTree += `${prev} ├─ ${file.name}\r\n`;
+              dirTree += `${prev} ├── ${file.name}\r\n`
             } else {
-              dirTree += `${prev} └─ ${file.name}\r\n`;
+              dirTree += `${prev} └── ${file.name}\r\n`
             }
           }
         }
-      });
+      })
     }
 
     if (isGetChildren) {
-      dirs.forEach(dir => {
+      dirs.forEach((dir) => {
         if (dirPath.includes(dir.path)) {
-          dir.info.dirNum += subDirs.length;
-          dir.info.fileNum += subFiles.length;
-          dir.info.size += filesSize;
-          dir.info.size_kb = calcSizekb(dir.info.size);
+          dir.info.dirNum += subDirs.length
+          dir.info.fileNum += subFiles.length
+          dir.info.size += filesSize
+          dir.info.size_kb = calcSizekb(dir.info.size)
         }
-      });
+      })
     } else {
-      tarInfo.dirNum += subDirs.length;
-      tarInfo.fileNum += subFiles.length;
+      tarInfo.dirNum += subDirs.length
+      tarInfo.fileNum += subFiles.length
     }
   }
 
   /**
    * Get or check has valid sub dir or sub files.
-   * @param {*} dirPath 
-   * @param {*} deep 
    */
   function getOrCheckValidSubs(dirPath, dirSubs, deep, isCheck, subDirs = [], subFiles = []) {
-    let i = -1;
-    while(++i < dirSubs.length) {
-      const sub = dirSubs[i];
-      const iPath = path.join(dirPath, sub);
-      const sPath = iPath.replace(/\\/mg, '/');
-      const isExclude = excludes.includes(sub)
-        || excPaths.some(pth => iPath === pth || pth.endsWith(iPath))
-        || excPatterns.some(ptn => iPath.match(ptn) || sPath.match(ptn));
+    let i = -1
+    while (++i < dirSubs.length) {
+      const sub = dirSubs[i]
+      const iPath = path.join(dirPath, sub)
+      const sPath = iPath.replace(/\\/gm, '/')
+      const isExclude = getIsExclude(sub, iPath, sPath)
       if (!isExclude) {
-        const isIgnore = ignores.length && ignores.includes(sub);
-        const isInclude = (!includes.length || includes.includes(sub))
-          && (!paths.length || paths.some(pth => iPath === pth || pth.endsWith(iPath)))
-          && (!patterns.length || patterns.some(ptn => iPath.match(ptn) || sPath.match(ptn)));
-        const stat = fs.statSync(iPath);
-        const iDir = { name: sub, path: iPath };
+        const isIgnore = ignores.length && ignores.includes(sub)
+        const isInclude = getIsInclude(sub, iPath, sPath)
+        const stat = fs.statSync(iPath)
+        const iDir = { name: sub, path: iPath }
         if (stat.isDirectory()) {
-          if (getOrCheckValidSubs(iPath, fs.readdirSync(iPath), deep + 1, true)) {
-            if (!isFileOnly || (!depth || deep < depth)) {
-              if (isCheck) return true;
-              subDirs.push({...iDir, hasSubs: true, ignored: isIgnore});
+          const isSubsValid = getOrCheckValidSubs(iPath, fs.readdirSync(iPath), deep + 1, true)
+          if (isSubsValid) {
+            if (!isFileOnly || !depth || deep < depth) {
+              if (isCheck) return true
+              subDirs.push({ ...iDir, hasSubs: true, ignored: isIgnore })
             }
           } else if (isInclude && !isFileOnly) {
-            if (isCheck && isDirOnly) return true;
-            subDirs.push({...iDir, hasSubs: false, ignored: isIgnore});
+            if (isCheck && isDirOnly) return true
+            subDirs.push({ ...iDir, hasSubs: false, ignored: isIgnore })
           }
         } else if (stat.isFile() && !isIgnore && isInclude) {
-          if (isCheck && isFileOnly) return true;
-          subFiles.push(iDir);
+          if (isCheck && isFileOnly) return true
+          subFiles.push(iDir)
         }
       }
     }
     if (isCheck) {
       if (isDirOnly) {
-        return subDirs.length;
+        return subDirs.length
       } else if (isFileOnly) {
-        return subFiles.length || ((!depth || deep < depth) && subDirs.some(dir => dir.hasSubs));
+        return subFiles.length || ((!depth || deep < depth) && subDirs.some((dir) => dir.hasSubs))
       } else {
-        return subDirs.length || subFiles.length || subDirs.some(dir => dir.hasSubs);
+        return subDirs.length || subFiles.length || subDirs.some((dir) => dir.hasSubs)
       }
     }
   }
 
+  function getIsExclude(sub, iPath, sPath) {
+    return (
+      excludes.includes(sub) ||
+      excPaths.some((pth) => iPath === pth || pth.endsWith(iPath)) ||
+      excPatterns.some((ptn) => iPath.match(ptn) || sPath.match(ptn))
+    )
+  }
+
+  function getIsInclude(sub, iPath, sPath) {
+    return (
+      (!includes.length || includes.includes(sub)) &&
+      (!paths.length || paths.some((pth) => iPath === pth || pth.endsWith(iPath))) &&
+      (!patterns.length || patterns.some((ptn) => iPath.match(ptn) || sPath.match(ptn))) &&
+      (!globFiles || globFiles.some((pth) => iPath === pth || pth.endsWith(iPath)))
+    )
+  }
+
   if (!isGetChildren) {
-    delete tarInfo.children;
+    delete tarInfo.children
     if (!isGetFiles) {
-      delete tarInfo.size;
-      delete tarInfo.size_kb;
+      delete tarInfo.size
+      delete tarInfo.size_kb
     }
   }
   if (isGetFiles) {
-    tarInfo.files = files;
-    tarInfo.size = files.reduce((size, file) => size + file.size, tarInfo.size);
-    tarInfo.size_kb = calcSizekb(tarInfo.size);
+    tarInfo.files = files
+    tarInfo.size = files.reduce((size, file) => size + file.size, tarInfo.size)
+    tarInfo.size_kb = calcSizekb(tarInfo.size)
   }
   if (isGetDirTree) {
     if (isHideDirInfo) {
-      dirTree = `${tarName}\r\n${dirTree}`;
+      dirTree = `${tarName}\r\n${dirTree}`
     } else if (isDirOnly) {
-      dirTree = `${tarName} ( Directories: ${tarInfo.dirNum} )\r\n${dirTree}`;
+      dirTree = `${tarName} ( Directories: ${tarInfo.dirNum} )\r\n${dirTree}`
     } else {
-      dirTree = `${tarName} ( Directories: ${tarInfo.dirNum}, Files: ${tarInfo.fileNum} )\r\n${dirTree}`;
+      dirTree = `${tarName} ( Directories: ${tarInfo.dirNum}, Files: ${tarInfo.fileNum} )\r\n${dirTree}`
     }
-    tarInfo.dirTree = dirTree.replace(/\r\n$/, '');
+    tarInfo.dirTree = dirTree.replace(/\r\n$/, '')
   }
 
-  return tarInfo;
+  return tarInfo
 }

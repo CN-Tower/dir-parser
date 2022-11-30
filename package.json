@@ -1,6 +1,6 @@
 {
   "name": "dir-parser",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "description": "Parse a directory and generate it's structure tree.",
   "main": "index.js",
   "bin": {
@@ -13,6 +13,14 @@
     "type": "git",
     "url": "git+https://github.com/CN-Tower/dir-parser.git"
   },
+  "files": [
+    "bin/",
+    "src/",
+    "index.d.ts",
+    "index.js",
+    "README_zh-CN.md",
+    "README.md"
+  ],
   "keywords": [
     "dir-parser",
     "directory-parser",
@@ -44,6 +52,7 @@
   "homepage": "https://github.com/CN-Tower/dir-parser#readme",
   "dependencies": {
     "commander": "^2.20.3",
-    "funclib": "^6.0.1"
+    "funclib": "^6.0.1",
+    "glob": "^8.0.3"
   }
 }

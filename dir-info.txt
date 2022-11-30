@@ -1,18 +1,20 @@
 dir-parser
- ├─ bin
- │ └─ parser.js
- ├─ images
- │ └─ dir-parser.jpg
- ├─ src
- │ ├─ base.js
- │ └─ dir-parser.js
- ├─ test
- │ └─ test.js
- ├─ .gitignore
- ├─ README.md
- ├─ dir-info.txt
- ├─ index.d.ts
- ├─ index.js
- ├─ package-lock.json
- ├─ package.json
- └─ parser.conf.json
+ ├── bin
+ │   └── parser.js
+ ├── images
+ │   ├── demo.png
+ │   └── dir-parser.jpg
+ ├── src
+ │   ├── base.js
+ │   └── dir-parser.js
+ ├── test
+ │   └── test.js
+ ├── .gitignore
+ ├── .prettierrc
+ ├── README.md
+ ├── README_zh-CN.md
+ ├── index.d.ts
+ ├── index.js
+ ├── package-lock.json
+ ├── package.json
+ └── parser.conf.json

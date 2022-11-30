@@ -24,19 +24,20 @@ Read this in other languages: English | [简体中文](./README_zh-CN.md)
     - [2.3 With parameters](#23-with-parameters)
       - [2.3.1 excludes](#231-excludes)
       - [2.3.2 ignores](#232-ignores)
-      - [2.3.3 patterns](#233-patterns)
-      - [2.3.4 lineType](#234-lineType)
-      - [2.3.5 depth](#235-depth)
-      - [2.3.6 reverse](#236-reverse)
-      - [2.3.7 fileFirst](#237-fileFirst)
-      - [2.3.8 fileOnly](#238-fileOnly)
-      - [2.3.9 dirOnly](#239-dirOnly)
-      - [2.3.10 dirInfo](#2310-dirInfo)
-      - [2.3.11 excPaths](#2311-excPaths)
-      - [2.3.12 excPatterns](#2312-excPatterns)
-      - [2.3.13 silent](#2313-silent)
-      - [2.3.14 generate](#2314-generate)
-      - [2.3.15 config](#2315-config)
+      - [2.3.3 glob](#233-glob)
+      - [2.3.4 patterns](#234-patterns)
+      - [2.3.5 lineType](#235-lineType)
+      - [2.3.6 depth](#236-depth)
+      - [2.3.7 reverse](#237-reverse)
+      - [2.3.8 fileFirst](#238-fileFirst)
+      - [2.3.9 fileOnly](#239-fileOnly)
+      - [2.3.10 dirOnly](#2310-dirOnly)
+      - [2.3.11 dirInfo](#2311-dirInfo)
+      - [2.3.12 excPaths](#2312-excPaths)
+      - [2.3.13 excPatterns](#2313-excPatterns)
+      - [2.3.14 silent](#2314-silent)
+      - [2.3.15 generate](#2315-generate)
+      - [2.3.16 config](#2316-config)
     - [2.4 Use multiple commands together](#24-use-multiple-commands-together)
   - [3. In JavaScript](#3-in-javascript)
     - [3.1 Interface](#31-interface)
@@ -190,7 +191,19 @@ myapp ( directories: 4, Files: 7 )
  └─ package.json
 ```
 
-#### 2.3.3 patterns
+#### 2.3.3 glob
+👉 Filter by glob pattern. Note: glob pattern must be enclosed in quotation marks <br>
+`$ parser -e node_modules -G '**/*.js'`<br>
+or: `$ parser -e node_modules --glob '**/*.js'`
+```
+myapp ( Directories: 1, Files: 3 )
+ ├── routes
+ │   ├── index.js
+ │   └── users.js
+ └── app.js
+```
+
+#### 2.3.4 patterns
 👉 Filter directories or files by RegExp.<br>
 `$ parser -e node_modules -p .js$`<br>
 or: `$ parser -e node_modules --patterns .js$`
@@ -202,7 +215,7 @@ myapp ( directories: 1, Files: 3 )
  └─ app.js
 ```
 
-#### 2.3.4 lineType
+#### 2.3.5 lineType
 👉 Line type of tree, "dashed" or "solid" (default: "solid")<br>
 `$ parser -e bin,node_modules -l dashed`<br>
 or: `$ parser -e bin,node_modules --lineType dashed`
@@ -224,7 +237,7 @@ myapp ( directories: 6, Files: 8 )
  +-- package.json
 ```
 
-#### 2.3.5 depth
+#### 2.3.6 depth
 👉 Depth of a parse process, 0 means no limit (default: 0)<br>
 `$ parser -e node_modules,views -d 2`<br>
 or: `$ parser -e node_modules,views --depth 2`
@@ -243,7 +256,7 @@ myapp ( directories: 6, Files: 5 )
  └─ package.json
 ```
 
-#### 2.3.6 reverse
+#### 2.3.7 reverse
 👉 Reverse the parsed dir-tree nodes.<br>
 `$ parser -e node_modules,views -d 2 -r`<br>
 or: `$ parser -e node_modules,views -d 2 --reverse`
@@ -262,7 +275,7 @@ myapp ( directories: 6, Files: 5 )
  └─ app.js
 ```
 
-#### 2.3.7 fileFirst
+#### 2.3.8 fileFirst
 👉 Print files first, before directories.<br>
 `$ parser -e node_modules,bin,views -f`<br>
 or: `$ parser -e node_modules,bin,views --fileFirst`
@@ -281,7 +294,7 @@ myapp ( directories: 5, Files: 6 )
    └─ users.js
 ```
 
-#### 2.3.8 fileOnly
+#### 2.3.9 fileOnly
 👉 Pase files only.<br>
 `$ parser -e node_modules,bin,views -F`<br>
 or: `$ parser -e node_modules,bin,views --fileOnly`
@@ -298,7 +311,7 @@ myapp ( directories: 3, Files: 6 )
  └─ package.json
 ```
 
-#### 2.3.9 dirOnly
+#### 2.3.10 dirOnly
 👉 Pase directories only, and it only takes effect when fileOnly is false.<br>
 `$ parser -e node_modules,bin,views -D`<br>
 or: `$ parser -e node_modules,bin,views --dirOnly`
@@ -311,7 +324,7 @@ myapp ( directories: 5 )
  └─ routes/
 ```
 
-#### 2.3.10 dirInfo
+#### 2.3.11 dirInfo
 👉 Hide file and directory number info on the result top.<br>
 `$ parser -e node_modules,bin,public -N`<br>
 or: `$ parser -e node_modules,bin,public --no-dirInfo`
@@ -329,7 +342,7 @@ myapp
  └─ package.json
 ```
 
-#### 2.3.11 excPaths
+#### 2.3.12 excPaths
 👉 Exclude directories or files by path.<br>
 `$ parser -e node_modules,bin -x myapp/public`<br>
 or: `$ parser -e node_modules,bin -excPath myapp/public`
@@ -346,7 +359,7 @@ myapp ( directories: 2, Files: 7 )
  └─ package.json
 ```
 
-#### 2.3.12 excPatterns
+#### 2.3.13 excPatterns
 👉 Exclude directories or files by RegExp.<br>
 `$ parser -e node_modules,bin --excPatterns .jade$,.css$`
 ```
@@ -363,12 +376,12 @@ myapp ( directories: 6, Files: 4 )
  └─ package.json
 ```
 
-#### 2.3.13 silent
+#### 2.3.14 silent
 👉 Not show the parsed dir-tree in terminal.<br>
 `$ parser -e node_modules,bin,public -s`<br>
 or: `$ parser -e node_modules,bin,public --silent`
 
-#### 2.3.14 generate
+#### 2.3.15 generate
 👉 Generate a dir-info file to the output path, "dir-info.txt" is default.<br>
 `$ parser -e node_modules,bin,public -sg`<br>
 or: `$ parser -e node_modules,bin,public -s --generate`<br>
@@ -386,7 +399,7 @@ myapp ( directories: 2, Files: 7 )
  └─ package.json
 ```
 
-#### 2.3.15 config
+#### 2.3.16 config
 👉 Config file, Optional.<br>
 `$ touch parser.conf.json`<br>
 `$ vi parser.conf.json`
