@@ -34,7 +34,7 @@ declare namespace parser {
     includes: Array<string>;       // eg: [ 'app.js' ];
     paths?: Array<string>;         // eg: [ 'src/public' ];
     patterns?: Array<string>;      // eg: [ '*.js' ]';
-    glob?: Array<string>;          // eg: [ '**/*.js' ]';
+    glob?: string;                 // eg: '**/*.js';
   }
 
   /**

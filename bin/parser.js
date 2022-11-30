@@ -4,10 +4,10 @@ const fs = require('fs');
 const fn = require('funclib');
 const path = require('path');
 const program = require('commander');
-const package = require('../package.json');
+const pkg = require('../package.json');
 const parser = require('../src/dir-parser');
 
-program.version(package.version)
+program.version(pkg.version)
   .option('-v, --version', 'output the version number')
   .option('-c, --config [config]', 'config file, Optional.')
   .option('-i, --input <input>', 'target directory', './')
