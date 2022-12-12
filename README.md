@@ -98,6 +98,7 @@ Options:
   -D, --dirOnly                   pase directories only, and it only takes effect when fileOnly is false.
   -I, --ignores <ignores..>       ignore some directories or files by name.
   -N, --no-dirInfo                hide file and directory number info on the result top.
+  -G, --glob <glob>               filter files with glob patterns.
   --paths <paths..>               filter directories or files by path.
   --includes <includes..>         filter directories or files by name.
   --excPatterns <excPatterns...>  exclude directories or files by RegExp.

@@ -24,7 +24,7 @@
     - [2.3 使用解析参数](#23-使用解析参数)
       - [2.3.1 排除项-excludes](#231-排除项-excludes)
       - [2.3.2 忽略项-ignores](#232-忽略项-ignores)
-      - [2.3.3 Glob过滤](#233-Glob过滤-glob)
+      - [2.3.3 Glob过滤-glob](#233-Glob过滤-glob)
       - [2.3.4 正则匹配-patterns](#234-正则匹配-patterns)
       - [2.3.5 结构线型-lineType](#235-结构线型-lineType)
       - [2.3.6 解析深度-depth](#236-解析深度-depth)
@@ -98,6 +98,7 @@
   -D, --dirOnly                   只解析文件夹，只有当fileOnly为false时才生效。
   -I, --ignores <ignores..>       根据名称忽略一些文件夹或文件。
   -N, --no-dirInfo                不在解析结果中显示文件夹和文件的数量信息。
+  -G, --glob <glob>               使用glob语法过虑文件.
   --paths <paths..>               根据路径解析文件夹或文件。
   --includes <includes..>         根据名称解析文件夹或文件。
   --excPatterns <excPatterns...>  根据正则排队文件夹或文件。
@@ -113,23 +114,23 @@
 `$ cd myapp`<br>
 `$ parser`<br>
 ```
-myapp ( directories: 7, Files: 9 )
- ├─ bin
- │ └─ www
- ├─ public
- │ ├─ images/
- │ ├─ javascripts/
- │ └─ stylesheets
- │   └─ style.css
- ├─ routes
- │ ├─ index.js
- │ └─ users.js
- ├─ views
- │ ├─ error.jade
- │ ├─ index.jade
- │ └─ layout.jade
- ├─ app.js
- └─ package.json
+myapp ( Directories: 7, Files: 9 )
+├── bin
+│   └── www
+├── public
+│   ├── images/
+│   ├── javascripts/
+│   └── stylesheets
+│       └── style.css
+├── routes
+│   ├── index.js
+│   └── users.js
+├── views
+│   ├── error.jade
+│   ├── index.jade
+│   └── layout.jade
+├── app.js
+└── package.json
 ```
 
 ### 2.3 使用解析参数
@@ -141,35 +142,38 @@ myapp ( directories: 7, Files: 9 )
 `$ parser -e .git,node_modules,public`<br>
 或: `$ parser --excludes .git,node_modules,public`
 ```
-myapp ( directories: 3, Files: 8 )
- ├─ bin
- │ └─ www
- ├─ routes
- │ ├─ index.js
- │ └─ users.js
- ├─ views
- │ ├─ error.jade
- │ ├─ index.jade
- │ └─ layout.jade
- ├─ app.js
- └─ package.json
+myapp ( Directories: 3, Files: 9 )
+├── bin
+│   └── www
+├── routes
+│   ├── index.js
+│   └── users.js
+├── views
+│   ├── error.jade
+│   ├── index.jade
+│   └── layout.jade
+├── app.js
+├── package-lock.json
+└── package.json
 ```
 文件或文件名称中包含空格：<br>
 `$ touch 'white space.txt'`<br>
 `$ parser -e '[".git", "node_modules", "public", "white space.txt"]'`
+`$ rm -rf white\ space.txt`
 ```
-myapp ( directories: 3, Files: 8 )
- ├─ bin
- │ └─ www
- ├─ routes
- │ ├─ index.js
- │ └─ users.js
- ├─ views
- │ ├─ error.jade
- │ ├─ index.jade
- │ └─ layout.jade
- ├─ app.js
- └─ package.json
+myapp ( Directories: 3, Files: 9 )
+├── bin
+│   └── www
+├── routes
+│   ├── index.js
+│   └── users.js
+├── views
+│   ├── error.jade
+│   ├── index.jade
+│   └── layout.jade
+├── app.js
+├── package-lock.json
+└── package.json
 ```
 
 #### 2.3.2 忽略项-ignores
@@ -177,18 +181,19 @@ myapp ( directories: 3, Files: 8 )
 `$ parser -e node_modules -I bin,public`<br>
 或: `$ parser -e node_modules --ignores bin,public`
 ```
-myapp ( directories: 4, Files: 7 )
- ├─ bin/
- ├─ public/
- ├─ routes
- │ ├─ index.js
- │ └─ users.js
- ├─ views
- │ ├─ error.jade
- │ ├─ index.jade
- │ └─ layout.jade
- ├─ app.js
- └─ package.json
+myapp ( Directories: 4, Files: 8 )
+├── bin/
+├── public/
+├── routes
+│   ├── index.js
+│   └── users.js
+├── views
+│   ├── error.jade
+│   ├── index.jade
+│   └── layout.jade
+├── app.js
+├── package-lock.json
+└── package.json
 ```
 
 #### 2.3.3 Glob过滤-glob
@@ -197,10 +202,10 @@ myapp ( directories: 4, Files: 7 )
 或: `$ parser -e node_modules --glob '**/*.js'`
 ```
 myapp ( Directories: 1, Files: 3 )
- ├── routes
- │   ├── index.js
- │   └── users.js
- └── app.js
+├── routes
+│   ├── index.js
+│   └── users.js
+└── app.js
 ```
 
 #### 2.3.4 正则匹配-patterns
@@ -208,11 +213,11 @@ myapp ( Directories: 1, Files: 3 )
 `$ parser -e node_modules -p .js$`<br>
 或: `$ parser -e node_modules --patterns .js$`
 ```
-myapp ( directories: 1, Files: 3 )
- ├─ routes
- │ ├─ index.js
- │ └─ users.js
- └─ app.js
+myapp ( Directories: 1, Files: 3 )
+├── routes
+│   ├── index.js
+│   └── users.js
+└── app.js
 ```
 
 #### 2.3.5 结构线型-lineType
@@ -220,21 +225,22 @@ myapp ( directories: 1, Files: 3 )
 `$ parser -e bin,node_modules -l dash`<br>
 或: `$ parser -e bin,node_modules --lineType dash`
 ```
-myapp ( directories: 6, Files: 8 )
- +-- public
- ¦   +-- images/
- ¦   +-- javascripts/
- ¦   +-- stylesheets
- ¦       +-- style.css
- +-- routes
- ¦   +-- index.js
- ¦   +-- users.js
- +-- views
- ¦   +-- error.jade
- ¦   +-- index.jade
- ¦   +-- layout.jade
- +-- app.js
- +-- package.json
+myapp ( Directories: 6, Files: 9 )
++-- public
+¦   +-- images/
+¦   +-- javascripts/
+¦   +-- stylesheets
+¦       +-- style.css
++-- routes
+¦   +-- index.js
+¦   +-- users.js
++-- views
+¦   +-- error.jade
+¦   +-- index.jade
+¦   +-- layout.jade
++-- app.js
++-- package-lock.json
++-- package.json
 ```
 
 #### 2.3.6 解析深度-depth
@@ -242,18 +248,19 @@ myapp ( directories: 6, Files: 8 )
 `$ parser -e node_modules,views -d 2`<br>
 或: `$ parser -e node_modules,views --depth 2`
 ```
-myapp ( directories: 6, Files: 5 )
- ├─ bin
- │ └─ www
- ├─ public
- │ ├─ images/
- │ ├─ javascripts/
- │ └─ stylesheets/*
- ├─ routes
- │ ├─ index.js
- │ └─ users.js
- ├─ app.js
- └─ package.json
+myapp ( Directories: 6, Files: 6 )
+├── bin
+│   └── www
+├── public
+│   ├── images/
+│   ├── javascripts/
+│   └── stylesheets/*
+├── routes
+│   ├── index.js
+│   └── users.js
+├── app.js
+├── package-lock.json
+└── package.json
 ```
 
 #### 2.3.7 节点逆序-reverse
@@ -261,18 +268,19 @@ myapp ( directories: 6, Files: 5 )
 `$ parser -e node_modules,views -d 2 -r`<br>
 或: `$ parser -e node_modules,views -d 2 --reverse`
 ```
-myapp ( directories: 6, Files: 5 )
- ├─ routes
- │ ├─ users.js
- │ └─ index.js
- ├─ public
- │ ├─ stylesheets/*
- │ ├─ javascripts/
- │ └─ images/
- ├─ bin
- │ └─ www
- ├─ package.json
- └─ app.js
+myapp ( Directories: 6, Files: 6 )
+├── routes
+│   ├── users.js
+│   └── index.js
+├── public
+│   ├── stylesheets/*
+│   ├── javascripts/
+│   └── images/
+├── bin
+│   └── www
+├── package.json
+├── package-lock.json
+└── app.js
 ```
 
 #### 2.3.8 文件优先-fileFirst
@@ -280,18 +288,18 @@ myapp ( directories: 6, Files: 5 )
 `$ parser -e node_modules,bin,views -f`<br>
 或: `$ parser -e node_modules,bin,views --fileFirst`
 ```
-myapp ( directories: 5, Files: 6 )
- ├─ app.js
- ├─ dir-info.txt
- ├─ package.json
- ├─ public
- │ ├─ images/
- │ ├─ javascripts/
- │ └─ stylesheets
- │   └─ style.css
- └─ routes
-   ├─ index.js
-   └─ users.js
+myapp ( Directories: 5, Files: 6 )
+├── app.js
+├── package-lock.json
+├── package.json
+├── public
+│   ├── images/
+│   ├── javascripts/
+│   └── stylesheets
+│       └── style.css
+└── routes
+    ├── index.js
+    └── users.js
 ```
 
 #### 2.3.9 仅文件-fileOnly
@@ -299,16 +307,16 @@ myapp ( directories: 5, Files: 6 )
 `$ parser -e node_modules,bin,views -F`<br>
 或: `$ parser -e node_modules,bin,views --fileOnly`
 ```
-myapp ( directories: 3, Files: 6 )
- ├─ public
- │ └─ stylesheets
- │   └─ style.css
- ├─ routes
- │ ├─ index.js
- │ └─ users.js
- ├─ app.js
- ├─ dir-info.txt
- └─ package.json
+myapp ( Directories: 3, Files: 6 )
+├── public
+│   └── stylesheets
+│       └── style.css
+├── routes
+│   ├── index.js
+│   └── users.js
+├── app.js
+├── package-lock.json
+└── package.json
 ```
 
 #### 2.3.10 仅文件夹-dirOnly
@@ -316,12 +324,12 @@ myapp ( directories: 3, Files: 6 )
 `$ parser -e node_modules,bin,views -D`<br>
 或: `$ parser -e node_modules,bin,views --dirOnly`
 ```
-myapp ( directories: 5 )
- ├─ public
- │ ├─ images/
- │ ├─ javascripts/
- │ └─ stylesheets/
- └─ routes/
+myapp ( Directories: 5 )
+├── public
+│   ├── images/
+│   ├── javascripts/
+│   └── stylesheets/
+└── routes/
 ```
 
 #### 2.3.11 解析信息-dirInfo
@@ -330,16 +338,16 @@ myapp ( directories: 5 )
 或: `$ parser -e node_modules,bin,public --no-dirInfo`
 ```
 myapp
- ├─ routes
- │ ├─ index.js
- │ └─ users.js
- ├─ views
- │ ├─ error.jade
- │ ├─ index.jade
- │ └─ layout.jade
- ├─ app.js
- ├─ dir-info.txt
- └─ package.json
+├── routes
+│   ├── index.js
+│   └── users.js
+├── views
+│   ├── error.jade
+│   ├── index.jade
+│   └── layout.jade
+├── app.js
+├── package-lock.json
+└── package.json
 ```
 
 #### 2.3.12 路径排除-excPaths
@@ -347,33 +355,35 @@ myapp
 `$ parser -e node_modules,bin -x myapp/public`<br>
 或: `$ parser -e node_modules,bin -excPath myapp/public`
 ```
-myapp ( directories: 2, Files: 7 )
- ├─ routes
- │ ├─ index.js
- │ └─ users.js
- ├─ views
- │ ├─ error.jade
- │ ├─ index.jade
- │ └─ layout.jade
- ├─ app.js
- └─ package.json
+myapp ( Directories: 2, Files: 8 )
+├── routes
+│   ├── index.js
+│   └── users.js
+├── views
+│   ├── error.jade
+│   ├── index.jade
+│   └── layout.jade
+├── app.js
+├── package-lock.json
+└── package.json
 ```
 
 #### 2.3.13 正则排除-excPatterns
 👉 根据正则排队文件夹或文件。<br>
 `$ parser -e node_modules,bin --excPatterns .jade$,.css$`
 ```
-myapp ( directories: 6, Files: 4 )
- ├─ public
- │ ├─ images/
- │ ├─ javascripts/
- │ └─ stylesheets/
- ├─ routes
- │ ├─ index.js
- │ └─ users.js
- ├─ views/
- ├─ app.js
- └─ package.json
+myapp ( Directories: 6, Files: 5 )
+├── public
+│   ├── images/
+│   ├── javascripts/
+│   └── stylesheets/
+├── routes
+│   ├── index.js
+│   └── users.js
+├── views/
+├── app.js
+├── package-lock.json
+└── package.json
 ```
 
 #### 2.3.14 静默解析-silent
@@ -387,16 +397,17 @@ myapp ( directories: 6, Files: 4 )
 或: `$ parser -e node_modules,bin,public -s --generate`<br>
 `$ cat dir-info.txt`
 ```
-myapp ( directories: 2, Files: 7 )
- ├─ routes
- │ ├─ index.js
- │ └─ users.js
- ├─ views
- │ ├─ error.jade
- │ ├─ index.jade
- │ └─ layout.jade
- ├─ app.js
- └─ package.json
+myapp ( Directories: 2, Files: 8 )
+├── routes
+│   ├── index.js
+│   └── users.js
+├── views
+│   ├── error.jade
+│   ├── index.jade
+│   └── layout.jade
+├── app.js
+├── package-lock.json
+└── package.json
 ```
 
 #### 2.3.16 配置文件-config
@@ -413,34 +424,38 @@ myapp ( directories: 2, Files: 7 )
 ```
 `$ parser -c ./parser.conf.json`
 ```
-myapp ( directories: 2, Files: 8 )
- ├─ routes
- │ ├─ index.js
- │ └─ users.js
- ├─ views
- │ ├─ error.jade
- │ ├─ index.jade
- │ └─ layout.jade
- ├─ app.js
- ├─ dir-info.txt
- └─ package.json
+myapp ( Directories: 2, Files: 9 )
+├── routes
+│   ├── index.js
+│   └── users.js
+├── views
+│   ├── error.jade
+│   ├── index.jade
+│   └── layout.jade
+├── app.js
+├── dir-info.txt
+├── package-lock.json
+└── package.json
 ```
 
 ### 2.4 多个命令混合使用
 `parser -e node_modules,bin -I views -d 2 -Nr`
 ```
 myapp
- ├─ views/
- ├─ routes
- │ ├─ users.js
- │ └─ index.js
- ├─ public
- │ ├─ stylesheets/*
- │ ├─ javascripts/
- │ └─ images/
- ├─ parser.conf.json
- ├─ package.json
- └─ app.js
+├── views/
+├── routes
+│   ├── users.js
+│   └── index.js
+├── public
+│   ├── stylesheets/*
+│   ├── javascripts/
+│   └── images/
+├── parser.conf.json
+├── package.json
+├── package-lock.json
+├── info.txt
+├── dir-info.txt
+└── app.js
 ```
 
 ## 三、在Js代码中使用
@@ -527,7 +542,7 @@ const fn = require('funclib');
 const parser = require('dir-parser');
 
 parser('./', {
-  excludes: excludes,
+  excludes: ['.git', 'node_modules'],
   // lineType: 'dash',
   // fileFirst: true,
 }).then(parsed => {
@@ -543,47 +558,30 @@ parser('./', {
 `$ node test.js`
 ```
 ==================================================================
-                  [17:06:57] # parsed.dirTree
+                  [09:48:55] # parsed.dirTree
 ------------------------------------------------------------------
-dir-parser ( directories: 8, Files: 30 )
- ├─ bin
- │ └─ parser.js
- ├─ node_modules
- │ ├─ commander
- │ │ ├─ typings
- │ │ │ └─ index.d.ts
- │ │ ├─ CHANGELOG.md
- │ │ ├─ index.js
- │ │ ├─ LICENSE
- │ │ ├─ package.json
- │ │ └─ Readme.md
- │ ├─ funclib
- │ │ ├─ funclib.core.js
- │ │ ├─ funclib.js
- │ │ ├─ funclib.min.js
- │ │ ├─ index.d.ts
- │ │ ├─ index.js
- │ │ ├─ package.json
- │ │ └─ README.md
- │ └─ progress
- │   ├─ lib
- │   │ └─ node-progress.js
- │   ├─ CHANGELOG.md
- │   ├─ index.js
- │   ├─ LICENSE
- │   ├─ Makefile
- │   ├─ package.json
- │   └─ Readme.md
- ├─ src
- │ ├─ base.js
- │ └─ dir-parser.js
- ├─ .gitignore
- ├─ dir-parser.png
- ├─ index.js
- ├─ package.json
- ├─ parser.conf.json
- ├─ README.md
- └─ test.js
+myapp
+├── bin
+│   └── www
+├── public
+│   ├── images/
+│   ├── javascripts/
+│   └── stylesheets
+│       └── style.css
+├── routes
+│   ├── index.js
+│   └── users.js
+├── views
+│   ├── error.jade
+│   ├── index.jade
+│   └── layout.jade
+├── app.js
+├── dir-info.txt
+├── info.txt
+├── package-lock.json
+├── package.json
+├── parser.conf.json
+└── test.js
 ==================================================================
 ```
 
@@ -593,7 +591,7 @@ dir-parser ( directories: 8, Files: 30 )
 `$ vi test.js`
 ```js
 parser('./', {
-  excludes: excludes,
+  excludes: ['.git', 'node_modules'],
   // lineType: 'dash',
   // fileFirst: true,
 }).then(parsed => {
@@ -608,14 +606,14 @@ parser('./', {
 `$ node test.js`
 ```json
 {
-  "name": "dir-parser",
+  "name": "myapp",
   "type": "directory",
   "path": "./",
-  "absPath": "E:\\work\\code\\dir-parser",
+  "absPath": "/Users/cntower/code/@cntower/dir-parser/myapp",
   "dir": ".",
-  "absDir": "E:\\work\\code",
-  "dirNum": 8,
-  "fileNum": 30
+  "absDir": "/Users/cntower/code/@cntower/dir-parser",
+  "dirNum": 7,
+  "fileNum": 14
 }
 ```
 
@@ -623,7 +621,7 @@ parser('./', {
 `$ vi test.js`
 ```js
 parser('./', {
-  excludes: excludes,
+  excludes: ['.git', 'node_modules', 'public'],
   getFiles: true,    // 默认为false，返回结果是否包含一个包含所有子文件信息的数组。
   getChildren: true, // 默认为false，返回结果是否包含一个所有子文件夹和子文件信息的数组。
   dirTree: false     // 默认为true，返回结果是否包含生成的文件树信息
@@ -636,154 +634,154 @@ parser('./', {
 #### 3.3.4 执行子文件信息案例
 `$ node test.js`
 ```json
-[
+、
   {
     "name": "bin",
     "type": "directory",
-    "size": 2920,
-    "size_kb": "2.85kb",
+    "size": 1591,
+    "size_kb": "1.55kb",
     "path": "bin",
-    "absPath": "E:\\work\\code\\dir-parser\\bin",
+    "absPath": "/Users/cntower/code/@cntower/dir-parser/myapp/bin",
     "dir": ".",
-    "absDir": "E:\\work\\code\\dir-parser",
+    "absDir": "/Users/cntower/code/@cntower/dir-parser/myapp",
     "dirNum": 0,
     "fileNum": 1,
     "children": [
       {
-        "name": "parser.js",
-        "base": "parser",
-        "ext": ".js",
+        "name": "www",
+        "base": "www",
+        "ext": "",
         "type": "file",
-        "size": 2920,
-        "size_kb": "2.85kb",
-        "path": "bin\\parser.js",
-        "absPath": "E:\\work\\code\\dir-parser\\bin\\parser.js",
+        "size": 1591,
+        "size_kb": "1.55kb",
+        "path": "bin/www",
+        "absPath": "/Users/cntower/code/@cntower/dir-parser/myapp/bin/www",
         "dir": "bin",
-        "absDir": "E:\\work\\code\\dir-parser\\bin"
+        "absDir": "/Users/cntower/code/@cntower/dir-parser/myapp/bin"
       }
     ]
   },
   {
-    "name": "src",
+    "name": "routes",
     "type": "directory",
-    "size": 6488,
-    "size_kb": "6.34kb",
-    "path": "src",
-    "absPath": "E:\\work\\code\\dir-parser\\src",
+    "size": 408,
+    "size_kb": "0.4kb",
+    "path": "routes",
+    "absPath": "/Users/cntower/code/@cntower/dir-parser/myapp/routes",
     "dir": ".",
-    "absDir": "E:\\work\\code\\dir-parser",
+    "absDir": "/Users/cntower/code/@cntower/dir-parser/myapp",
     "dirNum": 0,
     "fileNum": 2,
     "children": [
       {
-        "name": "base.js",
-        "base": "base",
+        "name": "index.js",
+        "base": "index",
         "ext": ".js",
         "type": "file",
-        "size": 1038,
-        "size_kb": "1.01kb",
-        "path": "src\\base.js",
-        "absPath": "E:\\work\\code\\dir-parser\\src\\base.js",
-        "dir": "src",
-        "absDir": "E:\\work\\code\\dir-parser\\src"
+        "size": 205,
+        "size_kb": "0.2kb",
+        "path": "routes/index.js",
+        "absPath": "/Users/cntower/code/@cntower/dir-parser/myapp/routes/index.js",
+        "dir": "routes",
+        "absDir": "/Users/cntower/code/@cntower/dir-parser/myapp/routes"
       },
       {
-        "name": "dir-parser.js",
-        "base": "dir-parser",
+        "name": "users.js",
+        "base": "users",
         "ext": ".js",
         "type": "file",
-        "size": 5450,
-        "size_kb": "5.32kb",
-        "path": "src\\dir-parser.js",
-        "absPath": "E:\\work\\code\\dir-parser\\src\\dir-parser.js",
-        "dir": "src",
-        "absDir": "E:\\work\\code\\dir-parser\\src"
+        "size": 203,
+        "size_kb": "0.2kb",
+        "path": "routes/users.js",
+        "absPath": "/Users/cntower/code/@cntower/dir-parser/myapp/routes/users.js",
+        "dir": "routes",
+        "absDir": "/Users/cntower/code/@cntower/dir-parser/myapp/routes"
       }
     ]
   },
   {
-    "name": ".gitignore",
-    "base": ".gitignore",
-    "ext": "",
-    "type": "file",
-    "size": 34,
-    "size_kb": "0.03kb",
-    "path": ".gitignore",
-    "absPath": "E:\\work\\code\\dir-parser\\.gitignore",
-    "dir": "",
-    "absDir": "E:\\work\\code\\dir-parser"
-  },
-  {
-    "name": "dir-parser.png",
-    "base": "dir-parser",
-    "ext": ".png",
-    "type": "file",
-    "size": 76316,
-    "size_kb": "74.53kb",
-    "path": "dir-parser.png",
-    "absPath": "E:\\work\\code\\dir-parser\\dir-parser.png",
-    "dir": "",
-    "absDir": "E:\\work\\code\\dir-parser"
-  },
-  {
-    "name": "index.js",
-    "base": "index",
+    "name": "app.js",
+    "base": "app",
     "ext": ".js",
     "type": "file",
-    "size": 45,
-    "size_kb": "0.04kb",
-    "path": "index.js",
-    "absPath": "E:\\work\\code\\dir-parser\\index.js",
+    "size": 1075,
+    "size_kb": "1.05kb",
+    "path": "app.js",
+    "absPath": "/Users/cntower/code/@cntower/dir-parser/myapp/app.js",
     "dir": "",
-    "absDir": "E:\\work\\code\\dir-parser"
+    "absDir": "/Users/cntower/code/@cntower/dir-parser/myapp"
+  },
+  {
+    "name": "dir-info.txt",
+    "base": "dir-info",
+    "ext": ".txt",
+    "type": "file",
+    "size": 277,
+    "size_kb": "0.27kb",
+    "path": "dir-info.txt",
+    "absPath": "/Users/cntower/code/@cntower/dir-parser/myapp/dir-info.txt",
+    "dir": "",
+    "absDir": "/Users/cntower/code/@cntower/dir-parser/myapp"
+  },
+  {
+    "name": "info.txt",
+    "base": "info",
+    "ext": ".txt",
+    "type": "file",
+    "size": 301,
+    "size_kb": "0.29kb",
+    "path": "info.txt",
+    "absPath": "/Users/cntower/code/@cntower/dir-parser/myapp/info.txt",
+    "dir": "",
+    "absDir": "/Users/cntower/code/@cntower/dir-parser/myapp"
+  },
+  {
+    "name": "package-lock.json",
+    "base": "package-lock",
+    "ext": ".json",
+    "type": "file",
+    "size": 68550,
+    "size_kb": "66.94kb",
+    "path": "package-lock.json",
+    "absPath": "/Users/cntower/code/@cntower/dir-parser/myapp/package-lock.json",
+    "dir": "",
+    "absDir": "/Users/cntower/code/@cntower/dir-parser/myapp"
   },
   {
     "name": "package.json",
     "base": "package",
     "ext": ".json",
     "type": "file",
-    "size": 732,
-    "size_kb": "0.71kb",
+    "size": 347,
+    "size_kb": "0.34kb",
     "path": "package.json",
-    "absPath": "E:\\work\\code\\dir-parser\\package.json",
+    "absPath": "/Users/cntower/code/@cntower/dir-parser/myapp/package.json",
     "dir": "",
-    "absDir": "E:\\work\\code\\dir-parser"
+    "absDir": "/Users/cntower/code/@cntower/dir-parser/myapp"
   },
   {
     "name": "parser.conf.json",
     "base": "parser.conf",
     "ext": ".json",
     "type": "file",
-    "size": 111,
-    "size_kb": "0.11kb",
+    "size": 145,
+    "size_kb": "0.14kb",
     "path": "parser.conf.json",
-    "absPath": "E:\\work\\code\\dir-parser\\parser.conf.json",
+    "absPath": "/Users/cntower/code/@cntower/dir-parser/myapp/parser.conf.json",
     "dir": "",
-    "absDir": "E:\\work\\code\\dir-parser"
-  },
-  {
-    "name": "README.md",
-    "base": "README",
-    "ext": ".md",
-    "type": "file",
-    "size": 11467,
-    "size_kb": "11.2kb",
-    "path": "README.md",
-    "absPath": "E:\\work\\code\\dir-parser\\README.md",
-    "dir": "",
-    "absDir": "E:\\work\\code\\dir-parser"
+    "absDir": "/Users/cntower/code/@cntower/dir-parser/myapp"
   },
   {
     "name": "test.js",
     "base": "test",
     "ext": ".js",
     "type": "file",
-    "size": 1196,
-    "size_kb": "1.17kb",
+    "size": 554,
+    "size_kb": "0.54kb",
     "path": "test.js",
-    "absPath": "E:\\work\\code\\dir-parser\\test.js",
+    "absPath": "/Users/cntower/code/@cntower/dir-parser/myapp/test.js",
     "dir": "",
-    "absDir": "E:\\work\\code\\dir-parser"
+    "absDir": "/Users/cntower/code/@cntower/dir-parser/myapp"
   }
 ]
 ```
@@ -792,7 +790,7 @@ parser('./', {
 `$ vi test.js`
 ```js
 parser('./', {
-  excludes: excludes,
+  excludes: ['.git', 'node_modules', 'public'],
   getFiles: true,
   getChildren: true,
   dirTree: false
@@ -807,124 +805,160 @@ parser('./', {
 ```json
 [
   {
-    "name": "parser.js",
-    "base": "parser",
-    "ext": ".js",
-    "type": "file",
-    "size": 2920,
-    "size_kb": "2.85kb",
-    "path": "bin\\parser.js",
-    "absPath": "E:\\work\\code\\dir-parser\\bin\\parser.js",
-    "dir": "bin",
-    "absDir": "E:\\work\\code\\dir-parser\\bin"
-  },
-  {
-    "name": "base.js",
-    "base": "base",
-    "ext": ".js",
-    "type": "file",
-    "size": 1038,
-    "size_kb": "1.01kb",
-    "path": "src\\base.js",
-    "absPath": "E:\\work\\code\\dir-parser\\src\\base.js",
-    "dir": "src",
-    "absDir": "E:\\work\\code\\dir-parser\\src"
-  },
-  {
-    "name": "dir-parser.js",
-    "base": "dir-parser",
-    "ext": ".js",
-    "type": "file",
-    "size": 5450,
-    "size_kb": "5.32kb",
-    "path": "src\\dir-parser.js",
-    "absPath": "E:\\work\\code\\dir-parser\\src\\dir-parser.js",
-    "dir": "src",
-    "absDir": "E:\\work\\code\\dir-parser\\src"
-  },
-  {
-    "name": ".gitignore",
-    "base": ".gitignore",
+    "name": "www",
+    "base": "www",
     "ext": "",
     "type": "file",
-    "size": 34,
-    "size_kb": "0.03kb",
-    "path": ".gitignore",
-    "absPath": "E:\\work\\code\\dir-parser\\.gitignore",
-    "dir": "",
-    "absDir": "E:\\work\\code\\dir-parser"
-  },
-  {
-    "name": "dir-parser.png",
-    "base": "dir-parser",
-    "ext": ".png",
-    "type": "file",
-    "size": 76316,
-    "size_kb": "74.53kb",
-    "path": "dir-parser.png",
-    "absPath": "E:\\work\\code\\dir-parser\\dir-parser.png",
-    "dir": "",
-    "absDir": "E:\\work\\code\\dir-parser"
+    "size": 1591,
+    "size_kb": "1.55kb",
+    "path": "bin/www",
+    "absPath": "/Users/cntower/code/@cntower/dir-parser/myapp/bin/www",
+    "dir": "bin",
+    "absDir": "/Users/cntower/code/@cntower/dir-parser/myapp/bin"
   },
   {
     "name": "index.js",
     "base": "index",
     "ext": ".js",
     "type": "file",
-    "size": 45,
-    "size_kb": "0.04kb",
-    "path": "index.js",
-    "absPath": "E:\\work\\code\\dir-parser\\index.js",
+    "size": 205,
+    "size_kb": "0.2kb",
+    "path": "routes/index.js",
+    "absPath": "/Users/cntower/code/@cntower/dir-parser/myapp/routes/index.js",
+    "dir": "routes",
+    "absDir": "/Users/cntower/code/@cntower/dir-parser/myapp/routes"
+  },
+  {
+    "name": "users.js",
+    "base": "users",
+    "ext": ".js",
+    "type": "file",
+    "size": 203,
+    "size_kb": "0.2kb",
+    "path": "routes/users.js",
+    "absPath": "/Users/cntower/code/@cntower/dir-parser/myapp/routes/users.js",
+    "dir": "routes",
+    "absDir": "/Users/cntower/code/@cntower/dir-parser/myapp/routes"
+  },
+  {
+    "name": "error.jade",
+    "base": "error",
+    "ext": ".jade",
+    "type": "file",
+    "size": 84,
+    "size_kb": "0.08kb",
+    "path": "views/error.jade",
+    "absPath": "/Users/cntower/code/@cntower/dir-parser/myapp/views/error.jade",
+    "dir": "views",
+    "absDir": "/Users/cntower/code/@cntower/dir-parser/myapp/views"
+  },
+  {
+    "name": "index.jade",
+    "base": "index",
+    "ext": ".jade",
+    "type": "file",
+    "size": 66,
+    "size_kb": "0.06kb",
+    "path": "views/index.jade",
+    "absPath": "/Users/cntower/code/@cntower/dir-parser/myapp/views/index.jade",
+    "dir": "views",
+    "absDir": "/Users/cntower/code/@cntower/dir-parser/myapp/views"
+  },
+  {
+    "name": "layout.jade",
+    "base": "layout",
+    "ext": ".jade",
+    "type": "file",
+    "size": 125,
+    "size_kb": "0.12kb",
+    "path": "views/layout.jade",
+    "absPath": "/Users/cntower/code/@cntower/dir-parser/myapp/views/layout.jade",
+    "dir": "views",
+    "absDir": "/Users/cntower/code/@cntower/dir-parser/myapp/views"
+  },
+  {
+    "name": "app.js",
+    "base": "app",
+    "ext": ".js",
+    "type": "file",
+    "size": 1075,
+    "size_kb": "1.05kb",
+    "path": "app.js",
+    "absPath": "/Users/cntower/code/@cntower/dir-parser/myapp/app.js",
     "dir": "",
-    "absDir": "E:\\work\\code\\dir-parser"
+    "absDir": "/Users/cntower/code/@cntower/dir-parser/myapp"
+  },
+  {
+    "name": "dir-info.txt",
+    "base": "dir-info",
+    "ext": ".txt",
+    "type": "file",
+    "size": 277,
+    "size_kb": "0.27kb",
+    "path": "dir-info.txt",
+    "absPath": "/Users/cntower/code/@cntower/dir-parser/myapp/dir-info.txt",
+    "dir": "",
+    "absDir": "/Users/cntower/code/@cntower/dir-parser/myapp"
+  },
+  {
+    "name": "info.txt",
+    "base": "info",
+    "ext": ".txt",
+    "type": "file",
+    "size": 301,
+    "size_kb": "0.29kb",
+    "path": "info.txt",
+    "absPath": "/Users/cntower/code/@cntower/dir-parser/myapp/info.txt",
+    "dir": "",
+    "absDir": "/Users/cntower/code/@cntower/dir-parser/myapp"
+  },
+  {
+    "name": "package-lock.json",
+    "base": "package-lock",
+    "ext": ".json",
+    "type": "file",
+    "size": 68550,
+    "size_kb": "66.94kb",
+    "path": "package-lock.json",
+    "absPath": "/Users/cntower/code/@cntower/dir-parser/myapp/package-lock.json",
+    "dir": "",
+    "absDir": "/Users/cntower/code/@cntower/dir-parser/myapp"
   },
   {
     "name": "package.json",
     "base": "package",
     "ext": ".json",
     "type": "file",
-    "size": 732,
-    "size_kb": "0.71kb",
+    "size": 347,
+    "size_kb": "0.34kb",
     "path": "package.json",
-    "absPath": "E:\\work\\code\\dir-parser\\package.json",
+    "absPath": "/Users/cntower/code/@cntower/dir-parser/myapp/package.json",
     "dir": "",
-    "absDir": "E:\\work\\code\\dir-parser"
+    "absDir": "/Users/cntower/code/@cntower/dir-parser/myapp"
   },
   {
     "name": "parser.conf.json",
     "base": "parser.conf",
     "ext": ".json",
     "type": "file",
-    "size": 111,
-    "size_kb": "0.11kb",
+    "size": 145,
+    "size_kb": "0.14kb",
     "path": "parser.conf.json",
-    "absPath": "E:\\work\\code\\dir-parser\\parser.conf.json",
+    "absPath": "/Users/cntower/code/@cntower/dir-parser/myapp/parser.conf.json",
     "dir": "",
-    "absDir": "E:\\work\\code\\dir-parser"
-  },
-  {
-    "name": "README.md",
-    "base": "README",
-    "ext": ".md",
-    "type": "file",
-    "size": 11467,
-    "size_kb": "11.2kb",
-    "path": "README.md",
-    "absPath": "E:\\work\\code\\dir-parser\\README.md",
-    "dir": "",
-    "absDir": "E:\\work\\code\\dir-parser"
+    "absDir": "/Users/cntower/code/@cntower/dir-parser/myapp"
   },
   {
     "name": "test.js",
     "base": "test",
     "ext": ".js",
     "type": "file",
-    "size": 1196,
-    "size_kb": "1.17kb",
+    "size": 303,
+    "size_kb": "0.3kb",
     "path": "test.js",
-    "absPath": "E:\\work\\code\\dir-parser\\test.js",
+    "absPath": "/Users/cntower/code/@cntower/dir-parser/myapp/test.js",
     "dir": "",
-    "absDir": "E:\\work\\code\\dir-parser"
+    "absDir": "/Users/cntower/code/@cntower/dir-parser/myapp"
   }
 ]
 ```
