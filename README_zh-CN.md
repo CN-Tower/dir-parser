@@ -86,7 +86,7 @@
   -i, --input <input>             指定个目标文件夹，(默认: "./")。
   -o, --output <output>           解析结果输出目录，(默认: "./")。
   -d, --depth <depth>             解析深度，0表示不限制。(默认: 0)。
-  -l, --lineType <lineType>       生成的文件树线型, "dashed" 或 "solid"，(默认: "solid")。
+  -l, --lineType <lineType>       生成的文件树线型, "dash" 或 "solid"，(默认: "solid")。
   -e, --excludes <excludes..>     根据名称排除文件夹或文件。
   -x, --excPaths <excPaths..>     根据路径排除文件夹或文件。
   -p, --patterns <patterns...>    根据正则解析文件夹或文件。
@@ -216,9 +216,9 @@ myapp ( directories: 1, Files: 3 )
 ```
 
 #### 2.3.5 结构线型-lineType
-👉 生成的文件树线型, "dashed" 或 "solid"，(默认: "solid")。<br>
-`$ parser -e bin,node_modules -l dashed`<br>
-或: `$ parser -e bin,node_modules --lineType dashed`
+👉 生成的文件树线型, "dash" 或 "solid"，(默认: "solid")。<br>
+`$ parser -e bin,node_modules -l dash`<br>
+或: `$ parser -e bin,node_modules --lineType dash`
 ```
 myapp ( directories: 6, Files: 8 )
  +-- public
@@ -464,7 +464,7 @@ interface Options {
   getChildren?: boolean;
   dirTree?: boolean;             // default: true
   dirInfo?: boolean;             // default: true
-  lineType?: 'solid' | 'dashed'; // default: 'solid'
+  lineType?: 'solid' | 'dash'; // default: 'solid'
   excludes?: Array<string>;      // eg: [ '.git', 'node_modules', '.idea' ];
   excPaths?: Array<string>;      // eg: [ 'src/app' ];
   excPatterns?: Array<string>;   // eg: [ 'src/*.js ]';
@@ -528,7 +528,7 @@ const parser = require('dir-parser');
 
 parser('./', {
   excludes: excludes,
-  // lineType: 'dashed',
+  // lineType: 'dash',
   // fileFirst: true,
 }).then(parsed => {
   fn.log(parsed.dirTree, '# parsed.dirTree');
@@ -594,7 +594,7 @@ dir-parser ( directories: 8, Files: 30 )
 ```js
 parser('./', {
   excludes: excludes,
-  // lineType: 'dashed',
+  // lineType: 'dash',
   // fileFirst: true,
 }).then(parsed => {
   console.log(fn.pretty(fn.pick(parsed, prop => prop !== 'dirTree')));

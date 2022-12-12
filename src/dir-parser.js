@@ -113,6 +113,7 @@ function dirParser(target, options = {}) {
     const subDirs = []
     const subFiles = []
     const dirSubArr = fs.readdirSync(dirPath)
+    const padLeft = deep > 1 ? ' ' : ''
 
     let dirSubs = [],
       i = -1
@@ -158,19 +159,19 @@ function dirParser(target, options = {}) {
             const dirEndMark = isShowDMark ? (dir.hasSubs && !dir.ignored ? '/*' : '/') : ''
             if (lineType === 'dash' || lineType === 'dashed') {
               if (isMiddleDir) {
-                dirTree += `${prev} +-- ${dir.name}${dirEndMark}\r\n`
-                split = ' ¦  '
+                dirTree += `${prev}${padLeft}+-- ${dir.name}${dirEndMark}\r\n`
+                split = `${padLeft}¦  `
               } else {
-                dirTree += `${prev} +-- ${dir.name}${dirEndMark}\r\n`
-                split = '    '
+                dirTree += `${prev}${padLeft}+-- ${dir.name}${dirEndMark}\r\n`
+                split = `${padLeft}   `
               }
             } else {
               if (isMiddleDir) {
-                dirTree += `${prev} ├── ${dir.name}${dirEndMark}\r\n`
-                split = ' │  '
+                dirTree += `${prev}${padLeft}├── ${dir.name}${dirEndMark}\r\n`
+                split = `${padLeft}│  `
               } else {
-                dirTree += `${prev} └── ${dir.name}${dirEndMark}\r\n`
-                split = '    '
+                dirTree += `${prev}${padLeft}└── ${dir.name}${dirEndMark}\r\n`
+                split = `${padLeft}   `
               }
             }
           }
@@ -203,15 +204,15 @@ function dirParser(target, options = {}) {
         if (isGetDirTree) {
           if (lineType === 'dash' || lineType === 'dashed') {
             if (i < subFiles.length - 1 || (isFileFirst && subDirs.length > 0)) {
-              dirTree += `${prev} +-- ${file.name}\r\n`
+              dirTree += `${prev}${padLeft}+-- ${file.name}\r\n`
             } else {
-              dirTree += `${prev} +-- ${file.name}\r\n`
+              dirTree += `${prev}${padLeft}+-- ${file.name}\r\n`
             }
           } else {
             if (i < subFiles.length - 1 || (isFileFirst && subDirs.length > 0)) {
-              dirTree += `${prev} ├── ${file.name}\r\n`
+              dirTree += `${prev}${padLeft}├── ${file.name}\r\n`
             } else {
-              dirTree += `${prev} └── ${file.name}\r\n`
+              dirTree += `${prev}${padLeft}└── ${file.name}\r\n`
             }
           }
         }

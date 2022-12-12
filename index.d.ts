@@ -26,7 +26,7 @@ declare namespace parser {
     getChildren?: boolean;
     dirTree?: boolean;             // default: true
     dirInfo?: boolean;             // default: true
-    lineType?: 'solid' | 'dashed'; // default: 'solid'
+    lineType?: 'solid' | 'dash' | 'dashed'; // default: 'solid'
     excludes?: Array<string>;      // eg: [ '.git', 'node_modules', '.idea' ];
     excPaths?: Array<string>;      // eg: [ 'src/app' ];
     excPatterns?: Array<string>;   // eg: [ 'src/*.js ]';

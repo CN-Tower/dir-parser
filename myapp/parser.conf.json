@@ -1,0 +1,6 @@
+{
+  "directory": "./",
+  "excludes": [ ".git", "node_modules", "bin", "public", "parser.conf.json" ],
+  "depth": "2",
+  "generate": "info.txt"
+}

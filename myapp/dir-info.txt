@@ -1,0 +1,11 @@
+myapp ( Directories: 2, Files: 8 )
+├── routes
+│   ├── index.js
+│   └── users.js
+├── views
+│   ├── error.jade
+│   ├── index.jade
+│   └── layout.jade
+├── app.js
+├── package-lock.json
+└── package.json
