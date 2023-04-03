@@ -16,7 +16,7 @@ Read this in other languages: English | [简体中文](./README_zh-CN.md)
 
 - [dir-parser](#dir-parser)
   - [1. What is dir-parser](#1-what-is-dir-parser)
-    - [1.1 Brief introduction](#11-brief-introduction)
+    - [1.1 Introduction](#11-introduction)
     - [1.2 Installation](#12-installation)
   - [2. Command Line](#2-command-line)
     - [2.1 Print help info](#21-print-help-info)
@@ -59,7 +59,7 @@ Read this in other languages: English | [简体中文](./README_zh-CN.md)
 
 ## 1. What is dir-parser
 
-### 1.1 Brief introduction
+### 1.1 Introduction
 👍👍👍Dir parser is a powerful folder analysis tool based on nodejs, which can be used in command line or JavaScript code. There are many practical parameters that can be set to help you get the formatted folder tree and internal information.
 
 ### 1.2 Installation
